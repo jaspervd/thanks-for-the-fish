@@ -32,7 +32,7 @@ class ClassesDAO extends DAO {
   }
 
   public function deleteClass($id) {
-    $sql = "DELETE `bw_teachers` WHERE `id` = :id";
+    $sql = "DELETE `bw_classes` WHERE `id` = :id";
     $stmt = $this->pdo->prepare($sql);
     $stmt->bindValue(':id', $id);
     return $stmt->execute();
