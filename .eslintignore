@@ -1,0 +1,4 @@
+js/**/*.*
+public/**/*.*
+node_modules/**/*.*
+vendor/**/*.*
