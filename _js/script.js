@@ -7,10 +7,10 @@ const init = () => {
 	countdown.start();
 
 	countdown.on('tick', () => {
-		console.log(countdown.days);
-		console.log(countdown.hours);
-		console.log(countdown.minutes);
-		console.log(countdown.seconds);
+		document.getElementsByClassName('countdown-days')[0].innerHTML = countdown.days;
+		document.getElementsByClassName('countdown-hours')[0].innerHTML = countdown.hours;
+		document.getElementsByClassName('countdown-minutes')[0].innerHTML = countdown.minutes;
+		document.getElementsByClassName('countdown-seconds')[0].innerHTML = countdown.seconds;
 	});
 };
 

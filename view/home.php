@@ -11,10 +11,10 @@
 		<h1>Klassiekers in je klas</h1>
 	</div>
 	<div class="countdown">
-		<div class="countdown-days"></div>
-		<div class="countdown-hours"></div>
-		<div class="countdown-minutes"></div>
-		<div class="countdown-seconds"></div>
+		<div class="countdown-days">0</div>
+		<div class="countdown-hours">0</div>
+		<div class="countdown-minutes">0</div>
+		<div class="countdown-seconds">0</div>
 	</div>
 	<script src="<?php echo $basePath; ?>/js/vendor/eventemitter2/lib/eventemitter2.js"></script>
 	<script src="<?php echo $basePath; ?>/js/script.js"></script>
