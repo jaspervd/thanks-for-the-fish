@@ -23,6 +23,20 @@ class TeachersDAO extends DAO {
     return $result;
   }
 
+  public function login($email, $password){
+    $sql = "SELECT * FROM `bw_teachers` WHERE `email` = :email";
+    $qry = $this->pdo->prepare($sql);
+    $qry->bindValue(':email', $email);
+    $qry->execute();
+    $user = $qry->fetch(pdo::FETCH_ASSOC);
+    if(!empty($user)){
+      if(password_verify($password, $user['password'])){
+        return $user;
+      }
+    }
+    return false;
+  }
+
   public function insertTeacher($data) {
     $errors = $this->getValidationErrors($data);
     if(empty($errors)){

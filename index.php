@@ -52,6 +52,29 @@ $app->post('/api/teachers', function ($request, $response, $args) {
   return $response;
 });
 
+$app->post('/api/teachers/auth', function ($request, $response, $args) {
+  $teachersDAO = new TeachersDAO();
+  $loginData = $request->getParsedBody();
+  $teacher = $teachersDAO->login($loginData['email'], $loginData['password']);
+  $response = $response->write(json_encode($teacher))
+    ->withHeader('Content-Type','application/json');
+  if(empty($teacher)) {
+    $response = $response->withStatus(404);
+  }else{
+    session_start();
+    $_SESSION['user'] = $teacher;
+  }
+  return $response;
+});
+
+$app->get('/api/user/{data}', function ($request, $response, $args) {
+  session_start();
+  if(!empty($_SESSION) && !empty($_SESSION['user'])){
+    return $_SESSION['user'][$args['data']];
+  }
+  return false;
+});
+
 $app->put('/api/teachers/{id}/approve', function ($request, $response, $args) {
   $teachersDAO = new TeachersDAO();
   $updatedTeacher = $teachersDAO->approveTeacher($args['id']);
