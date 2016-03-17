@@ -30,7 +30,7 @@ $app->get('/api/teachers', function() use ($teachersDAO) {
 });
 
 $app->put('/api/teachers/{id}/approve', function ($request, $response, $args) {
-  //$teachersDAO = new TeachersDAO();
+  $teachersDAO = new TeachersDAO();
   $updatedTeacher = $teacherDAO->approveTeacher($args['id']);
   $response = $response->write(json_encode($updatedTeacher))
     ->withHeader('Content-Type','application/json');
@@ -41,7 +41,7 @@ $app->put('/api/teachers/{id}/approve', function ($request, $response, $args) {
 });
 
 $app->delete('/api/teachers/{id}', function ($request, $response, $args) {
-  //$teachersDAO = new TeachersDAO();
+  $teachersDAO = new TeachersDAO();
   $teachersDAO->deleteTeacher($args['id']);
   return $response->write(true)
     ->withHeader('Content-Type','application/json');
