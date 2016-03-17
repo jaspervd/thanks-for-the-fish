@@ -1,0 +1,21 @@
+{
+  "name": "KLAS",
+  "description": "",
+  "main": "index.js",
+  "authors": [
+    "Thorr Stevens <thorr.stevens@student.howest.be>",
+    "Jasper Van Damme <jasper.van.damme@student.howest.be>"
+  ],
+  "license": "ISC",
+  "homepage": "https://github.com/jaspervd/thanks-for-the-fish",
+  "moduleType": [
+    "node"
+  ],
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
