@@ -1,11 +1,14 @@
 <?php
 class DAO {
+
 	private static $dbHost = 'localhost';
 	private static $dbName = 'bw_bookworm';
 	private static $dbUser = 'bw_user';
 	private static $dbPass = '$bw_pass';
 	private static $sharedPDO;
+
 	protected $pdo;
+
 	function __construct() {
 		if(empty(self::$sharedPDO)) {
 			self::$sharedPDO = new PDO("mysql:host=" . self::$dbHost . ";dbname=" . self::$dbName, self::$dbUser, self::$dbPass);
@@ -15,4 +18,5 @@ class DAO {
 		}
 		$this->pdo =& self::$sharedPDO;
 	}
+
 }
