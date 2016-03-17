@@ -10,6 +10,13 @@
 	<div class="container">
 		<h1>Klassiekers in je klas</h1>
 	</div>
-	<link rel="stylesheet" href="<?php echo $basePath; ?>/js/script.js">
+	<div class="countdown">
+		<div class="countdown-days">0</div>
+		<div class="countdown-hours">0</div>
+		<div class="countdown-minutes">0</div>
+		<div class="countdown-seconds">0</div>
+	</div>
+	<script src="<?php echo $basePath; ?>/js/vendor/eventemitter2/lib/eventemitter2.js"></script>
+	<script src="<?php echo $basePath; ?>/js/script.js"></script>
 </body>
 </html>
