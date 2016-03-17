@@ -16,7 +16,6 @@
 		<div class="countdown-minutes">0</div>
 		<div class="countdown-seconds">0</div>
 	</div>
-	<script src="<?php echo $basePath; ?>/js/vendor/eventemitter2/lib/eventemitter2.js"></script>
 	<script src="<?php echo $basePath; ?>/js/script.js"></script>
 </body>
 </html>

@@ -1,4 +1,5 @@
 vendor
+dependencies
 .phpintel
 composer.lock
 js

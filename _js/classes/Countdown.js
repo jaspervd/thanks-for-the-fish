@@ -1,6 +1,6 @@
 'use strict';
 
-import EventEmitter2 from '../../js/vendor/eventemitter2/lib/eventemitter2';
+import EventEmitter2 from '../../dependencies/eventemitter2/lib/eventemitter2';
 
 export default class Countdown extends EventEmitter2 {
 	constructor(endDate) {
