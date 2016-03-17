@@ -34,4 +34,46 @@ class TeachersDAO extends DAO {
     $result = $stmt->fetch(pdo::FETCH_ASSOC);
     return $result;
   }
+
+  public function approveTeacher($id){
+    $teacher = $this->getTeacherById($id);
+    $errors = $this->getValidationErrors($teacher);
+    if(empty($errors)){
+      $sql = "UPDATE `bw_teachers` SET `authorized` = :authorized WHERE `id` = :id";
+      $qry = $this->pdo->prepare($sql);
+      $qry->bindValue(':id', $id);
+      $qry->bindValue(':authorized', 1);
+      if($qry->execute()){
+        return $this->getTeacherById($teacher_id);
+      }
+    }
+    return false;
+  }
+
+  public function deleteTeacher($id){
+    $qry = "DELETE FROM `bw_teachers` WHERE id = :id";
+    $qry->bindValue(':id', $id);
+    return $qry->execute();
+  }
+
+  public function getValidationErrors($data) {
+    $errors = array();
+    if(empty($data['firstname'])) {
+      $errors['firstname'] = 'Please enter your firstname';
+    }
+    if(empty($data['lastname'])) {
+      $errors['lastname'] = 'Please enter your lastname';
+    }
+    if(empty($data['email'])) {
+      $errors['email'] = 'Please enter your email';
+    }
+    if(empty($data['password'])) {
+      $errors['password'] = 'Please enter your password';
+    }
+    if(empty($data['phone'])) {
+      $errors['phone'] = 'Please enter your phone number';
+    }
+    return $errors;
+  }
+
 }
