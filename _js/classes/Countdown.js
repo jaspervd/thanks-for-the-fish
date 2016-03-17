@@ -15,29 +15,45 @@ export default class Countdown extends EventEmitter2 {
 
 	start() {
 		this.started = true;
-		setInterval(this.tick.bind(this), 1000);
+		this.interval = setInterval(this.tick.bind(this), 1000);
 	}
 
-	tick() {
-		this.now = new Date();
-		this.difference = this.endDate - this.now;
-		var remaining = this.difference;
+    stop() {
+        this.started = false;
+        clearInterval(this.interval);
 
-		this.days = Math.floor(this.difference / (1000 * 60 * 60 * 24));
-		remaining -= this.days * 1000 * 60 * 60 * 24;
+        this.days = 0;
+        this.hours = 0;
+        this.minutes = 0;
+        this.seconds = 0;
+    }
 
-		this.hours = Math.floor(remaining / (1000 * 60 * 60));
-		remaining -= this.hours * 1000 * 60 * 60;
+    tick() {
+        if(this.started) {
+            this.now = new Date();
+            this.difference = this.endDate - this.now;
+            var remaining = this.difference;
 
-		this.minutes = Math.floor(remaining / (1000 * 60));
-		remaining -= this.minutes * 1000 * 60;
+            if(Math.floor(this.difference / 1000) === 0) {
+                this.stop();
+            } else {
+                this.days = Math.floor(this.difference / (1000 * 60 * 60 * 24));
+                remaining -= this.days * 1000 * 60 * 60 * 24;
 
-		this.seconds = Math.floor(remaining / 1000);
+                this.hours = Math.floor(remaining / (1000 * 60 * 60));
+                remaining -= this.hours * 1000 * 60 * 60;
 
-		this.emit('tick');
-	}
+                this.minutes = Math.floor(remaining / (1000 * 60));
+                remaining -= this.minutes * 1000 * 60;
 
-	when() {
-		console.log(this.endDate);
-	}
+                this.seconds = Math.floor(remaining / 1000);
+
+                this.emit('tick');
+            }
+        }
+    }
+
+    when() {
+      console.log(this.endDate);
+    }
 }
