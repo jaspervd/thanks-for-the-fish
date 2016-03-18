@@ -7,6 +7,7 @@ define('WWW_ROOT', __DIR__ . DS);
 
 require 'vendor/autoload.php';
 require 'dao/TeachersDAO.php';
+require 'dao/AdminsDAO.php';
 
 $app = new \Slim\App;
 $teachersDAO = new TeachersDAO();
@@ -23,6 +24,10 @@ $app->get('/', function($request, $response, $args) {
 
 $app->get('/api/teachers', function() use ($teachersDAO) {
     header('Content-Type: application/json');
+    $teachers = $teachersDAO->getTeachers();
+    for($i=0; $i<count($teachers); $i++){
+      unset($teachers[$i]['password']);
+    }
     echo json_encode($teachersDAO->getTeachers());
     exit;
 });
@@ -30,6 +35,7 @@ $app->get('/api/teachers', function() use ($teachersDAO) {
 $app->get('/api/teachers/{id}', function($request, $response, $args) {
   $teachersDAO = new TeachersDAO();
   $teacher = $teachersDAO->getTeacherById($args['id']);
+  unset($teacher['password']);
   $response = $response->write(json_encode($teacher))
     ->withHeader('Content-Type','application/json');
   if(empty($oneliner)) {
@@ -42,6 +48,7 @@ $app->post('/api/teachers', function ($request, $response, $args) {
   $teachersDAO = new TeachersDAO();
   $teacher = $request->getParsedBody();
   $insertedTeacher = $teachersDAO->insertTeacher($teacher);
+  unset($insertedTeacher['password']);
   $response = $response->write(json_encode($insertedTeacher))
     ->withHeader('Content-Type','application/json');
   if(empty($insertedTeacher)) {
@@ -62,6 +69,7 @@ $app->post('/api/teachers/auth', function ($request, $response, $args) {
     $response = $response->withStatus(404);
   }else{
     session_start();
+    unset($teacher['password']);
     $_SESSION['user'] = $teacher;
   }
   return $response;
@@ -69,7 +77,7 @@ $app->post('/api/teachers/auth', function ($request, $response, $args) {
 
 $app->get('/api/user/{data}', function ($request, $response, $args) {
   session_start();
-  if(!empty($_SESSION) && !empty($_SESSION['user'])){
+  if(!empty($_SESSION) && !empty($_SESSION['user']) && $args['data'] != "password"){
     return $_SESSION['user'][$args['data']];
   }
   return false;
@@ -78,6 +86,7 @@ $app->get('/api/user/{data}', function ($request, $response, $args) {
 $app->put('/api/teachers/{id}/approve', function ($request, $response, $args) {
   $teachersDAO = new TeachersDAO();
   $updatedTeacher = $teachersDAO->approveTeacher($args['id']);
+  unset($updatedTeacher['password']);
   $response = $response->write(json_encode($updatedTeacher))
     ->withHeader('Content-Type','application/json');
   if(empty($updatedTeacher)) {
@@ -92,6 +101,10 @@ $app->delete('/api/teachers/{id}', function ($request, $response, $args) {
   return $response->write(true)
     ->withHeader('Content-Type','application/json');
 });
+
+/* -- API: Admins ------------------ */
+
+
 
 /* -- Run Slim Framework ----------- */
 
