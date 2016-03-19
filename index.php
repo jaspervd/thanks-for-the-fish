@@ -134,23 +134,19 @@ $app->get('/api/admins/{id}', function($request, $response, $args) {
 
 $app->post('/api/admins', function ($request, $response, $args) {
 
-  if(!empty($_SESSION) && !empty($_SESSION['admin']['id'])){
-    $adminsDAO = new AdminsDAO();
-    $userAdmin = $adminsDAO->getAdminById($_SESSION['admin']['id']);
-
-    if(!empty($userAdmin) && $userAdmin['can_create_admins'] == 1){
-      $newAdmin = $request->getParsedBody();
-      $insertedAdmin = $adminsDAO->insertAdmin($newAdmin);
-      unset($insertedAdmin['password']);
-      $response = $response->write(json_encode($insertedAdmin))
-        ->withHeader('Content-Type','application/json');
-      if(empty($insertedAdmin)) {
-        $response = $response->withStatus(404);
-      } else {
-        $response = $response->withStatus(201);
-      }
-      return $response;
+  $authorized = checkAdminPrivilege('can_create_admins');
+  if($authorized){
+    $newAdmin = $request->getParsedBody();
+    $insertedAdmin = $adminsDAO->insertAdmin($newAdmin);
+    unset($insertedAdmin['password']);
+    $response = $response->write(json_encode($insertedAdmin))
+      ->withHeader('Content-Type','application/json');
+    if(empty($insertedAdmin)) {
+      $response = $response->withStatus(404);
+    } else {
+      $response = $response->withStatus(201);
     }
+    return $response;
   }
   return $response->withStatus(401);
 
@@ -194,28 +190,31 @@ $app->put('/api/admins/{id}', function ($request, $response, $args) {
 });
 
 $app->delete('/api/admins/{id}', function ($request, $response, $args) {
-
-  if(!empty($_SESSION) && !empty($_SESSION['admin']['id'])){
+  $authorized = checkAdminPrivilege('can_create_admins');
+  if($authorized){
     $adminsDAO = new AdminsDAO();
-    $userAdmin = $adminsDAO->getAdminById($_SESSION['admin']['id']);
-
-    if(!empty($userAdmin) && $userAdmin['can_create_admins'] == 1){
-
-      $adminsDAO = new AdminsDAO();
-      $adminsDAO->deleteAdmin($args['id']);
-      return $response->write(true)
-        ->withHeader('Content-Type','application/json');
-
-    }
+    $adminsDAO->deleteAdmin($args['id']);
+    return $response->write(true)
+      ->withHeader('Content-Type','application/json');
   }
   return $response->withStatus(401)
-
 });
 
 /* -- API: Scores ------------------ */
 
 
 
-/* -- Run Slim Framework ----------- */
+/* -- Helper Functions ----------- */
+
+public function checkAdminPrivilege($privilegeToCheck){
+  if(!empty($_SESSION) && !empty($_SESSION['admin']['id'])){
+    $adminsDAO = new AdminsDAO();
+    $userAdmin = $adminsDAO->getAdminById($_SESSION['admin']['id']);
+    if(!empty($userAdmin) && $userAdmin[$privilegeToCheck] == 1){
+      return true;
+    }
+  }
+  return false;
+}
 
 $app->run();
