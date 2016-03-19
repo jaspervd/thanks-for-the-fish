@@ -132,6 +132,7 @@ $app->get('/api/admins/{id}', function($request, $response, $args) {
 $app->post('/api/admins', function ($request, $response, $args) {
   $authorized = checkAdminPrivilege('can_create_admins');
   if($authorized){
+    $adminsDAO = new AdminsDAO();
     $newAdmin = $request->getParsedBody();
     $insertedAdmin = $adminsDAO->insertAdmin($newAdmin);
     unset($insertedAdmin['password']);
@@ -142,9 +143,9 @@ $app->post('/api/admins', function ($request, $response, $args) {
     } else {
       $response = $response->withStatus(201);
     }
-    return $response;
   }
-  return $response->withStatus(401);
+  $response = $response->withStatus(401);
+  return $response;
 });
 
 $app->post('/api/admin/auth', function ($request, $response, $args) {
@@ -204,9 +205,28 @@ $app->get('/api/scores', function ($request, $response, $args) {
     ->withHeader('Content-Type','application/json');
 });
 
+$app->post('/api/classes/{class_id}/score', function ($request, $response, $args) {
+  $authorized = checkAdminPrivilege('can_vote_winner');
+  if($authorized){
+    $scoresDAO = new ScoresDAO();
+    $newScore = $request->getParsedBody();
+    $insertedScore = $scoresDAO->insertScore($args['class_id'], $newScore);
+    $response = $response->write(json_encode($insertedScore))
+      ->withHeader('Content-Type','application/json');
+    if(empty($insertedScore)) {
+      $response = $response->withStatus(404);
+    } else {
+      $response = $response->withStatus(201);
+    }
+    return $response;
+  }
+  return $response->withStatus(401);
+});
+
 /* -- Helper Functions ----------- */
 
 function checkAdminPrivilege($privilegeToCheck){
+  session_start();
   if(!empty($_SESSION) && !empty($_SESSION['admin']['id'])){
     $adminsDAO = new AdminsDAO();
     $userAdmin = $adminsDAO->getAdminById($_SESSION['admin']['id']);

@@ -49,7 +49,7 @@ class ScoresDAO extends DAO {
   }
 
   public function insertScore($class_id, $data) {
-    $errors = $this->getValidationErrors($data, 'can_vote_winner');
+    $errors = $this->getValidationErrors($data);
     if(empty($errors)){
       $sql = "INSERT INTO `bw_scores` (class_id, admin_id, score)
               VALUES (:class_id, :admin_id, :score)";
@@ -67,7 +67,7 @@ class ScoresDAO extends DAO {
   }
 
   public function updateScore($data){
-    $errors = $this->getValidationErrors($data, 'can_vote_winner');
+    $errors = $this->getValidationErrors($data);
     if(empty($errors)){
       $sql = "UPDATE `bw_score` SET `score` = :score
               WHERE `class_id` = :class_id AND `admin_id` = :admin_id";
@@ -82,7 +82,7 @@ class ScoresDAO extends DAO {
     return $errors;
   }
 
-  public function getValidationErrors($data, $adminPrivilegeToCheck='none') {
+  public function getValidationErrors($data) {
     $errors = array();
 
     if(empty($data['score']) || $data['score'] < 0 || $data['score'] > 10){
@@ -91,14 +91,6 @@ class ScoresDAO extends DAO {
 
     if(empty($data['admin_id'])){
       $errors['admin'] = "All changes must be done by a valid admin or jury member.";
-    }else{
-      $adminsDAO = new AdminsDAO();
-      $admin = $adminsDAO->getAdminById($data['admin_id']);
-      if(empty($admin) || $admin == false){
-        $errors['admin'] = "Admin or Jury not recognized.";
-      }elseif($adminPrivilegeToCheck != "none" && $admin[$adminPrivilegeToCheck] == 0){
-        $errors['admin'] = "You do not have the right rights to do this.";
-      }
     }
 
     return $errors;
