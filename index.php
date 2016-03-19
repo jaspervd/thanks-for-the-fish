@@ -89,7 +89,6 @@ $app->get('/api/user/{data}', function ($request, $response, $args) {
 
 $app->put('/api/teachers/{id}/approve', function ($request, $response, $args) {
   $teachersDAO = new TeachersDAO();
-  $updatedTeacher = $teacherDAO->approveTeacher($args['id']);
   $updatedTeacher = $teachersDAO->approveTeacher($args['id']);
   unset($updatedTeacher['password']);
   $response = $response->write(json_encode($updatedTeacher))
