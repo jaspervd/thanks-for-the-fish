@@ -4,7 +4,12 @@ import Countdown from './classes/Countdown';
 import {validate} from './helpers/util';
 
 (() => {
+	let container = document.getElementsByClassName('container')[0];
 	let orderForm = document.getElementsByClassName('order-form')[0];
+	let navLeft = document.getElementsByClassName('nav-left')[0];
+	let navRight = document.getElementsByClassName('nav-right')[0];
+	let pages = document.getElementsByClassName('page');
+	let currentPage = 0;
 
 	const init = () => {
 		let countdown = new Countdown(new Date(2016, 4, 18, 20, 42)); // 18 mei 2016 om 20u42
@@ -17,7 +22,33 @@ import {validate} from './helpers/util';
 			document.getElementsByClassName('countdown-seconds')[0].innerHTML = countdown.seconds;
 		});
 
+		navLeft.addEventListener('click', navLeftHandler);
+		navRight.addEventListener('click', navRightHandler);
 		orderForm.addEventListener('submit', orderHandler);
+	};
+
+	const navLeftHandler = (e) => {
+		e.preventDefault();
+		currentPage--;
+		changeToCurrentPage();
+	};
+
+	const navRightHandler = (e) => {
+		e.preventDefault();
+		currentPage++;
+		changeToCurrentPage();
+	};
+
+	const changeToCurrentPage = () => {
+		if(currentPage < 0) {
+			currentPage = 0;
+		} else if(currentPage > (pages.length - 1)) {
+			currentPage = pages.length - 1;
+		}
+
+		container.style.marginLeft = `-${100 * currentPage}vw`;
+
+		console.log(pages[currentPage]);
 	};
 
 	const orderHandler = (e) => {
