@@ -78,7 +78,7 @@ $app->post('/api/teachers/auth', function ($request, $response, $args) {
 $app->get('/api/user/{data}', function ($request, $response, $args) {
   session_start();
   if(!empty($_SESSION) && !empty($_SESSION['user']) && $args['data'] != "password"){
-    return $_SESSION['user'][$args['data']];
+    return "".$_SESSION['user'][$args['data']];
   }
   return false;
 });
@@ -104,7 +104,92 @@ $app->delete('/api/teachers/{id}', function ($request, $response, $args) {
 
 /* -- API: Admins ------------------ */
 
+$app->get('/api/admins', function ($request, $response, $args) {
+  $adminsDAO = new AdminsDAO();
+  $admins = $adminsDAO->getAdmins();
+  for($i=0; $i<count($admins); $i++){
+    /*if(!empty($_SESSION) && !empty($_SESSION['admin']) && $_SESSION['admin']['id'] == $admins[$i]['id']){
+      unset($admins[$i]);
+    }else{*/
+      unset($admins[$i]['password']);
+      unset($admins[$i]['role_id']);
+    //}
+  }
+  return $response->write(json_encode($admins))
+    ->withHeader('Content-Type','application/json');
+});
 
+$app->get('/api/admins/{id}', function($request, $response, $args) {
+  $adminsDAO = new AdminsDAO();
+  $admin = $adminsDAO->getAdminById($args['id']);
+  unset($admin['password']);
+  unset($admin['role_id']);
+  $response = $response->write(json_encode($admin))
+    ->withHeader('Content-Type','application/json');
+  if(empty($admin)) {
+    $response = $response->withStatus(404);
+  }
+  return $response;
+});
+
+$app->post('/api/admins', function ($request, $response, $args) {
+  $adminsDAO = new AdminsDAO();
+  $admin = $request->getParsedBody();
+  $insertedAdmin = $adminsDAO->insertAdmin($admin);
+  unset($insertedAdmin['password']);
+  $response = $response->write(json_encode($insertedAdmin))
+    ->withHeader('Content-Type','application/json');
+  if(empty($insertedAdmin)) {
+    $response = $response->withStatus(404);
+  } else {
+    $response = $response->withStatus(201);
+  }
+  return $response;
+});
+
+$app->post('/api/admin/auth', function ($request, $response, $args) {
+  $adminsDAO = new AdminsDAO();
+  $loginData = $request->getParsedBody();
+  $admin = $adminsDAO->login($loginData['entry'], $loginData['password']);
+  $response = $response->write(json_encode($admin))
+    ->withHeader('Content-Type','application/json');
+  if(empty($admin)) {
+    $response = $response->withStatus(404);
+  }else{
+    session_start();
+    unset($admin['password']);
+    $_SESSION['admin'] = $admin;
+  }
+  return $response;
+});
+
+$app->get('/api/admin/{data}', function ($request, $response, $args) {
+  session_start();
+  if(!empty($_SESSION) && !empty($_SESSION['admin']) && $args['data'] != "password"){
+    return "".$_SESSION['admin'][$args['data']];
+  }
+  return false;
+});
+
+$app->put('/api/admins/{id}', function ($request, $response, $args) {
+  $adminsDAO = new AdminsDAO();
+  $updateData = $request->getParsedBody();
+  $updatedAdmin = $adminsDAO->updateAdmin($args['id'], $updateData);
+  unset($updatedAdmin['password']);
+  $response = $response->write(json_encode($updatedAdmin))
+    ->withHeader('Content-Type','application/json');
+  if(empty($updatedAdmin)) {
+    $response = $response->withStatus(404);
+  }
+  return $response;
+});
+
+$app->delete('/api/admins/{id}', function ($request, $response, $args) {
+  $adminsDAO = new AdminsDAO();
+  $adminsDAO->deleteAdmin($args['id']);
+  return $response->write(true)
+    ->withHeader('Content-Type','application/json');
+});
 
 /* -- Run Slim Framework ----------- */
 

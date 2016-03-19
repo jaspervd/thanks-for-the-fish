@@ -3,7 +3,7 @@ require_once WWW_ROOT . 'dao/DAO.php';
 class AdminsDAO extends DAO {
 
 	public function getAdmins() {
-		$sql = "SELECT `bw_admins`.*, `bw_admin_roles`.*
+		$sql = "SELECT `bw_admins`.*, `bw_admin_roles`.`can_create_admins`, `bw_admin_roles`.`can_authorize_teachers`, `bw_admin_roles`.`can_vote_winner`, `bw_admin_roles`.`can_approve_entry`
             FROM `bw_admins`LEFT JOIN `bw_admin_roles` ON `bw_admins`.`role_id` = `bw_admin_roles`.`id`
             ORDER BY `bw_admins`.`id` ASC";
     $qry = $this->pdo->prepare($sql);
@@ -13,34 +13,37 @@ class AdminsDAO extends DAO {
   }
 
   public function getAdminById($id) {
-    $sql = "SELECT `bw_admins`.*, `bw_admin_roles`.*
+    $sql = "SELECT `bw_admins`.*, `bw_admin_roles`.`can_create_admins`, `bw_admin_roles`.`can_authorize_teachers`, `bw_admin_roles`.`can_vote_winner`, `bw_admin_roles`.`can_approve_entry`
             FROM `bw_admins`LEFT JOIN `bw_admin_roles` ON `bw_admins`.`role_id` = `bw_admin_roles`.`id`
-            WHERE `id` = :id";
-    $stmt = $this->pdo->prepare($sql);
-    $stmt->bindValue(':id', $id);
-    $stmt->execute();
-    $result = $stmt->fetch(pdo::FETCH_ASSOC);
+            WHERE `bw_admins`.`id` = :id";
+    $qry = $this->pdo->prepare($sql);
+    $qry->bindValue(':id', $id);
+    $qry->execute();
+    $result = $qry->fetch(pdo::FETCH_ASSOC);
     return $result;
   }
 
   public function login($entry, $password){
-    $sql = "SELECT `bw_admins`.*, `bw_admin_roles`.*
+    $sql = "SELECT `bw_admins`.*, `bw_admin_roles`.`can_create_admins`, `bw_admin_roles`.`can_authorize_teachers`, `bw_admin_roles`.`can_vote_winner`, `bw_admin_roles`.`can_approve_entry`
             FROM `bw_admins`LEFT JOIN `bw_admin_roles` ON `bw_admins`.`role_id` = `bw_admin_roles`.`id`
-            WHERE `username` = :entry OR `email` = :entry";
+            WHERE `bw_admins`.`username` = :entry1 OR `bw_admins`.`email` = :entry2";
     $qry = $this->pdo->prepare($sql);
-    $qry->bindValue(':entry', $entry);
+    $qry->bindValue(':entry1', $entry);
+    $qry->bindValue(':entry2', $entry);
     $qry->execute();
     $admin = $qry->fetch(pdo::FETCH_ASSOC);
     if(!empty($admin)){
       if(password_verify($password, $admin['password'])){
         return $admin;
+      }else{
+        return true;
       }
     }
     return false;
   }
 
   public function insertAdmin($data) {
-    $errors = $this->getValidationErrors($data);
+    $errors = $this->getValidationErrors($data, true);
     if(empty($errors)){
       $sql = "INSERT INTO `bw_admins` (username, email, password, role_id)
               VALUES (:username, :email, :password, :role_id)";
@@ -103,21 +106,21 @@ class AdminsDAO extends DAO {
     mail($to, $subject, $message, $headers);
   }
 
-  public function updateAdmin($data){
-    $errors = $this->getValidationErrors($data);
+  public function updateAdmin($id, $data){
+    $errors = $this->getValidationErrors($data, false);
     if(empty($errors)){
       $sql = "UPDATE `bw_admins` SET `username` = :username, `email` = :email, `password` = :password
               WHERE `id` = :id";
       $qry = $this->pdo->prepare($sql);
-      $qry->bindValue(':id', $data['id']);
-      $qry->bindValue(':username', $data['username']);
+      $qry->bindValue(':id', $id);
+      $qry->bindValue(':username', $data['id']);
       $qry->bindValue(':email', $data['email']);
-      $qry->bindValue(':password', $data['password']);
+      $qry->bindValue(':password', password_hash($data['password'], PASSWORD_BCRYPT));
       if($qry->execute()){
-        return $this->getAdminById($data['id']);
+        return $this->getAdminById($id);
       }
     }
-    return false;
+    return $errors;
   }
 
   public function deleteAdmin($id){
@@ -127,18 +130,18 @@ class AdminsDAO extends DAO {
     return $qry->execute();
   }
 
-  public function getValidationErrors($data) {
+  public function getValidationErrors($data, $needsRoleId) {
     $errors = array();
     if(empty($data['username'])) {
-      $errors['firstname'] = 'Please enter your firstname';
+      $errors['username'] = 'Please enter a username';
     }
     if(empty($data['email'])) {
-      $errors['email'] = 'Please enter your email';
+      $errors['email'] = 'Please enter an email address';
     }
     if(empty($data['password'])) {
       $errors['password'] = 'Please enter your password';
     }
-    if(empty($data['role_id'])) {
+    if($needsRoleId == true && empty($data['role_id'])) {
       $errors['role_id'] = 'Please choose whether this is a jury or admin account';
     }
     return $errors;
