@@ -18,7 +18,7 @@ $teachersDAO = new TeachersDAO();
 $app->get('/', function($request, $response, $args) {
 	$view = new \Slim\Views\PhpRenderer('view/');
 	$basePath = $request->getUri()->getBasePath();
-	return $view->render($response, 'home.php', ['basePath' => $basePath]);
+	return $view->render($response, 'home.php', ['basePath' => $basePath, 'teacher' => (checkLoggedIn('user')? $_SESSION['user'] : array())]);
 });
 
 $app->get('/klas', function($request, $response, $args) {

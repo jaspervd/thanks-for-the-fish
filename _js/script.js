@@ -102,7 +102,12 @@ import {validate, scrollTo} from './helpers/util';
 			request.open('POST', `${window.app.basename}/api/teachers/auth`, true);
 			request.onload = function() {
 				if (request.status === 200) {
-					console.log('Ingelogd!');
+					let linkToClassPage = document.createElement('a');
+					linkToClassPage.setAttribute('href', `${window.app.basename}/klas`);
+					linkToClassPage.innerHTML = 'Ga naar je klas! &raquo;';
+
+					let parent = loginForm.parentNode;
+					parent.appendChild(linkToClassPage);
 				} else {
 					console.log('Fout (+ melding: het is mogelijk dat je account nog niet geactiveerd is)');
 				}

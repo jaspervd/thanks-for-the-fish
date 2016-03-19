@@ -13,6 +13,7 @@
 		<a href="#" class="nav-right">&raquo;</a>
 	</div>
 	<div class="login">
+		<?php if(empty($teacher)) { ?>
 		<form method="post" action="" class="login-form">
 			<p>
 				<label for="login-email">E-mailadres</label>
@@ -26,6 +27,11 @@
 				<input type="submit" name="submit" value="Bestellen" />
 			</p>
 		</form>
+		<?php
+		} else {
+			 echo '<a href="'. $basePath .'/klas">Ga naar je klas! &raquo;</a>';
+		}
+		?>
 	</div>
 	<div class="container">
 		<div class="page home">
