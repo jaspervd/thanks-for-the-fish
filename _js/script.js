@@ -42,19 +42,22 @@ import {validate} from './helpers/util';
 
 	const keyPressHandler = (e) => {
 		var key = e.which || e.keyCode;
-		switch(key) {
-			case 80:
-			case 37:
-				navLeftHandler(e);
-				break;
-			case 78:
-			case 39:
-				navRightHandler(e);
-				break;
+		if(e.target.tagName !== 'FORM' && typeof e.target.form === 'undefined') { // ignore events bubbling from forms
+			switch(key) {
+				case 80:
+				case 37:
+					navLeftHandler(e);
+					break;
+				case 78:
+				case 39:
+					navRightHandler(e);
+					break;
+			}
 		}
 	};
 
 	const changeToCurrentPage = () => {
+		window.scroll(0, 0); // reset user's scroll position
 		if(currentPage < 0) {
 			currentPage = 0;
 		} else if(currentPage > (pages.length - 1)) {
