@@ -20,17 +20,25 @@ body {
 		padding: 40px;
 	}
 
-	.left {
+	.nav-left {
 		float: left;
 	}
 
-	.right {
+	.nav-right {
 		float: right;
 	}
 }
 
 .container {
 	position: relative;
+
+	transition: margin .7s ease;
+}
+
+@for $i from 0 through 3 {
+    .container.page-#{$i} {
+        margin-left: -($i * 100vw);
+    }
 }
 
 .page {

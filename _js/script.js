@@ -61,7 +61,7 @@ import {validate} from './helpers/util';
 			currentPage = pages.length - 1;
 		}
 
-		container.style.marginLeft = `-${100 * currentPage}vw`;
+		container.className = `container page-${currentPage}`;
 	};
 
 	const orderHandler = (e) => {
