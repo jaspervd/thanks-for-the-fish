@@ -21,6 +21,17 @@ $app->get('/', function($request, $response, $args) {
 	return $view->render($response, 'home.php', ['basePath' => $basePath]);
 });
 
+$app->get('/klas', function($request, $response, $args) {
+  $basePath = $request->getUri()->getBasePath();
+  if(checkLoggedIn('user')) {
+    $view = new \Slim\Views\PhpRenderer('view/');
+    return $view->render($response, 'class.php', ['basePath' => $basePath, $_SESSION['teacher']]);
+  } else {
+    header('Location: '. $basePath);
+    exit;
+  }
+});
+
 /* -- API: Teachers ------------------------------------------------------ */
 
 //overview of all registered and authorized teachers
