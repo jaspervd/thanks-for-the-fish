@@ -7,7 +7,7 @@ import {validate} from './helpers/util';
 	let orderForm = document.getElementsByClassName('order-form')[0];
 
 	const init = () => {
-		let countdown = new Countdown(new Date(2016, 4, 18, 20, 0, 0)); // 18 mei 2016 om 20u00
+		let countdown = new Countdown(new Date(2016, 4, 18, 20, 42)); // 18 mei 2016 om 20u42
 		countdown.start();
 
 		countdown.on('tick', () => {

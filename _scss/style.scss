@@ -7,4 +7,53 @@ html {
 
 body {
   font-size: 1.8rem;
+  overflow-x: hidden;
+}
+
+.navigation {
+	width: 100vw;
+	font-size: 3rem;
+	position: absolute;
+	z-index: 99;
+
+	a {
+		padding: 40px;
+	}
+
+	.left {
+		float: left;
+	}
+
+	.right {
+		float: right;
+	}
+}
+
+.page {
+	width: 100vw;
+	min-height: 100vh;
+	position: absolute;
+
+	.page-screen {
+		height: 100vh;
+	}
+}
+
+.home {
+	background-color: #333;
+}
+
+.book {
+	background-color: #ffbb00;
+	margin-left: 100vw;
+}
+
+.excerpt {
+	background-color: #fde4b7;
+	margin-left: 200vw;
+}
+
+.photos {
+	background-color: #4f999b;
+	margin-left: 300vw;
 }
