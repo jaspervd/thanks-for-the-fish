@@ -5,6 +5,7 @@ import {validate, scrollTo} from './helpers/util';
 
 (() => {
 	let container = document.getElementsByClassName('container')[0];
+	let loginForm = document.getElementsByClassName('login-form')[0];
 	let orderForm = document.getElementsByClassName('order-form')[0];
 	let navLeft = document.getElementsByClassName('nav-left')[0];
 	let navRight = document.getElementsByClassName('nav-right')[0];
@@ -26,6 +27,7 @@ import {validate, scrollTo} from './helpers/util';
 		navLeft.addEventListener('click', navLeftHandler);
 		navRight.addEventListener('click', navRightHandler);
 		document.addEventListener('keydown', keyPressHandler);
+		loginForm.addEventListener('submit', loginHandler);
 		orderForm.addEventListener('submit', orderHandler);
 
 		for(let i = 0; i < navDown.length; i++) {
@@ -75,6 +77,40 @@ import {validate, scrollTo} from './helpers/util';
 		}
 
 		container.className = `container page-${currentPage}`;
+	};
+
+	const loginHandler = (e) => {
+		e.preventDefault();
+
+		let email = document.getElementById('login-email');
+		let password = document.getElementById('login-password');
+
+		var errors = 0;
+
+		// avoid unnecessary calls to api sending invalid data
+		if(!validate(email)) {
+			console.log('Invalid email');
+			errors++;
+		} if(!validate(password)) {
+			console.log('Invalid password');
+			errors++;
+		}
+
+		if(errors === 0) {
+			let formData = new FormData(loginForm);
+			let request = new XMLHttpRequest();
+			request.open('POST', `${window.app.basename}/api/teachers/auth`, true);
+			request.onload = function() {
+				if (request.status === 200) {
+					console.log('Ingelogd!');
+				} else {
+					console.log('Fout (+ melding: het is mogelijk dat je account nog niet geactiveerd is)');
+				}
+			};
+
+			request.send(formData);
+		}
+		return true;
 	};
 
 	const orderHandler = (e) => {
