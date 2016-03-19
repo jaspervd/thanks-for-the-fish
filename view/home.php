@@ -12,6 +12,21 @@
 		<a href="#" class="nav-left">&laquo;</a>
 		<a href="#" class="nav-right">&raquo;</a>
 	</div>
+	<div class="login">
+		<form method="post" action="" class="login-form">
+			<p>
+				<label for="login-email">E-mailadres</label>
+				<input type="email" name="email" id="login-email" required />
+			</p>
+			<p>
+				<label for="login-password">Wachtwoord</label>
+				<input type="password" name="password" id="login-password" required />
+			</p>
+			<p>
+				<input type="submit" name="submit" value="Bestellen" />
+			</p>
+		</form>
+	</div>
 	<div class="container">
 		<div class="page home">
 			<section class="page-screen">
