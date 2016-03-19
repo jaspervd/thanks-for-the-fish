@@ -18,7 +18,18 @@ $teachersDAO = new TeachersDAO();
 $app->get('/', function($request, $response, $args) {
 	$view = new \Slim\Views\PhpRenderer('view/');
 	$basePath = $request->getUri()->getBasePath();
-	return $view->render($response, 'home.php', ['basePath' => $basePath]);
+	return $view->render($response, 'home.php', ['basePath' => $basePath, 'teacher' => (checkLoggedIn('user')? $_SESSION['user'] : array())]);
+});
+
+$app->get('/klas', function($request, $response, $args) {
+  $basePath = $request->getUri()->getBasePath();
+  if(checkLoggedIn('user')) {
+    $view = new \Slim\Views\PhpRenderer('view/');
+    return $view->render($response, 'class.php', ['basePath' => $basePath, 'teacher' => $_SESSION['user']]);
+  } else {
+    header('Location: '. $basePath);
+    exit;
+  }
 });
 
 /* -- API: Teachers ------------------------------------------------------ */
@@ -324,7 +335,7 @@ function checkLoggedIn($typeToCheck){
       $currentUser = $adminsDAO->getAdminById($_SESSION['admin']['id']);
     }else{
       $teachersDAO = new TeachersDAO();
-      $currentUser = $teachersDAO->getAdminById($_SESSION['user']['id']);
+      $currentUser = $teachersDAO->getTeacherById($_SESSION['user']['id']);
       if($currentUser['authorized'] == 0){ return false; } //teachers not yet authorized by admin can't edit database
     }
     //if a database entry exists, logged in user is trustworthy
