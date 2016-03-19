@@ -27,7 +27,9 @@ import {validate, scrollTo} from './helpers/util';
 		navLeft.addEventListener('click', navLeftHandler);
 		navRight.addEventListener('click', navRightHandler);
 		document.addEventListener('keydown', keyPressHandler);
-		loginForm.addEventListener('submit', loginHandler);
+		if(typeof loginForm !== 'undefined') {
+			loginForm.addEventListener('submit', loginHandler);
+		}
 		orderForm.addEventListener('submit', orderHandler);
 
 		for(let i = 0; i < navDown.length; i++) {
@@ -108,6 +110,7 @@ import {validate, scrollTo} from './helpers/util';
 
 					let parent = loginForm.parentNode;
 					parent.appendChild(linkToClassPage);
+					parent.removeChild(loginForm);
 				} else {
 					console.log('Fout (+ melding: het is mogelijk dat je account nog niet geactiveerd is)');
 				}
