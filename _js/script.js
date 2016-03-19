@@ -24,6 +24,7 @@ import {validate} from './helpers/util';
 
 		navLeft.addEventListener('click', navLeftHandler);
 		navRight.addEventListener('click', navRightHandler);
+		document.addEventListener('keydown', keyPressHandler);
 		orderForm.addEventListener('submit', orderHandler);
 	};
 
@@ -39,6 +40,20 @@ import {validate} from './helpers/util';
 		changeToCurrentPage();
 	};
 
+	const keyPressHandler = (e) => {
+		var key = e.which || e.keyCode;
+		switch(key) {
+			case 80:
+			case 37:
+				navLeftHandler(e);
+				break;
+			case 78:
+			case 39:
+				navRightHandler(e);
+				break;
+		}
+	};
+
 	const changeToCurrentPage = () => {
 		if(currentPage < 0) {
 			currentPage = 0;
@@ -47,8 +62,6 @@ import {validate} from './helpers/util';
 		}
 
 		container.style.marginLeft = `-${100 * currentPage}vw`;
-
-		console.log(pages[currentPage]);
 	};
 
 	const orderHandler = (e) => {
