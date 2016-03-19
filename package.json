@@ -2,7 +2,10 @@
   "name": "klas",
   "version": "0.1.0",
   "description": "",
-  "authors": ["Thorr Stevens", "Jasper Van Damme"],
+  "authors": [
+    "Thorr Stevens",
+    "Jasper Van Damme"
+  ],
   "scripts": {
     "development": "webpack --watch",
     "production": "webpack -d -p"
@@ -16,6 +19,7 @@
     "babel-preset-es2015": "^6.3.13",
     "babel-preset-react": "^6.3.13",
     "babel-preset-stage-0": "^6.3.13",
+    "bower": "^1.7.7",
     "css-loader": "^0.16.0",
     "dsv-loader": "^1.0.3",
     "eslint": "^1.7.1",
