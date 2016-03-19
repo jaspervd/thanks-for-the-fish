@@ -7,4 +7,70 @@ html {
 
 body {
   font-size: 1.8rem;
+  overflow-x: hidden;
+}
+
+.navigation {
+	width: 100vw;
+	font-size: 3rem;
+	position: absolute;
+	z-index: 99;
+	margin-top: 44vh;
+
+	a {
+		padding: 40px;
+	}
+
+	.nav-left {
+		float: left;
+	}
+
+	.nav-right {
+		float: right;
+	}
+}
+
+.container {
+	position: relative;
+
+	transition: margin .7s ease;
+}
+
+@for $i from 0 through 3 {
+    .container.page-#{$i} {
+        margin-left: -($i * 100vw);
+    }
+}
+
+.page {
+	width: 100vw;
+	min-height: 100vh;
+	position: absolute;
+
+	.page-screen {
+		height: 100vh;
+	}
+
+	.page-content {
+		min-height: 100vh;
+	}
+}
+
+.home {
+	background-color: #333;
+}
+
+.book {
+	background-color: #ffbb00;
+	margin-left: 100vw;
+}
+
+.excerpt {
+	background-color: #fde4b7;
+	margin-left: 200vw;
+}
+
+.photos {
+	background-color: #4f999b;
+	margin-left: 300vw;
 }
