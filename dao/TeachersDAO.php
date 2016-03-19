@@ -68,23 +68,15 @@ class TeachersDAO extends DAO {
       $qry->bindValue(':id', $id);
       $qry->bindValue(':authorized', 1);
       if($qry->execute()){
-<<<<<<< HEAD
-        return $this->getTeacherById($teacher_id);
-=======
         return $this->getTeacherById($id);
->>>>>>> feature/admin-dao
       }
     }
     return false;
   }
 
   public function deleteTeacher($id){
-<<<<<<< HEAD
-    $qry = "DELETE FROM `bw_teachers` WHERE id = :id";
-=======
     $sql = "DELETE FROM `bw_teachers` WHERE id = :id";
     $qry = $this->pdo->prepare($sql);
->>>>>>> feature/admin-dao
     $qry->bindValue(':id', $id);
     return $qry->execute();
   }

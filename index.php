@@ -8,6 +8,7 @@ define('WWW_ROOT', __DIR__ . DS);
 require 'vendor/autoload.php';
 require 'dao/TeachersDAO.php';
 require 'dao/AdminsDAO.php';
+require 'dao/ScoresDAO.php';
 
 $app = new \Slim\App;
 $teachersDAO = new TeachersDAO();
@@ -32,10 +33,6 @@ $app->get('/api/teachers', function() use ($teachersDAO) {
     exit;
 });
 
-$app->get('/api/teachers', function() use ($teachersDAO) {
-    header('Content-Type: application/json');
-    echo json_encode($teachersDAO->getTeachers());
-    exit;
 $app->get('/api/teachers/{id}', function($request, $response, $args) {
   $teachersDAO = new TeachersDAO();
   $teacher = $teachersDAO->getTeacherById($args['id']);
@@ -133,7 +130,6 @@ $app->get('/api/admins/{id}', function($request, $response, $args) {
 });
 
 $app->post('/api/admins', function ($request, $response, $args) {
-
   $authorized = checkAdminPrivilege('can_create_admins');
   if($authorized){
     $newAdmin = $request->getParsedBody();
@@ -149,7 +145,6 @@ $app->post('/api/admins', function ($request, $response, $args) {
     return $response;
   }
   return $response->withStatus(401);
-
 });
 
 $app->post('/api/admin/auth', function ($request, $response, $args) {
@@ -197,16 +192,21 @@ $app->delete('/api/admins/{id}', function ($request, $response, $args) {
     return $response->write(true)
       ->withHeader('Content-Type','application/json');
   }
-  return $response->withStatus(401)
+  return $response->withStatus(401);
 });
 
 /* -- API: Scores ------------------ */
 
-
+$app->get('/api/scores', function ($request, $response, $args) {
+  $scoresDAO = new ScoresDAO();
+  $scores = $scoresDAO->getScores();
+  return $response->write(json_encode($scores))
+    ->withHeader('Content-Type','application/json');
+});
 
 /* -- Helper Functions ----------- */
 
-public function checkAdminPrivilege($privilegeToCheck){
+function checkAdminPrivilege($privilegeToCheck){
   if(!empty($_SESSION) && !empty($_SESSION['admin']['id'])){
     $adminsDAO = new AdminsDAO();
     $userAdmin = $adminsDAO->getAdminById($_SESSION['admin']['id']);

@@ -1,10 +1,19 @@
 <?php
 require_once WWW_ROOT . 'dao/DAO.php';
-require 'dao/AdminsDAO.php';
 
 class ScoresDAO extends DAO {
 
-	public function getScoresByClassId($class_id) {
+	public function getScores() {
+    $sql = "SELECT `bw_scores`.*, `bw_classes`.*
+            FROM `bw_scores` LEFT JOIN `bw_classes` ON `bw_scores`.`class_id` = `bw_classes`.`id`
+            ORDER BY `bw_scores`.`score` DESC";
+    $qry = $this->pdo->prepare($sql);
+    $qry->execute();
+    $result = $qry->fetchAll(PDO::FETCH_ASSOC);
+    return $result;
+  }
+
+  public function getScoresByClassId($class_id) {
 		$sql = "SELECT `bw_scores`.*, `bw_classes`.*
             FROM `bw_scores` LEFT JOIN `bw_classes` ON `bw_scores`.`class_id` = `bw_classes`.`id`
             WHERE `bw_scores`.`class_id` = :class_id
