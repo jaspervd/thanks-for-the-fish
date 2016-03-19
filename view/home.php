@@ -19,6 +19,7 @@
 					<h1>Klassiekers in je klas</h1>
 					<h2>The Hitchhiker's Guide to the Galaxy</h2>
 				</header>
+				<a href="#" class="nav-down">&darr;</a>
 			</section>
 			<section class="page-content">
 				<header>
@@ -89,6 +90,7 @@
 				<header>
 					<h1>Boek</h1>
 				</header>
+				<a href="#" class="nav-down">&darr;</a>
 			</section>
 			<section class="page-content">
 
@@ -99,6 +101,7 @@
 				<header>
 					<h1>Voorproefje</h1>
 				</header>
+				<a href="#" class="nav-down">&darr;</a>
 			</section>
 			<section class="page-content">
 
@@ -109,6 +112,7 @@
 				<header>
 					<h1>Klasfoto's</h1>
 				</header>
+				<a href="#" class="nav-down">&darr;</a>
 			</section>
 			<section class="page-content">
 

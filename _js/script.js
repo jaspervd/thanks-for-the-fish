@@ -1,13 +1,14 @@
 'use strict';
 
 import Countdown from './classes/Countdown';
-import {validate} from './helpers/util';
+import {validate, scrollTo} from './helpers/util';
 
 (() => {
 	let container = document.getElementsByClassName('container')[0];
 	let orderForm = document.getElementsByClassName('order-form')[0];
 	let navLeft = document.getElementsByClassName('nav-left')[0];
 	let navRight = document.getElementsByClassName('nav-right')[0];
+	let navDown = document.getElementsByClassName('nav-down');
 	let pages = document.getElementsByClassName('page');
 	let currentPage = 0;
 
@@ -26,6 +27,10 @@ import {validate} from './helpers/util';
 		navRight.addEventListener('click', navRightHandler);
 		document.addEventListener('keydown', keyPressHandler);
 		orderForm.addEventListener('submit', orderHandler);
+
+		for(let i = 0; i < navDown.length; i++) {
+			navDown[i].addEventListener('click', navDownHandler);
+		}
 	};
 
 	const navLeftHandler = (e) => {
@@ -38,6 +43,11 @@ import {validate} from './helpers/util';
 		e.preventDefault();
 		currentPage++;
 		changeToCurrentPage();
+	};
+
+	const navDownHandler = (e) => {
+		e.preventDefault();
+		scrollTo(window.innerHeight);
 	};
 
 	const keyPressHandler = (e) => {

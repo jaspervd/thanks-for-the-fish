@@ -24,3 +24,16 @@ export const validate = (input) => {
   }
   return false;
 };
+
+export const scrollTo = (yPos) => {
+  var i = 0;
+  function scroll() {
+    window.scroll(0, i);
+    if(i < yPos) {
+      window.requestAnimationFrame(scroll);
+    }
+    i += 20;
+  }
+
+  window.requestAnimationFrame(scroll);
+};
