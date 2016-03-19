@@ -3,8 +3,11 @@ require_once WWW_ROOT . 'dao/DAO.php';
 class TeachersDAO extends DAO {
 
 	public function getTeachers() {
-		$sql = "SELECT * FROM `bw_teachers` ORDER BY `id` ASC";
+		$sql = "SELECT * FROM `bw_teachers`
+            WHERE `authorized` = :authorized
+            ORDER BY `id` ASC";
     $stmt = $this->pdo->prepare($sql);
+    $stmt->bindValue(':authorized', 1);
     $stmt->execute();
     $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
     for($i=0; $i<count($result); $i++){
@@ -14,19 +17,21 @@ class TeachersDAO extends DAO {
   }
 
   public function getTeacherById($id) {
-    $sql = "SELECT * FROM `bw_teachers` WHERE `id` = :id";
+    $sql = "SELECT * FROM `bw_teachers`
+            WHERE `id` = :id";
     $stmt = $this->pdo->prepare($sql);
     $stmt->bindValue(':id', $id);
     $stmt->execute();
     $result = $stmt->fetch(pdo::FETCH_ASSOC);
-    //unset($result['password']);
     return $result;
   }
 
   public function login($email, $password){
-    $sql = "SELECT * FROM `bw_teachers` WHERE `email` = :email";
+    $sql = "SELECT * FROM `bw_teachers`
+            WHERE `email` = :email AND `authorized` = :authorized";
     $qry = $this->pdo->prepare($sql);
     $qry->bindValue(':email', $email);
+    $qry->bindValue(':authorized', 1);
     $qry->execute();
     $user = $qry->fetch(pdo::FETCH_ASSOC);
     if(!empty($user)){
