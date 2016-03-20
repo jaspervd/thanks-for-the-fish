@@ -9,9 +9,9 @@ require 'vendor/autoload.php';
 require 'dao/TeachersDAO.php';
 require 'dao/AdminsDAO.php';
 require 'dao/ScoresDAO.php';
+require 'dao/ClassesDAO.php';
 
 $app = new \Slim\App;
-$teachersDAO = new TeachersDAO();
 
 /* -- Front End : Pagination --------------------------------------------- */
 
@@ -23,15 +23,20 @@ $app->get('/', function($request, $response, $args) {
 
 /* -- API: Teachers ------------------------------------------------------ */
 
-//overview of all registered and authorized teachers
-$app->get('/api/teachers', function() use ($teachersDAO) {
-    header('Content-Type: application/json');
+//overview of all registered and authorized teachers, only available to logged in admins
+$app->get('/api/teachers', function ($request, $response, $args) {
+  $authorized = checkLoggedIn('admin');
+  if($authorized){
+    $teachersDAO = new TeachersDAO();
     $teachers = $teachersDAO->getTeachers();
-    for($i=0; $i<count($teachers); $i++){
+    for($i=0; $i<count($admins); $i++){
       unset($teachers[$i]['password']);
     }
-    echo json_encode($teachersDAO->getTeachers());
-    exit;
+    return $response->write(json_encode($teachers))
+      ->withHeader('Content-Type','application/json');
+  }
+  $response = $response->withStatus(401);
+  return $response;
 });
 
 //data of a specific teacher
@@ -113,6 +118,69 @@ $app->delete('/api/teachers/{id}', function ($request, $response, $args) {
   if($authorized){
     $teachersDAO = new TeachersDAO();
     $teachersDAO->deleteTeacher($args['id']);
+    return $response->write(true)
+      ->withHeader('Content-Type','application/json');
+  }
+  $response = $response->withStatus(401);
+  return $response;
+});
+
+/* -- API: Classes ------------------------------------------------------ */
+
+//overview of all approved entries/classes
+$app->get('/api/classes', function ($request, $response, $args) {
+  $classesDAO = new ClassesDAO();
+  $classes = $classesDAO->getClasses();
+  return $response->write(json_encode($classes))
+    ->withHeader('Content-Type','application/json');
+});
+
+//data of specific entry/class
+$app->get('/api/classes/{id}', function ($request, $response, $args) {
+  $classesDAO = new ClassesDAO();
+  $class = $classesDAO->getClassById($args['id']);
+  return $response->write(json_encode($class))
+    ->withHeader('Content-Type','application/json');
+});
+
+//overview of all classes entered by a specific teacher, only visible to logged in teachers (=users)
+$app->get('/api/teachers/{teacher_id}/classes', function ($request, $response, $args) {
+  $authorized = checkLoggedIn('user');
+  if($authorized){
+    $classesDAO = new ClassesDAO();
+    $classes = $classesDAO->getClassesByTeacherId($args['teacher_id']);
+    return $response->write(json_encode($classes))
+      ->withHeader('Content-Type','application/json');
+  }
+  $response = $response->withStatus(401);
+  return $response;
+});
+
+//enter a class, only available to logged in teachers
+$app->post('/api/classes', function ($request, $response, $args) {
+  $authorized = checkLoggedIn('user');
+  if($authorized){
+    $classesDAO = new ClassesDAO();
+    $newClass = $request->getParsedBody();
+    $insertedClass = $classesDAO->insertClass($newClass);
+    $response = $response->write(json_encode($insertedClass))
+      ->withHeader('Content-Type','application/json');
+    if(empty($insertedClass)) {
+      $response = $response->withStatus(404);
+    } else {
+      $response = $response->withStatus(201);
+    }
+  }
+  $response = $response->withStatus(401);
+  return $response;
+});
+
+//delete a class, only abailable to logged in teachers
+$app->delete('/api/classes/{id}', function ($request, $response, $args) {
+  $authorized = checkLoggedIn('user');
+  if($authorized){
+    $classesDAO = new ClassesDAO();
+    $classesDAO->deleteClass($args['id']);
     return $response->write(true)
       ->withHeader('Content-Type','application/json');
   }
@@ -324,7 +392,7 @@ function checkLoggedIn($typeToCheck){
       $currentUser = $adminsDAO->getAdminById($_SESSION['admin']['id']);
     }else{
       $teachersDAO = new TeachersDAO();
-      $currentUser = $teachersDAO->getAdminById($_SESSION['user']['id']);
+      $currentUser = $teachersDAO->getTeacherById($_SESSION['user']['id']);
       if($currentUser['authorized'] == 0){ return false; } //teachers not yet authorized by admin can't edit database
     }
     //if a database entry exists, logged in user is trustworthy
@@ -343,6 +411,7 @@ function checkAdminPrivilege($privilegeToCheck){
     //check for database entry based on session's admin id
     $adminsDAO = new AdminsDAO();
     $userAdmin = $adminsDAO->getAdminById($_SESSION['admin']['id']);
+    //check if the admin in the db has the right privileges
     if(!empty($userAdmin) && $userAdmin[$privilegeToCheck] == 1){
       return true;
     }
