@@ -56,7 +56,7 @@ $app->get('/api/teachers/{id}', function($request, $response, $args) {
   unset($teacher['password']);
   $response = $response->write(json_encode($teacher))
     ->withHeader('Content-Type','application/json');
-  if(empty($oneliner)) {
+  if(empty($teacher)) {
     $response = $response->withStatus(404);
   }
   return $response;
@@ -359,7 +359,7 @@ $app->post('/api/classes/{class_id}/scores', function ($request, $response, $arg
 $app->put('/api/classes/{class_id}/scores', function ($request, $response, $args) {
   $authorized = checkAdminPrivilege('can_vote_winner');
   if($authorized){
-    $scoresDAO = new ScoresDAO();
+    $adminsDAO = new AdminsDAO();
     $updateData = $request->getParsedBody();
     $updatedAdmin = $adminsDAO->updateAdmin($args['id'], $updateData);
     unset($updatedAdmin['password']);
