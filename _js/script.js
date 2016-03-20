@@ -1,6 +1,7 @@
 'use strict';
 
 import Countdown from './classes/Countdown';
+import Photo from './classes/Photo';
 import {validate, scrollTo} from './helpers/util';
 
 (() => {
@@ -13,6 +14,7 @@ import {validate, scrollTo} from './helpers/util';
 	let navIndicators = document.getElementsByClassName('nav-indicator');
 	let menuToggle = document.getElementsByClassName('menu-toggle')[0];
 	let pages = document.getElementsByClassName('page');
+	let photosContainer = document.getElementsByClassName('photos-container')[0];
 	let currentPage = 0;
 	let menuState = false; // false = closed, true = open
 
@@ -41,6 +43,8 @@ import {validate, scrollTo} from './helpers/util';
 			navMenu[i].addEventListener('click', navMenuHandler);
 			navIndicators[i].addEventListener('click', navMenuHandler);
 		}
+
+		loadPhotos();
 	};
 
 	const navLeftHandler = (e) => {
@@ -72,12 +76,12 @@ import {validate, scrollTo} from './helpers/util';
 			switch(key) {
 				case 80:
 				case 37:
-					navLeftHandler(e);
-					break;
+				navLeftHandler(e);
+				break;
 				case 78:
 				case 39:
-					navRightHandler(e);
-					break;
+				navRightHandler(e);
+				break;
 			}
 		}
 	};
@@ -174,6 +178,19 @@ import {validate, scrollTo} from './helpers/util';
 			request.send(formData);
 		}
 		return true;
+	};
+
+	const loadPhotos = () => {
+		let req = new XMLHttpRequest();
+		req.open('GET', `${window.app.basename}/api/classes`, true);
+		req.onload = () => {
+			let photos = JSON.parse(req.response);
+			for(let photoData of photos) {
+				let photo = new Photo(photoData);
+				photosContainer.appendChild(photo);
+			}
+		};
+		req.send();
 	};
 
 	init();
