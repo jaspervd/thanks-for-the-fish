@@ -9,9 +9,9 @@ require 'vendor/autoload.php';
 require 'dao/TeachersDAO.php';
 require 'dao/AdminsDAO.php';
 require 'dao/ScoresDAO.php';
+require 'dao/ClassesDAO.php';
 
 $app = new \Slim\App;
-$teachersDAO = new TeachersDAO();
 
 /* -- Front End : Pagination --------------------------------------------- */
 
@@ -35,14 +35,18 @@ $app->get('/klas', function($request, $response, $args) {
 /* -- API: Teachers ------------------------------------------------------ */
 
 //overview of all registered and authorized teachers
-$app->get('/api/teachers', function() use ($teachersDAO) {
-    header('Content-Type: application/json');
-    $teachers = $teachersDAO->getTeachers();
-    for($i=0; $i<count($teachers); $i++){
-      unset($teachers[$i]['password']);
-    }
-    echo json_encode($teachersDAO->getTeachers());
-    exit;
+$app->get('/api/teachers', function() {
+  $teachersDAO = new TeachersDAO();
+  $teachers = $teachersDAO->getTeachers($args['id']);
+  for($i=0; $i<count($teachers); $i++){
+    unset($teachers[$i]['password']);
+  }
+  $response = $response->write(json_encode($teacher))
+    ->withHeader('Content-Type','application/json');
+  if(empty($teachers)) {
+    $response = $response->withStatus(404);
+  }
+  return $response;
 });
 
 //data of a specific teacher
@@ -128,6 +132,44 @@ $app->delete('/api/teachers/{id}', function ($request, $response, $args) {
       ->withHeader('Content-Type','application/json');
   }
   $response = $response->withStatus(401);
+  return $response;
+});
+
+/* -- API: Classes ---------------------------------------------------------- */
+
+//get classes by teacher
+$app->get('/api/classes/teacher/{id}', function($request, $response, $args) {
+  $classesDAO = new ClassesDAO();
+  $class = $teachersDAO->getClassesByTeacherId($args['id']);
+  $response = $response->write(json_encode($class))->withHeader('Content-Type','application/json');
+  if(empty($class)) {
+    $response = $response->withStatus(404);
+  }
+  return $response;
+});
+
+//data of a specific class
+$app->get('/api/classes/{id}', function($request, $response, $args) {
+  $classesDAO = new ClassesDAO();
+  $class = $teachersDAO->getClassById($args['id']);
+  $response = $response->write(json_encode($class))->withHeader('Content-Type','application/json');
+  if(empty($class)) {
+    $response = $response->withStatus(404);
+  }
+  return $response;
+});
+
+//add a new class as a teacher
+$app->post('/api/classes', function ($request, $response, $args) {
+  $classesDAO = new ClassesDAO();
+  $class = $request->getParsedBody();
+  $insertedClass = $teachersDAO->insertClass($class);
+  $response = $response->write(json_encode($insertedClass))->withHeader('Content-Type','application/json');
+  if(empty($insertedClass)) {
+    $response = $response->withStatus(404);
+  } else {
+    $response = $response->withStatus(201);
+  }
   return $response;
 });
 
