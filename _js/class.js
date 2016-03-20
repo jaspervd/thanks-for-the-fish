@@ -3,7 +3,7 @@
 import {validate} from './helpers/util';
 
 (() => {
-	let classForm = document.getElementsByClassName('login-form')[0];
+	let classForm = document.getElementsByClassName('class-form')[0];
 
 	const init = () => {
 		classForm.addEventListener('submit', classHandler);

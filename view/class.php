@@ -23,7 +23,7 @@
 			<header>
 				<h1>Voeg een boekbespreking toe</h1>
 			</header>
-			<form method="post" action="">
+			<form method="post" action="" class="class-form" enctype="multipart/form-data">
 				<p>
 					<label for="nickname">Nickname voor je klas</label>
 					<input type="text" name="nickname" id="nickname" required />
