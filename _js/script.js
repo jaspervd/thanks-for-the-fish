@@ -9,6 +9,7 @@ import {validate, scrollTo} from './helpers/util';
 	let navLeft = document.getElementsByClassName('nav-left')[0];
 	let navRight = document.getElementsByClassName('nav-right')[0];
 	let navDown = document.getElementsByClassName('nav-down');
+	let navMenu = document.getElementsByClassName('nav-menu');
 	let pages = document.getElementsByClassName('page');
 	let currentPage = 0;
 
@@ -31,6 +32,10 @@ import {validate, scrollTo} from './helpers/util';
 		for(let i = 0; i < navDown.length; i++) {
 			navDown[i].addEventListener('click', navDownHandler);
 		}
+
+		for(let i = 0; i < navMenu.length; i++) {
+			navMenu[i].addEventListener('click', navMenuHandler);
+		}
 	};
 
 	const navLeftHandler = (e) => {
@@ -48,6 +53,12 @@ import {validate, scrollTo} from './helpers/util';
 	const navDownHandler = (e) => {
 		e.preventDefault();
 		scrollTo(window.innerHeight);
+	};
+
+	const navMenuHandler = (e) => {
+		e.preventDefault();
+		currentPage = e.target.hash.match(/\d+$/)[0]; // gets the number from a hash like #page-0
+		changeToCurrentPage();
 	};
 
 	const keyPressHandler = (e) => {
