@@ -62,7 +62,7 @@ import {validate, scrollTo} from './helpers/util';
 
 	const navMenuHandler = (e) => {
 		e.preventDefault();
-		currentPage = e.target.hash.match(/\d+$/)[0]; // gets the number from a hash like #page-0
+		currentPage = parseInt(e.target.hash.match(/\d+$/)[0]); // gets the number from a hash like #page-0
 		changeToCurrentPage();
 	};
 
@@ -88,6 +88,15 @@ import {validate, scrollTo} from './helpers/util';
 			currentPage = 0;
 		} else if(currentPage > (pages.length - 1)) {
 			currentPage = pages.length - 1;
+		}
+
+		for(let i = 0; i < navMenu.length; i++) {
+			navMenu[i].className = 'nav-menu';
+			navIndicators[i].className = 'nav-indicator';
+			if(currentPage === i) {
+				navMenu[i].className += ' active';
+				navIndicators[i].className += ' active';
+			}
 		}
 
 		container.className = `container page-${currentPage}`;
