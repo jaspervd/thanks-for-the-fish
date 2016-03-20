@@ -30,11 +30,48 @@ body {
 	}
 }
 
-.login {
-	top: 20px;
-	right: 20px;
+.nav-indicators {
+	position: absolute;
+	bottom: 0;
+	z-index: 99;
+	left: 50%;
+	margin-left: -40px;
+
+	ul li {
+		float: left;
+		margin-left: 20px;
+
+		&:first-child {
+			margin-left: 0;
+		}
+	}
+}
+
+.menu {
 	position: absolute;
 	z-index: 98;
+	width: 20vw;
+	right: 0;
+	text-align: right;
+	padding: 20px;
+	box-sizing: border-box;
+
+	ul {
+		background-color: #efefef;
+		position: absolute;
+		transition: margin .5s ease;
+		width: 100%;
+		padding: 20px;
+		box-sizing: border-box;
+	}
+
+	&.closed ul {
+		margin-left: 100%;
+	}
+
+	&.open ul {
+		margin-left: -20px;
+	}
 }
 
 .container {

@@ -9,8 +9,12 @@ import {validate, scrollTo} from './helpers/util';
 	let navLeft = document.getElementsByClassName('nav-left')[0];
 	let navRight = document.getElementsByClassName('nav-right')[0];
 	let navDown = document.getElementsByClassName('nav-down');
+	let navMenu = document.getElementsByClassName('nav-menu');
+	let navIndicators = document.getElementsByClassName('nav-indicator');
+	let menuToggle = document.getElementsByClassName('menu-toggle')[0];
 	let pages = document.getElementsByClassName('page');
 	let currentPage = 0;
+	let menuState = false; // false = closed, true = open
 
 	const init = () => {
 		let countdown = new Countdown(new Date(2016, 4, 18, 20, 42)); // 18 mei 2016 om 20u42
@@ -27,9 +31,15 @@ import {validate, scrollTo} from './helpers/util';
 		navRight.addEventListener('click', navRightHandler);
 		document.addEventListener('keydown', keyPressHandler);
 		orderForm.addEventListener('submit', orderHandler);
+		menuToggle.addEventListener('click', menuToggleHandler);
 
 		for(let i = 0; i < navDown.length; i++) {
 			navDown[i].addEventListener('click', navDownHandler);
+		}
+
+		for(let i = 0; i < navMenu.length; i++) {
+			navMenu[i].addEventListener('click', navMenuHandler);
+			navIndicators[i].addEventListener('click', navMenuHandler);
 		}
 	};
 
@@ -48,6 +58,12 @@ import {validate, scrollTo} from './helpers/util';
 	const navDownHandler = (e) => {
 		e.preventDefault();
 		scrollTo(window.innerHeight);
+	};
+
+	const navMenuHandler = (e) => {
+		e.preventDefault();
+		currentPage = parseInt(e.target.hash.match(/\d+$/)[0]); // gets the number from a hash like #page-0
+		changeToCurrentPage();
 	};
 
 	const keyPressHandler = (e) => {
@@ -74,7 +90,23 @@ import {validate, scrollTo} from './helpers/util';
 			currentPage = pages.length - 1;
 		}
 
+		for(let i = 0; i < navMenu.length; i++) {
+			navMenu[i].className = 'nav-menu';
+			navIndicators[i].className = 'nav-indicator';
+			if(currentPage === i) {
+				navMenu[i].className += ' active';
+				navIndicators[i].className += ' active';
+			}
+		}
+
 		container.className = `container page-${currentPage}`;
+	};
+
+	const menuToggleHandler = (e) => {
+		e.preventDefault();
+		menuState = !menuState;
+		let menu = document.getElementsByClassName('menu')[0];
+		menu.className = (menuState? 'menu open' : 'menu closed');
 	};
 
 	const orderHandler = (e) => {

@@ -12,6 +12,24 @@
 		<a href="#" class="nav-left">&laquo;</a>
 		<a href="#" class="nav-right">&raquo;</a>
 	</div>
+	<div class="nav-indicators">
+		<ul>
+			<li><a href="#page-0" class="nav-indicator">&bullet;</a></li>
+			<li><a href="#page-1" class="nav-indicator">&bullet;</a></li>
+			<li><a href="#page-2" class="nav-indicator">&bullet;</a></li>
+			<li><a href="#page-3" class="nav-indicator">&bullet;</a></li>
+		</ul>
+	</div>
+	<nav class="menu closed">
+		<a href="#" class="menu-toggle">&#9776;</a>
+		<ul>
+			<li><a href="#page-0" class="nav-menu">Campagne</a></li>
+			<li><a href="#page-1" class="nav-menu">Boek</a></li>
+			<li><a href="#page-2" class="nav-menu">Voorproefje</a></li>
+			<li><a href="#page-3" class="nav-menu">Klasfoto's</a></li>
+			<li><a href="login">Login</a></li>
+		</ul>
+	</nav>
 	<div class="container">
 		<div class="page home">
 			<section class="page-screen">
