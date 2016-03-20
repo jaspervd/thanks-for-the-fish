@@ -33,11 +33,13 @@ class ClassesDAO extends DAO {
     $stmt->bindValue(':creator_id', $data['creator_id']);
     $stmt->bindValue(':nickname', $data['nickname']);
     $stmt->bindValue(':num_students', $data['num_students']);
-    $photo = $this->uploadPhoto($data['photo']['files'][0]);
+    $photo = $this->uploadPhoto($data['photo']);
     $stmt->bindValue(':photo', $photo);
     $stmt->bindValue(':entry', $data['entry']);
-    $stmt->execute();
-    $result = $stmt->fetch(pdo::FETCH_ASSOC);
+    if($stmt->execute()){
+      $insertedId = $this->pdo->lastInsertId();
+      return $this->getClassById($insertedId);
+    }
     return $result;
   }
 
@@ -51,7 +53,7 @@ class ClassesDAO extends DAO {
   public function uploadPhoto($photo) {
     $imageMimeTypes = array('image/jpeg', 'image/png', 'image/gif');
     if (in_array($photo['type'], $imageMimeTypes)) {
-      $targetFile = __DIR__ . DIRECTORY_SEPARATOR . 'upload' . DIRECTORY_SEPARATOR . $photo['name'];
+      $targetFile = dirname(__DIR__) . DIRECTORY_SEPARATOR . 'upload' . DIRECTORY_SEPARATOR . $photo['name'];
       $pos = strrpos($targetFile, '.');
       $filename = substr($targetFile, 0, $pos);
       $ext = substr($targetFile, $pos + 1);
@@ -61,7 +63,7 @@ class ClassesDAO extends DAO {
         $targetFile = $filename . $i . '.' . $ext;
       }
       move_uploaded_file($photo['tmp_name'], $targetFile);
-      $photo_url = str_replace(WWW_ROOT, '', $targetFile);
+      $photo_url = str_replace(dirname(__DIR__) . DIRECTORY_SEPARATOR, '', $targetFile);
       return $photo_url;
     }
     return false;

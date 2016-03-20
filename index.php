@@ -174,6 +174,7 @@ $app->get('/api/classes/{id}', function($request, $response, $args) {
 $app->post('/api/classes', function ($request, $response, $args) {
   $classesDAO = new ClassesDAO();
   $class = $request->getParsedBody();
+  $class['photo'] = $_FILES['photo'];
   $insertedClass = $classesDAO->insertClass($class);
   $response = $response->write(json_encode($insertedClass))->withHeader('Content-Type','application/json');
   if(empty($insertedClass)) {
