@@ -12,6 +12,15 @@
 		<a href="#" class="nav-left">&laquo;</a>
 		<a href="#" class="nav-right">&raquo;</a>
 	</div>
+		<nav class="menu closed">
+			<ul>
+				<li><a href="#page-0" class="nav-menu">Campagne</a></li>
+				<li><a href="#page-1" class="nav-menu">Boek</a></li>
+				<li><a href="#page-2" class="nav-menu">Voorproefje</a></li>
+				<li><a href="#page-3" class="nav-menu">Klasfoto's</a></li>
+				<li><a href="login">Login</a></li>
+			</ul>
+		</nav>
 	<div class="container">
 		<div class="page home">
 			<section class="page-screen">
