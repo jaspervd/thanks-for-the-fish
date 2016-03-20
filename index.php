@@ -178,6 +178,8 @@ $app->post('/api/classes', function ($request, $response, $args) {
     $class['creator_id'] = $_SESSION['user']['id'];
     $class['photo'] = $_FILES['photo'];
     $insertedClass = $classesDAO->insertClass($class);
+    print_r($insertedClass);
+    exit;
     $response = $response->write(json_encode($insertedClass))->withHeader('Content-Type','application/json');
     if(empty($insertedClass)) {
       $response = $response->withStatus(404);

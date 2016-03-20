@@ -33,8 +33,15 @@
 					<input type="file" name="photo" id="photo" required />
 				</p>
 				<p>
-					<label for="review">Boekbespreking</label>
-					<textarea name="review" id="review" required></textarea>
+					<label for="entry">Boekbespreking</label>
+					<textarea name="entry" id="entry" required></textarea>
+				</p>
+				<p>
+					<label for="num_students">Aantal leerlingen</label>
+					<input type="number" name="num_students" id="num_students" min="1" required />
+				</p>
+				<p>
+					<input type="submit" name="submit" value="Toevoegen" />
 				</p>
 			</form>
 		</section>

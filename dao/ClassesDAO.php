@@ -45,6 +45,8 @@ class ClassesDAO extends DAO {
         return $this->getClassById($insertedId);
       }
       return $result;
+    } else {
+      return $errors;
     }
     return false;
   }
@@ -61,7 +63,7 @@ class ClassesDAO extends DAO {
     }
 
     $imageMimeTypes = array('image/jpeg', 'image/png', 'image/gif');
-    if (empty($data['photo']) || in_array($data['photo']['type'], $imageMimeTypes)) {
+    if (empty($data['photo']) || !in_array($data['photo']['type'], $imageMimeTypes)) {
       $errors['photo'] = "Please upload a valid photo.";
     }
 

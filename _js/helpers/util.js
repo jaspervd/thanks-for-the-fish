@@ -4,6 +4,8 @@ export const validate = (input) => {
   let type = input.type;
   let value = input.value;
 
+  console.log(type, value);
+
   if(type === 'text') {
     return (value.length > 0);
   } else if(type === 'password') {
@@ -21,6 +23,12 @@ export const validate = (input) => {
     } catch (e) {
       return false;
     }
+  } else if(type === 'file') {
+    return (value.length > 3);
+  } else if(type === 'textarea') {
+    return (value.length > 25);
+  } else if(type === 'number') {
+    return (!isNaN(value) && isFinite(value) && value > 0);
   }
   return false;
 };

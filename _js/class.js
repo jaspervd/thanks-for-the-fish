@@ -14,7 +14,7 @@ import {validate} from './helpers/util';
 
 		let nickname = document.getElementById('nickname');
 		let photo = document.getElementById('photo');
-		let review = document.getElementById('review');
+		let entry = document.getElementById('entry');
 
 		var errors = 0;
 
@@ -24,7 +24,7 @@ import {validate} from './helpers/util';
 		} if(!validate(photo)) {
 			console.log('Invalid photo');
 			errors++;
-		} if(!validate(review)) {
+		} if(!validate(entry)) {
 			console.log('Invalid review');
 			errors++;
 		}
@@ -32,7 +32,7 @@ import {validate} from './helpers/util';
 		if(errors === 0) {
 			let formData = new FormData(classForm);
 			let request = new XMLHttpRequest();
-			request.open('POST', `${window.app.basename}/api/class`, true);
+			request.open('POST', `${window.app.basename}/api/classes`, true);
 			request.onload = function() {
 				if (request.status === 201) {
 					console.log('Klas toegevoegd!');
