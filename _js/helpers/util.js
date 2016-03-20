@@ -4,8 +4,6 @@ export const validate = (input) => {
   let type = input.type;
   let value = input.value;
 
-  console.log(type, value);
-
   if(type === 'text') {
     return (value.length > 0);
   } else if(type === 'password') {
@@ -31,6 +29,12 @@ export const validate = (input) => {
     return (!isNaN(value) && isFinite(value) && value > 0);
   }
   return false;
+};
+
+export const inString = (string, search) => {
+  string = string.toLowerCase();
+  search = search.toLowerCase();
+  return (string.indexOf(search) !== -1);
 };
 
 export const scrollTo = (yPos) => {

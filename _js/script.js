@@ -1,7 +1,10 @@
 'use strict';
 
+import _ from 'lodash';
+
 import Countdown from './classes/Countdown';
-import {validate, scrollTo} from './helpers/util';
+import Photo from './classes/Photo';
+import {validate, scrollTo, inString} from './helpers/util';
 
 (() => {
 	let container = document.getElementsByClassName('container')[0];
@@ -13,6 +16,9 @@ import {validate, scrollTo} from './helpers/util';
 	let navIndicators = document.getElementsByClassName('nav-indicator');
 	let menuToggle = document.getElementsByClassName('menu-toggle')[0];
 	let pages = document.getElementsByClassName('page');
+	let photosContainer = document.getElementsByClassName('photos-container')[0];
+	let photosSearch = document.getElementsByClassName('photos-search')[0];
+	let photosArray;
 	let currentPage = 0;
 	let menuState = false; // false = closed, true = open
 
@@ -32,6 +38,7 @@ import {validate, scrollTo} from './helpers/util';
 		document.addEventListener('keydown', keyPressHandler);
 		orderForm.addEventListener('submit', orderHandler);
 		menuToggle.addEventListener('click', menuToggleHandler);
+		photosSearch.addEventListener('keydown', photosSearchHandler);
 
 		for(let i = 0; i < navDown.length; i++) {
 			navDown[i].addEventListener('click', navDownHandler);
@@ -41,6 +48,8 @@ import {validate, scrollTo} from './helpers/util';
 			navMenu[i].addEventListener('click', navMenuHandler);
 			navIndicators[i].addEventListener('click', navMenuHandler);
 		}
+
+		loadPhotos();
 	};
 
 	const navLeftHandler = (e) => {
@@ -72,12 +81,12 @@ import {validate, scrollTo} from './helpers/util';
 			switch(key) {
 				case 80:
 				case 37:
-					navLeftHandler(e);
-					break;
+				navLeftHandler(e);
+				break;
 				case 78:
 				case 39:
-					navRightHandler(e);
-					break;
+				navRightHandler(e);
+				break;
 			}
 		}
 	};
@@ -174,6 +183,30 @@ import {validate, scrollTo} from './helpers/util';
 			request.send(formData);
 		}
 		return true;
+	};
+
+	const photosSearchHandler = (e) => {
+		if(photosSearch.value.length > 3) {
+			photosContainer.innerHTML = '';
+			let filteredArray = photosArray.filter(photo => inString(photo.nickname, photosSearch.value));
+			for(let photoData of filteredArray) {
+				let photo = new Photo(photoData);
+				photosContainer.appendChild(photo);
+			}
+		}
+	};
+
+	const loadPhotos = () => {
+		let req = new XMLHttpRequest();
+		req.open('GET', `${window.app.basename}/api/classes`, true);
+		req.onload = () => {
+			photosArray = JSON.parse(req.response);
+			for(let photoData of photosArray) {
+				let photo = new Photo(photoData);
+				photosContainer.appendChild(photo);
+			}
+		};
+		req.send();
 	};
 
 	init();

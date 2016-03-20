@@ -133,7 +133,8 @@
 				<a href="#" class="nav-down">&darr;</a>
 			</section>
 			<section class="page-content">
-
+				<input type="search" class="photos-search" />
+				<ul class="photos-container"></ul>
 			</section>
 		</div>
 	</div>
