@@ -10,7 +10,33 @@
 <body>
 	<div class="container">
 		<section>
-			<h1>Hallo <?php echo $teacher['firstname']; ?>!</h1>
+			<header>
+				<h1>Hallo <?php echo $teacher['firstname']; ?>!</h1>
+			</header>
+		</section>
+		<section class="overview">
+			<header>
+				<h1>Overzicht klasfoto's</h1>
+			</header>
+		</section>
+		<section>
+			<header>
+				<h1>Voeg een boekbespreking toe</h1>
+			</header>
+			<form method="post" action="">
+				<p>
+					<label for="nickname">Nickname voor je klas</label>
+					<input type="text" name="nickname" id="nickname" required />
+				</p>
+				<p>
+					<label for="photo">Klasfoto</label>
+					<input type="file" name="photo" id="photo" required />
+				</p>
+				<p>
+					<label for="review">Boekbespreking</label>
+					<textarea name="review" id="review" required></textarea>
+				</p>
+			</form>
 		</section>
 	</div>
 	<script>
