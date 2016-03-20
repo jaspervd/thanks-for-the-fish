@@ -18,6 +18,15 @@ class ClassesDAO extends DAO {
     return $result;
   }
 
+  public function getClassesByTeacherId($id) {
+    $sql = "SELECT * FROM `bw_classes` WHERE `creator_id` = :id";
+    $stmt = $this->pdo->prepare($sql);
+    $stmt = $this->pdo->prepare($sql);
+    $stmt->execute();
+    $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    return $result;
+  }
+
   public function insertClass($creator_id, $nickname, $num_students, $photo, $entry) {
     $sql = "INSERT INTO `bw_classes` (creator_id, nickname, num_students, photo, entry) VALUES (:creator_id, :nickname, :num_students, :photo, :entry)";
     $stmt = $this->pdo->prepare($sql);

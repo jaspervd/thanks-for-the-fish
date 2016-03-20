@@ -35,9 +35,9 @@ $app->get('/klas', function($request, $response, $args) {
 /* -- API: Teachers ------------------------------------------------------ */
 
 //overview of all registered and authorized teachers
-$app->get('/api/teachers', function() {
+$app->get('/api/teachers', function($request, $response, $args) {
   $teachersDAO = new TeachersDAO();
-  $teachers = $teachersDAO->getTeachers($args['id']);
+  $teachers = $teachersDAO->getTeachers();
   for($i=0; $i<count($teachers); $i++){
     unset($teachers[$i]['password']);
   }
@@ -137,10 +137,21 @@ $app->delete('/api/teachers/{id}', function ($request, $response, $args) {
 
 /* -- API: Classes ---------------------------------------------------------- */
 
+//get all classes
+$app->get('/api/classes', function($request, $response, $args) {
+  $classesDAO = new ClassesDAO();
+  $classes = $classesDAO->getClasses();
+  $response = $response->write(json_encode($classes))->withHeader('Content-Type','application/json');
+  if(empty($classes)) {
+    $response = $response->withStatus(404);
+  }
+  return $response;
+});
+
 //get classes by teacher
 $app->get('/api/classes/teacher/{id}', function($request, $response, $args) {
   $classesDAO = new ClassesDAO();
-  $class = $teachersDAO->getClassesByTeacherId($args['id']);
+  $class = $classesDAO->getClassesByTeacherId($args['id']);
   $response = $response->write(json_encode($class))->withHeader('Content-Type','application/json');
   if(empty($class)) {
     $response = $response->withStatus(404);
@@ -151,7 +162,7 @@ $app->get('/api/classes/teacher/{id}', function($request, $response, $args) {
 //data of a specific class
 $app->get('/api/classes/{id}', function($request, $response, $args) {
   $classesDAO = new ClassesDAO();
-  $class = $teachersDAO->getClassById($args['id']);
+  $class = $classesDAO->getClassById($args['id']);
   $response = $response->write(json_encode($class))->withHeader('Content-Type','application/json');
   if(empty($class)) {
     $response = $response->withStatus(404);
@@ -163,7 +174,7 @@ $app->get('/api/classes/{id}', function($request, $response, $args) {
 $app->post('/api/classes', function ($request, $response, $args) {
   $classesDAO = new ClassesDAO();
   $class = $request->getParsedBody();
-  $insertedClass = $teachersDAO->insertClass($class);
+  $insertedClass = $classesDAO->insertClass($class);
   $response = $response->write(json_encode($insertedClass))->withHeader('Content-Type','application/json');
   if(empty($insertedClass)) {
     $response = $response->withStatus(404);
