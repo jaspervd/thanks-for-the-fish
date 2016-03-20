@@ -4,6 +4,7 @@ dependencies
 composer.lock
 js
 css
+upload
 
 # Created by https://www.gitignore.io/api/osx,sublimetext
 

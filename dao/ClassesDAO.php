@@ -28,9 +28,10 @@ class ClassesDAO extends DAO {
     $sql = "SELECT * FROM `bw_classes` WHERE `id` = :id";
     $stmt = $this->pdo->prepare($sql);
     $stmt->bindValue(':id', $id);
-    $stmt->execute();
-    $result = $stmt->fetch(pdo::FETCH_ASSOC);
-    return $result;
+    if($stmt->execute()) {
+      return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+    return array();
   }
 
   public function insertClass($data) {
@@ -41,7 +42,8 @@ class ClassesDAO extends DAO {
       $qry->bindValue(':creator_id', $data['creator_id']);
       $qry->bindValue(':nickname', $data['nickname']);
       $qry->bindValue(':num_students', $data['num_students']);
-      $qry->bindValue(':photo', $data['photo']);
+      $photo = $this->uploadPhoto($data['photo']);
+      $qry->bindValue(':photo', $photo);
       $qry->bindValue(':entry', $data['entry']);
       $qry->execute();
       if($qry->execute()){
@@ -57,6 +59,21 @@ class ClassesDAO extends DAO {
     $stmt = $this->pdo->prepare($sql);
     $stmt->bindValue(':id', $id);
     return $stmt->execute();
+  }
+
+  public function uploadPhoto($photo) {
+    $targetFile = dirname(__DIR__) . DIRECTORY_SEPARATOR . 'upload' . DIRECTORY_SEPARATOR . $photo['name'];
+    $pos = strrpos($targetFile, '.');
+    $filename = substr($targetFile, 0, $pos);
+    $ext = substr($targetFile, $pos + 1);
+    $i = 0;
+    while (file_exists($targetFile)) {
+      $i++;
+      $targetFile = $filename . $i . '.' . $ext;
+    }
+    move_uploaded_file($photo['tmp_name'], $targetFile);
+    $photo_url = str_replace(dirname(__DIR__) . DIRECTORY_SEPARATOR, '', $targetFile);
+    return $photo_url;
   }
 
   public function getValidationErrors($data) {

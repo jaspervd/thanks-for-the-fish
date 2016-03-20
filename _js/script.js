@@ -1,13 +1,20 @@
 'use strict';
 
 import Countdown from './classes/Countdown';
-import {validate} from './helpers/util';
+import {validate, scrollTo} from './helpers/util';
 
 (() => {
+	let container = document.getElementsByClassName('container')[0];
+	let loginForm = document.getElementsByClassName('login-form')[0];
 	let orderForm = document.getElementsByClassName('order-form')[0];
+	let navLeft = document.getElementsByClassName('nav-left')[0];
+	let navRight = document.getElementsByClassName('nav-right')[0];
+	let navDown = document.getElementsByClassName('nav-down');
+	let pages = document.getElementsByClassName('page');
+	let currentPage = 0;
 
 	const init = () => {
-		let countdown = new Countdown(new Date(2016, 4, 18, 20, 0, 0)); // 18 mei 2016 om 20u00
+		let countdown = new Countdown(new Date(2016, 4, 18, 20, 42)); // 18 mei 2016 om 20u42
 		countdown.start();
 
 		countdown.on('tick', () => {
@@ -17,7 +24,101 @@ import {validate} from './helpers/util';
 			document.getElementsByClassName('countdown-seconds')[0].innerHTML = countdown.seconds;
 		});
 
+		navLeft.addEventListener('click', navLeftHandler);
+		navRight.addEventListener('click', navRightHandler);
+		document.addEventListener('keydown', keyPressHandler);
+		if(typeof loginForm !== 'undefined') {
+			loginForm.addEventListener('submit', loginHandler);
+		}
 		orderForm.addEventListener('submit', orderHandler);
+
+		for(let i = 0; i < navDown.length; i++) {
+			navDown[i].addEventListener('click', navDownHandler);
+		}
+	};
+
+	const navLeftHandler = (e) => {
+		e.preventDefault();
+		currentPage--;
+		changeToCurrentPage();
+	};
+
+	const navRightHandler = (e) => {
+		e.preventDefault();
+		currentPage++;
+		changeToCurrentPage();
+	};
+
+	const navDownHandler = (e) => {
+		e.preventDefault();
+		scrollTo(window.innerHeight);
+	};
+
+	const keyPressHandler = (e) => {
+		var key = e.which || e.keyCode;
+		if(e.target.tagName !== 'FORM' && typeof e.target.form === 'undefined') { // ignore events bubbling from forms
+			switch(key) {
+				case 80:
+				case 37:
+					navLeftHandler(e);
+					break;
+				case 78:
+				case 39:
+					navRightHandler(e);
+					break;
+			}
+		}
+	};
+
+	const changeToCurrentPage = () => {
+		window.scroll(0, 0); // reset user's scroll position
+		if(currentPage < 0) {
+			currentPage = 0;
+		} else if(currentPage > (pages.length - 1)) {
+			currentPage = pages.length - 1;
+		}
+
+		container.className = `container page-${currentPage}`;
+	};
+
+	const loginHandler = (e) => {
+		e.preventDefault();
+
+		let email = document.getElementById('login-email');
+		let password = document.getElementById('login-password');
+
+		var errors = 0;
+
+		// avoid unnecessary calls to api sending invalid data
+		if(!validate(email)) {
+			console.log('Invalid email');
+			errors++;
+		} if(!validate(password)) {
+			console.log('Invalid password');
+			errors++;
+		}
+
+		if(errors === 0) {
+			let formData = new FormData(loginForm);
+			let request = new XMLHttpRequest();
+			request.open('POST', `${window.app.basename}/api/teachers/auth`, true);
+			request.onload = function() {
+				if (request.status === 200) {
+					let linkToClassPage = document.createElement('a');
+					linkToClassPage.setAttribute('href', `${window.app.basename}/klas`);
+					linkToClassPage.innerHTML = 'Ga naar je klas! &raquo;';
+
+					let parent = loginForm.parentNode;
+					parent.appendChild(linkToClassPage);
+					parent.removeChild(loginForm);
+				} else {
+					console.log('Fout (+ melding: het is mogelijk dat je account nog niet geactiveerd is)');
+				}
+			};
+
+			request.send(formData);
+		}
+		return true;
 	};
 
 	const orderHandler = (e) => {
