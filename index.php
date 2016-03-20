@@ -79,13 +79,13 @@ $app->post('/api/teachers/auth', function ($request, $response, $args) {
   $teachersDAO = new TeachersDAO();
   $loginData = $request->getParsedBody();
   $teacher = $teachersDAO->login($loginData['email'], $loginData['password']);
+  unset($teacher['password']);
   $response = $response->write(json_encode($teacher))
     ->withHeader('Content-Type','application/json');
   if(empty($teacher)) {
     $response = $response->withStatus(404);
   }else{
     session_start();
-    unset($teacher['password']);
     $_SESSION['user'] = $teacher;
   }
   return $response;
