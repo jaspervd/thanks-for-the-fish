@@ -33,6 +33,7 @@ class ClassesDAO extends DAO {
     $stmt->bindValue(':creator_id', $creator_id);
     $stmt->bindValue(':nickname', $nickname);
     $stmt->bindValue(':num_students', $num_students);
+    $photo = $this->uploadPhoto($photo['files'][0]);
     $stmt->bindValue(':photo', $photo);
     $stmt->bindValue(':entry', $entry);
     $stmt->execute();
@@ -45,5 +46,24 @@ class ClassesDAO extends DAO {
     $stmt = $this->pdo->prepare($sql);
     $stmt->bindValue(':id', $id);
     return $stmt->execute();
+  }
+
+  public function uploadPhoto($photo) {
+    $imageMimeTypes = array('image/jpeg', 'image/png', 'image/gif');
+    if (in_array($photo['type'], $imageMimeTypes)) {
+      $targetFile = __DIR__ . DIRECTORY_SEPARATOR . 'upload' . DIRECTORY_SEPARATOR . $photo['name'];
+      $pos = strrpos($targetFile, '.');
+      $filename = substr($targetFile, 0, $pos);
+      $ext = substr($targetFile, $pos + 1);
+      $i = 0;
+      while (file_exists($targetFile)) {
+        $i++;
+        $targetFile = $filename . $i . '.' . $ext;
+      }
+      move_uploaded_file($photo['tmp_name'], $targetFile);
+      $photo_url = str_replace(WWW_ROOT, '', $targetFile);
+      return $photo_url;
+    }
+    return false;
   }
 }
