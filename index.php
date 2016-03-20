@@ -21,13 +21,24 @@ $app->get('/', function($request, $response, $args) {
 	return $view->render($response, 'home.php', ['basePath' => $basePath, 'teacher' => (checkLoggedIn('user')? $_SESSION['user'] : array())]);
 });
 
+$app->get('/login', function($request, $response, $args) {
+  $basePath = $request->getUri()->getBasePath();
+  if(!checkLoggedIn('user')) {
+    $view = new \Slim\Views\PhpRenderer('view/');
+    return $view->render($response, 'login.php', ['basePath' => $basePath]);
+  } else {
+    header('Location: '. $basePath .'/klas');
+    exit;
+  }
+});
+
 $app->get('/klas', function($request, $response, $args) {
   $basePath = $request->getUri()->getBasePath();
   if(checkLoggedIn('user')) {
     $view = new \Slim\Views\PhpRenderer('view/');
     return $view->render($response, 'class.php', ['basePath' => $basePath, 'teacher' => $_SESSION['user']]);
   } else {
-    header('Location: '. $basePath);
+    header('Location: '. $basePath .'/login');
     exit;
   }
 });
