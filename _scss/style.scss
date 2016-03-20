@@ -30,6 +30,23 @@ body {
 	}
 }
 
+.nav-indicators {
+	position: absolute;
+	bottom: 0;
+	z-index: 99;
+	left: 50%;
+	margin-left: -40px;
+
+	ul li {
+		float: left;
+		margin-left: 20px;
+
+		&:first-child {
+			margin-left: 0;
+		}
+	}
+}
+
 .menu {
 	position: absolute;
 	z-index: 98;

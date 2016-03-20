@@ -10,6 +10,7 @@ import {validate, scrollTo} from './helpers/util';
 	let navRight = document.getElementsByClassName('nav-right')[0];
 	let navDown = document.getElementsByClassName('nav-down');
 	let navMenu = document.getElementsByClassName('nav-menu');
+	let navIndicators = document.getElementsByClassName('nav-indicator');
 	let menuToggle = document.getElementsByClassName('menu-toggle')[0];
 	let pages = document.getElementsByClassName('page');
 	let currentPage = 0;
@@ -38,6 +39,7 @@ import {validate, scrollTo} from './helpers/util';
 
 		for(let i = 0; i < navMenu.length; i++) {
 			navMenu[i].addEventListener('click', navMenuHandler);
+			navIndicators[i].addEventListener('click', navMenuHandler);
 		}
 	};
 
