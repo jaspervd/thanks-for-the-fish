@@ -9,9 +9,9 @@ require 'vendor/autoload.php';
 require 'dao/TeachersDAO.php';
 require 'dao/AdminsDAO.php';
 require 'dao/ScoresDAO.php';
+require 'dao/ClassesDAO.php';
 
 $app = new \Slim\App;
-$teachersDAO = new TeachersDAO();
 
 /* -- Front End : Pagination --------------------------------------------- */
 
@@ -35,14 +35,18 @@ $app->get('/klas', function($request, $response, $args) {
 /* -- API: Teachers ------------------------------------------------------ */
 
 //overview of all registered and authorized teachers
-$app->get('/api/teachers', function() use ($teachersDAO) {
-    header('Content-Type: application/json');
-    $teachers = $teachersDAO->getTeachers();
-    for($i=0; $i<count($teachers); $i++){
-      unset($teachers[$i]['password']);
-    }
-    echo json_encode($teachersDAO->getTeachers());
-    exit;
+$app->get('/api/teachers', function($request, $response, $args) {
+  $teachersDAO = new TeachersDAO();
+  $teachers = $teachersDAO->getTeachers();
+  for($i=0; $i<count($teachers); $i++){
+    unset($teachers[$i]['password']);
+  }
+  $response = $response->write(json_encode($teacher))
+  ->withHeader('Content-Type','application/json');
+  if(empty($teachers)) {
+    $response = $response->withStatus(404);
+  }
+  return $response;
 });
 
 //data of a specific teacher
@@ -51,8 +55,8 @@ $app->get('/api/teachers/{id}', function($request, $response, $args) {
   $teacher = $teachersDAO->getTeacherById($args['id']);
   unset($teacher['password']);
   $response = $response->write(json_encode($teacher))
-    ->withHeader('Content-Type','application/json');
-  if(empty($oneliner)) {
+  ->withHeader('Content-Type','application/json');
+  if(empty($teacher)) {
     $response = $response->withStatus(404);
   }
   return $response;
@@ -65,7 +69,7 @@ $app->post('/api/teachers', function ($request, $response, $args) {
   $insertedTeacher = $teachersDAO->insertTeacher($teacher);
   unset($insertedTeacher['password']);
   $response = $response->write(json_encode($insertedTeacher))
-    ->withHeader('Content-Type','application/json');
+  ->withHeader('Content-Type','application/json');
   if(empty($insertedTeacher)) {
     $response = $response->withStatus(404);
   } else {
@@ -81,7 +85,7 @@ $app->post('/api/teachers/auth', function ($request, $response, $args) {
   $teacher = $teachersDAO->login($loginData['email'], $loginData['password']);
   unset($teacher['password']);
   $response = $response->write(json_encode($teacher))
-    ->withHeader('Content-Type','application/json');
+  ->withHeader('Content-Type','application/json');
   if(empty($teacher)) {
     $response = $response->withStatus(404);
   }else{
@@ -108,7 +112,7 @@ $app->put('/api/teachers/{id}/approve', function ($request, $response, $args) {
     $updatedTeacher = $teachersDAO->approveTeacher($args['id']);
     unset($updatedTeacher['password']);
     $response = $response->write(json_encode($updatedTeacher))
-      ->withHeader('Content-Type','application/json');
+    ->withHeader('Content-Type','application/json');
     if(empty($updatedTeacher)) {
       $response = $response->withStatus(404);
     }
@@ -125,7 +129,64 @@ $app->delete('/api/teachers/{id}', function ($request, $response, $args) {
     $teachersDAO = new TeachersDAO();
     $teachersDAO->deleteTeacher($args['id']);
     return $response->write(true)
-      ->withHeader('Content-Type','application/json');
+    ->withHeader('Content-Type','application/json');
+  }
+  $response = $response->withStatus(401);
+  return $response;
+});
+
+/* -- API: Classes ---------------------------------------------------------- */
+
+//get all classes
+$app->get('/api/classes', function($request, $response, $args) {
+  $classesDAO = new ClassesDAO();
+  $classes = $classesDAO->getClasses();
+  $response = $response->write(json_encode($classes))->withHeader('Content-Type','application/json');
+  if(empty($classes)) {
+    $response = $response->withStatus(404);
+  }
+  return $response;
+});
+
+//get classes by teacher
+$app->get('/api/classes/teacher/{id}', function($request, $response, $args) {
+  $classesDAO = new ClassesDAO();
+  $class = $classesDAO->getClassesByTeacherId($args['id']);
+  $response = $response->write(json_encode($class))->withHeader('Content-Type','application/json');
+  if(empty($class)) {
+    $response = $response->withStatus(404);
+  }
+  return $response;
+});
+
+//data of a specific class
+$app->get('/api/classes/{id}', function($request, $response, $args) {
+  $classesDAO = new ClassesDAO();
+  $class = $classesDAO->getClassById($args['id']);
+  $response = $response->write(json_encode($class))->withHeader('Content-Type','application/json');
+  if(empty($class)) {
+    $response = $response->withStatus(404);
+  }
+  return $response;
+});
+
+//add a new class as a teacher
+$app->post('/api/classes', function ($request, $response, $args) {
+  if(checkLoggedIn('user')) {
+    $classesDAO = new ClassesDAO();
+    $class = $request->getParsedBody();
+    $class['creator_id'] = $_SESSION['user']['id'];
+    $class['photo'] = $_FILES['photo'];
+    $insertedClass = $classesDAO->insertClass($class);
+    print_r($insertedClass);
+    exit;
+    $response = $response->write(json_encode($insertedClass))->withHeader('Content-Type','application/json');
+    if(empty($insertedClass)) {
+      $response = $response->withStatus(404);
+    } else {
+      $response = $response->withStatus(201);
+    }
+    return $response;
   }
   $response = $response->withStatus(401);
   return $response;
@@ -144,7 +205,7 @@ $app->get('/api/admins', function ($request, $response, $args) {
       unset($admins[$i]['role_id']);
     }
     return $response->write(json_encode($admins))
-      ->withHeader('Content-Type','application/json');
+    ->withHeader('Content-Type','application/json');
   }
   $response = $response->withStatus(401);
   return $response;
@@ -159,7 +220,7 @@ $app->get('/api/admins/{id}', function($request, $response, $args) {
     unset($admin['password']);
     unset($admin['role_id']);
     $response = $response->write(json_encode($admin))
-      ->withHeader('Content-Type','application/json');
+    ->withHeader('Content-Type','application/json');
     if(empty($admin)) {
       $response = $response->withStatus(404);
     }
@@ -178,7 +239,7 @@ $app->post('/api/admins', function ($request, $response, $args) {
     $insertedAdmin = $adminsDAO->insertAdmin($newAdmin);
     unset($insertedAdmin['password']);
     $response = $response->write(json_encode($insertedAdmin))
-      ->withHeader('Content-Type','application/json');
+    ->withHeader('Content-Type','application/json');
     if(empty($insertedAdmin)) {
       $response = $response->withStatus(404);
     } else {
@@ -195,7 +256,7 @@ $app->post('/api/admin/auth', function ($request, $response, $args) {
   $loginData = $request->getParsedBody();
   $admin = $adminsDAO->login($loginData['entry'], $loginData['password']);
   $response = $response->write(json_encode($admin))
-    ->withHeader('Content-Type','application/json');
+  ->withHeader('Content-Type','application/json');
   if(empty($admin)) {
     $response = $response->withStatus(404);
   }else{
@@ -224,7 +285,7 @@ $app->put('/api/admins/{id}', function ($request, $response, $args) {
     $updatedAdmin = $adminsDAO->updateAdmin($args['id'], $updateData);
     unset($updatedAdmin['password']);
     $response = $response->write(json_encode($updatedAdmin))
-      ->withHeader('Content-Type','application/json');
+    ->withHeader('Content-Type','application/json');
     if(empty($updatedAdmin)) {
       $response = $response->withStatus(404);
     }else{
@@ -245,7 +306,7 @@ $app->delete('/api/admins/{id}', function ($request, $response, $args) {
     $adminsDAO = new AdminsDAO();
     $adminsDAO->deleteAdmin($args['id']);
     return $response->write(true)
-      ->withHeader('Content-Type','application/json');
+    ->withHeader('Content-Type','application/json');
   }
   $response = $response->withStatus(401);
   return $response;
@@ -258,7 +319,7 @@ $app->get('/api/scores', function ($request, $response, $args) {
   $scoresDAO = new ScoresDAO();
   $scores = $scoresDAO->getScores();
   return $response->write(json_encode($scores))
-    ->withHeader('Content-Type','application/json');
+  ->withHeader('Content-Type','application/json');
 });
 
 //overview of scores for a specific class entry
@@ -266,7 +327,7 @@ $app->get('/api/classes/{class_id}/scores', function ($request, $response, $args
   $scoresDAO = new ScoresDAO();
   $scores = $scoresDAO->getScoresByClassId($args['class_id']);
   return $response->write(json_encode($scores))
-    ->withHeader('Content-Type','application/json');
+  ->withHeader('Content-Type','application/json');
 });
 
 //overview of scores done by a specific admin, only visible for logged in admins
@@ -276,7 +337,7 @@ $app->get('/api/scores/by/{admin_id}', function ($request, $response, $args) {
     $scoresDAO = new ScoresDAO();
     $scores = $scoresDAO->getScoresByAdminId($args['admin_id']);
     return $response->write(json_encode($scores))
-      ->withHeader('Content-Type','application/json');
+    ->withHeader('Content-Type','application/json');
   }
   $response = $response->withStatus(401);
   return $response;
@@ -290,7 +351,7 @@ $app->post('/api/classes/{class_id}/scores', function ($request, $response, $arg
     $newScore = $request->getParsedBody();
     $insertedScore = $scoresDAO->insertScore($args['class_id'], $newScore);
     $response = $response->write(json_encode($insertedScore))
-      ->withHeader('Content-Type','application/json');
+    ->withHeader('Content-Type','application/json');
     if(empty($insertedScore)) {
       $response = $response->withStatus(404);
     } else {
@@ -306,12 +367,12 @@ $app->post('/api/classes/{class_id}/scores', function ($request, $response, $arg
 $app->put('/api/classes/{class_id}/scores', function ($request, $response, $args) {
   $authorized = checkAdminPrivilege('can_vote_winner');
   if($authorized){
-    $scoresDAO = new ScoresDAO();
+    $adminsDAO = new AdminsDAO();
     $updateData = $request->getParsedBody();
     $updatedAdmin = $adminsDAO->updateAdmin($args['id'], $updateData);
     unset($updatedAdmin['password']);
     $response = $response->write(json_encode($updatedAdmin))
-      ->withHeader('Content-Type','application/json');
+    ->withHeader('Content-Type','application/json');
     if(empty($updatedAdmin)) {
       $response = $response->withStatus(404);
     }

@@ -16,14 +16,20 @@ process.argv.forEach(arg => {
 
 module.exports = {
 
-  entry: [
+  /*entry: [
     config.build('js', 'src'), //JavaScript entry point
     config.build('css', 'src') //CSS entry point
-    ],
+    ],*/
 
-    output: {
-      path: config.js.dest.path,
-    filename: config.js.dest.file //JavaScript end point
+  entry: {
+    script: './_js/script.js',
+    class: './_js/class.js',
+    css: config.css.src.path + config.css.src.file
+  },
+
+  output: {
+    path: config.js.dest.path,
+    filename: '[name].js' // Template based on keys in entry above
   },
 
   //quickest, webpack -d -p for production
@@ -89,6 +95,7 @@ module.exports = {
   //webpack plugins
   plugins: [
 
+  //new webpack.optimize.CommonsChunkPlugin('class', 'class.js'),
   new webpack.optimize.DedupePlugin(),
 
     //extract CSS into seperate file
