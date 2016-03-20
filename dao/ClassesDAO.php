@@ -27,15 +27,15 @@ class ClassesDAO extends DAO {
     return $result;
   }
 
-  public function insertClass($creator_id, $nickname, $num_students, $photo, $entry) {
+  public function insertClass($data) {
     $sql = "INSERT INTO `bw_classes` (creator_id, nickname, num_students, photo, entry) VALUES (:creator_id, :nickname, :num_students, :photo, :entry)";
     $stmt = $this->pdo->prepare($sql);
-    $stmt->bindValue(':creator_id', $creator_id);
-    $stmt->bindValue(':nickname', $nickname);
-    $stmt->bindValue(':num_students', $num_students);
-    $photo = $this->uploadPhoto($photo['files'][0]);
+    $stmt->bindValue(':creator_id', $data['creator_id']);
+    $stmt->bindValue(':nickname', $data['nickname']);
+    $stmt->bindValue(':num_students', $data['num_students']);
+    $photo = $this->uploadPhoto($data['photo']['files'][0]);
     $stmt->bindValue(':photo', $photo);
-    $stmt->bindValue(':entry', $entry);
+    $stmt->bindValue(':entry', $data['entry']);
     $stmt->execute();
     $result = $stmt->fetch(pdo::FETCH_ASSOC);
     return $result;
