@@ -43,6 +43,6 @@
 	window.app = window.app || {};
 	window.app.basename = '<?php echo $basePath;?>';
 	</script>
-	<script src="<?php echo $basePath; ?>/js/script.js"></script>
+	<script src="<?php echo $basePath; ?>/js/class.js"></script>
 </body>
 </html>
