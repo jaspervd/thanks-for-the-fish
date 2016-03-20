@@ -10,8 +10,10 @@ import {validate, scrollTo} from './helpers/util';
 	let navRight = document.getElementsByClassName('nav-right')[0];
 	let navDown = document.getElementsByClassName('nav-down');
 	let navMenu = document.getElementsByClassName('nav-menu');
+	let menuToggle = document.getElementsByClassName('menu-toggle')[0];
 	let pages = document.getElementsByClassName('page');
 	let currentPage = 0;
+	let menuState = false; // false = closed, true = open
 
 	const init = () => {
 		let countdown = new Countdown(new Date(2016, 4, 18, 20, 42)); // 18 mei 2016 om 20u42
@@ -28,6 +30,7 @@ import {validate, scrollTo} from './helpers/util';
 		navRight.addEventListener('click', navRightHandler);
 		document.addEventListener('keydown', keyPressHandler);
 		orderForm.addEventListener('submit', orderHandler);
+		menuToggle.addEventListener('click', menuToggleHandler);
 
 		for(let i = 0; i < navDown.length; i++) {
 			navDown[i].addEventListener('click', navDownHandler);
@@ -86,6 +89,13 @@ import {validate, scrollTo} from './helpers/util';
 		}
 
 		container.className = `container page-${currentPage}`;
+	};
+
+	const menuToggleHandler = (e) => {
+		e.preventDefault();
+		menuState = !menuState;
+		let menu = document.getElementsByClassName('menu')[0];
+		menu.className = (menuState? 'menu open' : 'menu closed');
 	};
 
 	const orderHandler = (e) => {

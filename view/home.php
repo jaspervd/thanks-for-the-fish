@@ -13,6 +13,7 @@
 		<a href="#" class="nav-right">&raquo;</a>
 	</div>
 		<nav class="menu closed">
+			<a href="#" class="menu-toggle">&#9776;</a>
 			<ul>
 				<li><a href="#page-0" class="nav-menu">Campagne</a></li>
 				<li><a href="#page-1" class="nav-menu">Boek</a></li>
