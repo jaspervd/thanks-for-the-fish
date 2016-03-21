@@ -15,18 +15,14 @@ export default class NavOptions extends Component {
   renderNavOptions(){
 
     let {navOptions} = this.props;
-    //console.log('navOptions:', navOptions);
 
-    return navOptions.map((navOption, i) => {
-
-      console.log('NavOption', navOption);
-
-      return <li><Link
-        id={i} key={i}
-        to={navOption.to}
-      >{navOption.optionName}</Link></li>;
-
-    });
+    if(navOptions){
+      return navOptions.map((navOption, i) => {
+        return <li id={i} key={i}><Link
+          to={navOption.to}
+        >{navOption.optionName}</Link></li>;
+      });
+    }
 
   }
 

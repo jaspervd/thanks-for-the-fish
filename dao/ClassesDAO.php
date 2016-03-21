@@ -11,6 +11,7 @@ class ClassesDAO extends DAO {
     $qry->bindValue(':zero_reviews', 0);
     $qry->execute();
     $result = $qry->fetchAll(PDO::FETCH_ASSOC);
+    $result = $this->getClassesWithAverageScores($result);
     return $result;
   }
 
@@ -22,6 +23,7 @@ class ClassesDAO extends DAO {
     $qry->bindValue(':zero_reviews', 0);
     $qry->execute();
     $result = $qry->fetchAll(PDO::FETCH_ASSOC);
+    $result = $this->getClassesWithAverageScores($result);
     return $result;
   }
 
@@ -32,6 +34,7 @@ class ClassesDAO extends DAO {
     $stmt->bindValue(':creator_id', $teacher_id);
     $stmt->execute();
     $result = $stmt->fetch(pdo::FETCH_ASSOC);
+    $result = $this->getClassesWithAverageScores($result);
     return $result;
   }
 
@@ -40,7 +43,9 @@ class ClassesDAO extends DAO {
     $stmt = $this->pdo->prepare($sql);
     $stmt->bindValue(':id', $id);
     if($stmt->execute()) {
-      return $stmt->fetch(PDO::FETCH_ASSOC);
+      $result = $stmt->fetch(PDO::FETCH_ASSOC);
+      $result = $this->getClassWithAverageScores($result);
+      return $result;
     }
     return array();
   }
@@ -85,6 +90,31 @@ class ClassesDAO extends DAO {
     move_uploaded_file($photo['tmp_name'], $targetFile);
     $photo_url = str_replace(dirname(__DIR__) . DIRECTORY_SEPARATOR, '', $targetFile);
     return $photo_url;
+  }
+
+  public function getClassesWithAverageScores($classes){
+    for($i=0; $i<count($classes); $i++){
+      $classes[$i] = $this->getClassWithAverageScore($classes[$i]);
+    }
+    return $classes;
+  }
+
+  public function getClassWithAverageScore($class){
+    if(!empty($class)){
+      $sql = "SELECT AVG(score) AS `avg_score` FROM `bw_scores`
+              WHERE `class_id` = :class_id";
+      $qry = $this->pdo->prepare($sql);
+      $qry->bindValue(':class_id', $class['id']);
+      if($qry->execute()){
+        $result = $qry->fetch(PDO::FETCH_ASSOC);
+        if(!empty($result)){
+          $class['avg_score'] = round($result['avg_score'], 1);
+          return $class;
+        }
+      }
+      $class['avg_score'] = 0.0;
+      return $class;
+    }
   }
 
   public function getValidationErrors($data) {

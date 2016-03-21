@@ -1,8 +1,8 @@
 'use strict';
 
 import React, {Component} from 'react';
-import fetch from 'isomorphic-fetch';
-
+//import fetch from 'isomorphic-fetch';
+import {basename} from '../globals';
 import {EntryItem} from '../components';
 
 export default class Entries extends Component {
@@ -20,17 +20,27 @@ export default class Entries extends Component {
   }
 
   componentDidMount(){
-    fetch(`${basename}/api/classes`)
-      .then(checkStatus)
-      .then(r => r.json())
-      .then(data => {
-        //add key properties
-        data.forEach(o => o.key = o.id);
-        this.setState({oneliners: data, onelinersFetched: true});
-      })
-      .catch(() => {
-        console.error('failed to get oneliners');
+    let request = new XMLHttpRequest();
+    request.open('GET', `${basename}/api/classes`, true);
+    request.onload = ($data) => {
+      if (request.status === 200) {
+        let entries = JSON.parse($data.target.response);
+        entries.forEach(e => e.key = e.id);
+        this.setState({entries: entries, entriesFetched: true});
+        console.log('[Entries] Succesfully retrieved entries');
+      } else {
+        console.log('[Entries] Failed to retrieve entries');
+      }
+    };
+    request.send();
+  }
+
+  renderEntries(){
+    if(this.state.entriesFetched){
+      return this.state.entries.map(entry => {
+        return <EntryItem {...entry} deleteEntry={id => this.props.deleteEntry(id)} voteEntry={id => this.props.voteEntry(id)} />;
       });
+    }
   }
 
   render() {

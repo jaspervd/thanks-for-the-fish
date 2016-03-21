@@ -184,7 +184,7 @@ $app->get('/api/classes/authorized', function ($request, $response, $args) {
 });
 
 //overview of all entries/classes, only visible to admins
-$app->get('/api/classes/', function ($request, $response, $args) {
+$app->get('/api/classes', function ($request, $response, $args) {
   $authorized = checkLoggedIn('admin');
   if($authorized){
     $classesDAO = new ClassesDAO();

@@ -14,9 +14,13 @@ export default class EntryItem extends Component {
 
   render(){
 
-    return (
-      <li className="oneliner">
+    let {id, nickname, num_students} = this.props;
 
+    return (
+      <li className="entry-item">
+        <Link to={`/admin/entries/${id}`}>
+          <span className="class-nickname">{nickname} ({num_students})</span>
+        </Link>
       </li>
     );
 

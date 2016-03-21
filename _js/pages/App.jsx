@@ -3,7 +3,7 @@
 import React from 'react';
 import {Link} from 'react-router';
 //import fetch from 'isomorphic-fetch';
-//import {basename} from '../globals';
+import {basename} from '../globals';
 //import {find, filter} from 'lodash';
 //import {checkStatus} from '../helpers/util';
 
@@ -23,7 +23,7 @@ export default class App extends React.Component {
 
   componentDidMount(){
     let request = new XMLHttpRequest();
-    request.open('GET', `${window.app.basename}/api/admin`, true);
+    request.open('GET', `${basename}/api/admin`, true);
     request.onload = ($data) => {
       if (request.status === 200) {
         let adminData = JSON.parse($data.target.response);
@@ -40,13 +40,13 @@ export default class App extends React.Component {
   getNavOptions(admin){
     let navOptions = [];
     if(admin.can_create_admins === 1){
-      navOptions.push({'id': 1, 'to': '/admin/admins', 'optionName': 'Admins'});
+      navOptions.push({'id': 10001, 'to': '/admin/admins', 'optionName': 'Admins'});
     }
     if(admin.can_authorize_teachers === 1){
-      navOptions.push({'id': 2, 'to': '/admin/teachers', 'optionName': 'Gebruikers'});
+      navOptions.push({'id': 10002, 'to': '/admin/teachers', 'optionName': 'Gebruikers'});
     }
     if(admin.can_vote_winner === 1 || admin.can_approve_entry === 1){
-      navOptions.push({'id': 3, 'to': '/admin/entries', 'optionName': 'Inzendingen'});
+      navOptions.push({'id': 10003, 'to': '/admin/entries', 'optionName': 'Inzendingen'});
     }
     return navOptions;
   }
@@ -54,6 +54,7 @@ export default class App extends React.Component {
   render() {
 
     let {admin, adminFetched, navOptions} = this.state;
+    //console.log('navOptions', navOptions);
 
     return (
       <div className='admin-workspace'>
