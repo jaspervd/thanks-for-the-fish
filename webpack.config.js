@@ -104,13 +104,12 @@ module.exports = {
     //extract CSS into seperate file
     new ExtractTextPlugin(
       config.build('css', 'dest')
-      ),
+    ),
 
     //react smaller build
     new webpack.DefinePlugin({
       'process.env': {NODE_ENV: NODE_ENV}
     })
-
 
     ],
 

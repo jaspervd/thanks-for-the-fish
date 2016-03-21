@@ -1,4 +1,6 @@
+@import 'variables';
 @import 'reset';
+@import 'mixins';
 
 html {
   font-size: 62.5%;
@@ -118,3 +120,84 @@ body {
 	background-color: #4f999b;
 	margin-left: 300vw;
 }
+
+/* -- CMS: Login Page ------------------------------------------------------ */
+
+.cms-container{
+
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0px;
+  left: 0px;
+
+  .logo{
+    position: absolute;
+    width: 100px;
+    height: 80px;
+    top: 30px;
+    left: 30px;
+    @include bgImgUrl('logo@2x.png');
+    background-size: cover;
+    z-index: 10;
+  }
+
+  .bg{
+    position: absolute;
+    width: 4000px;
+    height: 2000px;
+    top: -750px;
+    left: -950px;
+    @include bgImgUrl('vintage_space_pattern.png');
+    transform: rotate(-36deg);
+    z-index: 0;
+  }
+
+}
+
+.admin-login{
+
+  position: absolute;
+  width: 400px;
+  height: 310px;
+  left: 50%;
+  top: 50%;
+  margin-left: -200px;
+  margin-top: -155px;
+  padding: 25px 30px;
+  background-color: #FFF;
+  z-index: 20;
+
+  h1{
+    font-size: 1.2em;
+    font-family: Helvetica, Arial;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: #242424;
+  }
+
+  input{
+    width: 100%;
+    padding: 10px 12px;
+    margin: 12px 0px;
+    font-family: Helvetica, Arial;
+    border: none;
+    border-radius: 4px;
+    color: #242424;
+    outline: none;
+  }
+
+  input[type="submit"]{
+    padding: 12px;
+    background-color: #C04357;
+    font-size: 1em;
+    font-weight: bold;
+    color: #FFF;
+  }
+
+}
+
+
+
+/* -- CMS: Entries Page ------------------------------------------------------ */
+
