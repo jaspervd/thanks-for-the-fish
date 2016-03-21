@@ -25,6 +25,8 @@ module.exports = {
     script: './_js/script.js',
     class: './_js/class.js',
     login: './_js/login.js',
+    admin: './_js/admin.js',
+    adminLogin: './_js/adminLogin.js',
     css: config.css.src.path + config.css.src.file
   },
 

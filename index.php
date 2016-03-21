@@ -43,6 +43,25 @@ $app->get('/klas', function($request, $response, $args) {
   }
 });
 
+/* -- Back End : Authentication --------------------------------------------- */
+
+$app->get('/admin', function($request, $response, $args) {
+  $basePath = $request->getUri()->getBasePath();
+  if(checkLoggedIn('admin')) {
+    $view = new \Slim\Views\PhpRenderer('view/');
+    return $view->render($response, 'admin.php', ['basePath' => $basePath, 'admin' => $_SESSION['admin']]);
+  } else {
+    header('Location: '. $basePath .'/admin-login');
+    exit;
+  }
+});
+
+$app->get('/admin-login', function($request, $response, $args) {
+  $basePath = $request->getUri()->getBasePath();
+  $view = new \Slim\Views\PhpRenderer('view/');
+  return $view->render($response, 'adminLogin.php', ['basePath' => $basePath]);
+});
+
 /* -- API: Teachers ------------------------------------------------------ */
 
 //overview of all registered and authorized teachers, only available to logged in admins
@@ -114,6 +133,13 @@ $app->get('/api/user/{data}', function ($request, $response, $args) {
     return "".$_SESSION['user'][$args['data']];
   }
   return false;
+});
+
+//logout teacher by deleting session data
+$app->get('/api/teacher/auth/logout', function ($request, $response, $args) {
+  if(checkLoggedIn('user')){
+    unset($_SESSION['user']);
+  }
 });
 
 //approve a teacher, only available to admins of the 'admin' type
@@ -268,6 +294,18 @@ $app->post('/api/admins', function ($request, $response, $args) {
   return $response;
 });
 
+//check if admin is logged in
+$app->get('/api/admin/auth', function ($request, $response, $args) {
+  $authorized = checkLoggedIn('admin');
+  if($authorized){
+    $response = $response->write(true)
+    ->withHeader('Content-Type','application/json');
+  }else{
+    $response = $response->withStatus(401);
+  }
+  return $response;
+});
+
 //log in admin and start admin session
 $app->post('/api/admin/auth', function ($request, $response, $args) {
   $adminsDAO = new AdminsDAO();
@@ -292,6 +330,13 @@ $app->get('/api/admin/{data}', function ($request, $response, $args) {
     return "".$_SESSION['admin'][$args['data']];
   }
   return false;
+});
+
+//logout admin by deleting session data
+$app->get('/api/admin/auth/logout', function ($request, $response, $args) {
+  if(checkLoggedIn('admin')){
+    unset($_SESSION['admin']);
+  }
 });
 
 //update admin data, only available for logged in admins
