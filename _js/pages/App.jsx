@@ -14,8 +14,10 @@ export default class App extends React.Component {
     super(props, context);
     this.state = {
       admin: [],
-      adminDataFetched: false
+      adminFetched: false
     };
+    this.navItems = [];
+    this.logoutLink = `${window.app.basename}/api/admin/auth/logout`;
   }
 
   componentDidMount(){
@@ -24,8 +26,9 @@ export default class App extends React.Component {
     request.onload = ($data) => {
       if (request.status === 200) {
         let adminData = JSON.parse($data.target.response);
-        this.setState({admin: adminData, adminDataFetched: true});
+        this.setState({admin: adminData, adminFetched: true});
         console.log(`[App] Logged in as \"${this.state.admin.username}\"`);
+        this.setNavItems();
       } else {
         window.location = `${window.app.basename}/admin-login`;
       }
@@ -33,10 +36,35 @@ export default class App extends React.Component {
     request.send();
   }
 
+  setNavItems(){
+    if(this.state.admin.can_create_admins === 1){
+      this.navItems.push(<Link to={'/admin/admins'} key="admins">Admins</Link>);
+    }
+    if(this.state.admin.can_authorize_teachers === 1){
+      this.navItems.push(<Link to={'/admin/teachers'} key="teachers">Teachers</Link>);
+    }
+    if(this.state.admin.can_vote_winner === 1 || this.state.admin.can_approve_entry === 1){
+      this.navItems.push(<Link to={'/admin/entries'} key="entries">Entries</Link>);
+    }
+  }
+
+  renderNavItems(){
+    console.log('NavItems:', this.navItems);
+    return this.navItems.map(navItem => {
+      return navItem;
+    });
+  }
+
   render() {
     return (
-      <div className='site-container'>
-
+      <div className='cms-container'>
+        <header>
+          <h1 className='cms-header'>Welkom, {this.state.admin.username}</h1>
+          <nav>
+            {this.renderNavItems()}
+            <a href={this.logoutLink}>Logout</a>
+          </nav>
+        </header>
       </div>
     );
   }

@@ -358,9 +358,12 @@ $app->get('/api/admin/{data}', function ($request, $response, $args) {
 
 //logout admin by deleting session data
 $app->get('/api/admin/auth/logout', function ($request, $response, $args) {
+  $basePath = $request->getUri()->getBasePath();
   if(checkLoggedIn('admin')){
     unset($_SESSION['admin']);
   }
+  header('Location: '. $basePath .'/');
+  exit;
 });
 
 //update admin data, only available for logged in admins
