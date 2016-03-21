@@ -16,26 +16,24 @@ export default class App extends React.Component {
       admin: [],
       adminDataFetched: false
     };
-    console.log('Test');
   }
 
   componentDidMount(){
-    fetch(`${basename}/api/admin`)
-      .then(checkStatus)
-      .then(r => r.json())
-      .then(data => {
-        //add key properties
-        data.forEach(a => a.key = a.id);
-        this.setState({admin: data, adminDataFetched: true});
-        console.log(data);
-      })
-      .catch(() => {
-        console.error('failed to get admin data');
-      });
+    let request = new XMLHttpRequest();
+    request.open('GET', `${window.app.basename}/api/admin`, true);
+    request.onload = ($data) => {
+      if (request.status === 200) {
+        let adminData = JSON.parse($data.target.response);
+        this.setState({admin: adminData, adminDataFetched: true});
+        console.log(`[App] Logged in as \"${this.state.admin.username}\"`);
+      } else {
+        window.location = `${window.app.basename}/admin-login`;
+      }
+    };
+    request.send();
   }
 
   render() {
-    console.log('Test');
     return (
       <div className='site-container'>
 
