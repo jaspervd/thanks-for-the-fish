@@ -11,7 +11,9 @@ export default () => (
 
   <Router history={useRouterHistory(createHistory)({basename})}>
 
+    <Route path="/admin" component={App}>
 
+    </Route>
 
   </Router>
 

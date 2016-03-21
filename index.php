@@ -306,6 +306,18 @@ $app->get('/api/admin/auth', function ($request, $response, $args) {
   return $response;
 });
 
+//get all admin session data
+$app->get('/api/admin', function ($request, $response, $args) {
+  $authorized = checkLoggedIn('admin');
+  if($authorized){
+    $response = $response->write(json_encode($_SESSION['admin']))
+    ->withHeader('Content-Type','application/json');
+  }else{
+    $response = $response->withStatus(401);
+  }
+  return $response;
+});
+
 //check if admin has a certain privilege
 $app->get('/api/admin/privilege/{privilege_to_check}', function ($request, $response, $args) {
   $authorized = checkAdminPrivilege($args['privilege_to_check']);

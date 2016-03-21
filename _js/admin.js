@@ -7,6 +7,8 @@ import Router from './routers/';
 
 const init = () => {
 
+  console.log('[admin] Initialising React');
+
   ReactDOM.render(
     <Router />,
     document.querySelector('.container')
