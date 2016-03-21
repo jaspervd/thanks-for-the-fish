@@ -306,6 +306,18 @@ $app->get('/api/admin/auth', function ($request, $response, $args) {
   return $response;
 });
 
+//check if admin has a certain privilege
+$app->get('/api/admin/privilege/{privilege_to_check}', function ($request, $response, $args) {
+  $authorized = checkAdminPrivilege($args['privilege_to_check']);
+  if($authorized){
+    $response = $response->write(true)
+    ->withHeader('Content-Type','application/json');
+  }else{
+    $response = $response->withStatus(401);
+  }
+  return $response;
+});
+
 //log in admin and start admin session
 $app->post('/api/admin/auth', function ($request, $response, $args) {
   $adminsDAO = new AdminsDAO();
