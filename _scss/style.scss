@@ -121,15 +121,32 @@ body {
 	margin-left: 300vw;
 }
 
-/* -- CMS: Login Page ------------------------------------------------------ */
+/* -- CMS: Login Page & General ------------------------------------------------------ */
 
-.cms-container{
+.cms-container, .admin-workspace{
 
   position: fixed;
   width: 100%;
   height: 100%;
   top: 0px;
   left: 0px;
+
+  .bg{
+    position: absolute;
+    width: 4000px;
+    height: 2000px;
+    top: -750px;
+    left: -950px;
+    @include bgImgUrl('vintage_space_pattern.png');
+    transform: rotate(-36deg);
+    z-index: 0;
+  }
+
+}
+
+.cms-container{
+
+  z-index: 0;
 
   .logo{
     position: absolute;
@@ -142,15 +159,66 @@ body {
     z-index: 10;
   }
 
-  .bg{
+}
+
+.admin-workspace{
+  overflow: scroll;
+  z-index: 10;
+}
+
+.admin-header{
+
+  position: fixed;
+  height: 50px;
+  width: 100%;
+  top: 0px;
+  left: 0px;
+  background-color: #FFF;
+
+  h1{
     position: absolute;
-    width: 4000px;
-    height: 2000px;
-    top: -750px;
-    left: -950px;
-    @include bgImgUrl('vintage_space_pattern.png');
-    transform: rotate(-36deg);
-    z-index: 0;
+    top: 13px;
+    left: 20px;
+    font-family: Helvetica, Arial;
+    font-weight: bold;
+    font-size: 1.2em;
+    a{ color: #242424; }
+  }
+
+  a.logout-btn{
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    font-family: Helvetica, Arial;
+    font-weight: bold;
+    font-size: 1em;
+    color: #C04357;
+  }
+
+  a{
+    text-decoration: none;
+  }
+
+}
+
+.admin-nav{
+
+  position: absolute;
+  width: 400px;
+  height: 50px;
+  top: 0px;
+  left: 200px;
+
+  ul>li{
+    position: relative;
+    display: inline-block;
+    padding: 15px 20px 17px 20px;
+    margin-right: 4px;
+    background-color: rgb(240, 240, 240);
+    font-family: Helvetica, Arial;
+    font-weight: bold;
+    font-size: 1em;
+    a{ color: #3B8BCD; }
   }
 
 }
@@ -197,7 +265,7 @@ body {
 
 }
 
-
-
 /* -- CMS: Entries Page ------------------------------------------------------ */
+
+
 

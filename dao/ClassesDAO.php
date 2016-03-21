@@ -3,9 +3,20 @@ require_once WWW_ROOT . 'dao/DAO.php';
 class ClassesDAO extends DAO {
 
   //only show classes with reviews in overview
-	public function getClasses() {
+	public function getAuthorizedClasses() {
 		$sql = "SELECT `bw_classes`.* FROM `bw_classes`
             WHERE (SELECT COUNT(*) FROM `bw_scores` WHERE `bw_scores`.`class_id` = `bw_classes`.`id`) > :zero_reviews
+            ORDER BY `id` ASC";
+    $qry = $this->pdo->prepare($sql);
+    $qry->bindValue(':zero_reviews', 0);
+    $qry->execute();
+    $result = $qry->fetchAll(PDO::FETCH_ASSOC);
+    return $result;
+  }
+
+  //show all classes
+  public function getClasses() {
+    $sql = "SELECT `bw_classes`.* FROM `bw_classes`
             ORDER BY `id` ASC";
     $qry = $this->pdo->prepare($sql);
     $qry->bindValue(':zero_reviews', 0);

@@ -45,7 +45,7 @@ $app->get('/klas', function($request, $response, $args) {
 
 /* -- Back End : Authentication --------------------------------------------- */
 
-$app->get('/admin', function($request, $response, $args) {
+$app->get('/admin[/{anything:.*}]', function($request, $response, $args) {
   $basePath = $request->getUri()->getBasePath();
   if(checkLoggedIn('admin')) {
     $view = new \Slim\Views\PhpRenderer('view/');
@@ -176,11 +176,24 @@ $app->delete('/api/teachers/{id}', function ($request, $response, $args) {
 /* -- API: Classes ------------------------------------------------------ */
 
 //overview of all approved entries/classes
-$app->get('/api/classes', function ($request, $response, $args) {
+$app->get('/api/classes/authorized', function ($request, $response, $args) {
   $classesDAO = new ClassesDAO();
-  $classes = $classesDAO->getClasses();
+  $classes = $classesDAO->getAuthorizedClasses();
   return $response->write(json_encode($classes))
     ->withHeader('Content-Type','application/json');
+});
+
+//overview of all entries/classes, only visible to admins
+$app->get('/api/classes/', function ($request, $response, $args) {
+  $authorized = checkLoggedIn('admin');
+  if($authorized){
+    $classesDAO = new ClassesDAO();
+    $classes = $classesDAO->getClasses();
+    return $response->write(json_encode($classes))
+      ->withHeader('Content-Type','application/json');
+  }
+  $response = $response->withStatus(401);
+  return $response;
 });
 
 //data of specific entry/class
@@ -362,7 +375,7 @@ $app->get('/api/admin/auth/logout', function ($request, $response, $args) {
   if(checkLoggedIn('admin')){
     unset($_SESSION['admin']);
   }
-  header('Location: '. $basePath .'/');
+  header('Location: '. $basePath .'/admin-login');
   exit;
 });
 

@@ -11,7 +11,7 @@ const init = () => {
 
   ReactDOM.render(
     <Router />,
-    document.querySelector('.container')
+    document.querySelector('.react-container')
   );
 
 };
