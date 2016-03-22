@@ -11,6 +11,17 @@ body {
 	overflow-x: hidden;
 }
 
+.logo {
+	width: 160px;
+	position: absolute;
+	margin: 20px;
+	z-index: 99;
+
+	img {
+		width: 100%;
+	}
+}
+
 header {
 	display: none;
 }
@@ -20,7 +31,6 @@ header {
 	color: #ffb300;
 	text-shadow: -5px 2px 0 #211c0c;
 	font-size: 3rem;
-	text-transform: uppercase;
 	text-decoration: none;
 }
 
@@ -71,7 +81,6 @@ header {
 	box-sizing: border-box;
 
 	ul {
-		background-color: #efefef;
 		position: absolute;
 		transition: margin .5s ease;
 		width: 100%;

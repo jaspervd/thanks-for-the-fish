@@ -8,6 +8,11 @@
 	<link rel="stylesheet" href="<?php echo $basePath; ?>/css/style.css">
 </head>
 <body>
+	<div class="logo">
+		<a href="http://boek.be">
+			<img src="<?php echo $basePath; ?>/images/logo.png" alt="Logo boek.be" />
+		</a>
+	</div>
 	<div class="navigation">
 		<a href="#" class="nav-left button">&laquo;</a>
 		<a href="#" class="nav-right button">&raquo;</a>
@@ -45,8 +50,14 @@
 				</header>
 				<article class="campaign-info">
 					<header>
-						<h1>Info</h1>
+						<h1>Verover het heelal met boeken!</h1>
 					</header>
+					<p>Ter promotie van het lezen en bespreken van boeken in middelbare scholen, organiseert boek.be een actie waar alle docenten nederlands aan mee kunnen doen.
+						De prijs van deze actie? 100 exemplaren van de wereldbekende klassieker 'Het Galactisch Liftershandboek', geschreven door Douglas Adams.
+					</p>
+					<p>
+						Deelnemen is simpel. Laat jouw leerlingen 'Hitchhikers Guide to the Galaxy' lezen en dien per deelnemende klas een klassikale boekbespreking in. De jury zal na de deadline van 20 Mei (20:42) stemmen op welke boekbespreking de prijs zal binnenhalen.
+					</p>
 				</article>
 				<article class="countdown">
 					<div class="countdown-days">0</div>
