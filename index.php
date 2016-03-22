@@ -463,11 +463,16 @@ $app->post('/api/classes/{class_id}/scores', function ($request, $response, $arg
   $authorized = checkAdminPrivilege('can_vote_winner');
   if($authorized){
     $scoresDAO = new ScoresDAO();
-    $newScore = $request->getParsedBody();
-    $insertedScore = $scoresDAO->insertScore($args['class_id'], $newScore);
-    $response = $response->write(json_encode($insertedScore))
+    $scoreData = $request->getParsedBody();
+    $existingScore = $scoresDAO->getScoreByClassIdAndAdminId($args['class_id'], $_SESSION['admin']['id']);
+    if($existingScore == 0){
+      $newScore = $scoresDAO->insertScore($args['class_id'], $_SESSION['admin']['id'], $scoreData);
+    }else{
+      $newScore = $scoresDAO->updateScore($args['class_id'], $_SESSION['admin']['id'], $scoreData);
+    }
+    $response = $response->write(json_encode($newScore))
     ->withHeader('Content-Type','application/json');
-    if(empty($insertedScore)) {
+    if(empty($newScore)) {
       $response = $response->withStatus(404);
     } else {
       $response = $response->withStatus(201);
@@ -482,13 +487,13 @@ $app->post('/api/classes/{class_id}/scores', function ($request, $response, $arg
 $app->put('/api/classes/{class_id}/scores', function ($request, $response, $args) {
   $authorized = checkAdminPrivilege('can_vote_winner');
   if($authorized){
-    $adminsDAO = new AdminsDAO();
+    $scoresDAO = new ScoresDAO();
     $updateData = $request->getParsedBody();
-    $updatedAdmin = $adminsDAO->updateAdmin($args['id'], $updateData);
-    unset($updatedAdmin['password']);
-    $response = $response->write(json_encode($updatedAdmin))
+    return $updateData;
+    $updatedScore = $scoresDAO->updateScore($args['class_id'], $_SESSION['admin']['id'], $updateData);
+    $response = $response->write(json_encode($updatedScore))
     ->withHeader('Content-Type','application/json');
-    if(empty($updatedAdmin)) {
+    if(empty($updatedScore)) {
       $response = $response->withStatus(404);
     }
     return $response;

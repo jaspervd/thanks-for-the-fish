@@ -1,7 +1,8 @@
 'use strict';
 
 import React, {Component} from 'react';
-import {find} from 'lodash';
+import {basename} from '../globals';
+import {find, inRange} from 'lodash';
 
 export default class EntryDetail extends Component {
 
@@ -21,6 +22,7 @@ export default class EntryDetail extends Component {
       entry: '',
       avg_score: 0,
       num_votes: 0,
+      admin_score: 0,
       key: 0
     };
   }
@@ -47,18 +49,110 @@ export default class EntryDetail extends Component {
       return;
     }
     this.setState(entry);
+    if(!entry.adminScoreFetched) {
+      //this.props.fetchAdminScoreForEntry(entry.id);
+      this.fetchAdminScoreForEntry(entry.id);
+    }
+  }
+
+  fetchAdminScoreForEntry(class_id){
+    let request = new XMLHttpRequest();
+    request.open('GET', `${basename}/api/classes/${class_id}/myscore`, true);
+    request.onload = ($data) => {
+      if (request.status === 200) {
+        let myscore = $data.target.response;
+        let existingEntry = this.state;
+        if(existingEntry){
+          existingEntry.admin_score = myscore;
+          existingEntry.adminScoreFetched = true;
+          this.setState({existingEntry});
+          this.forceUpdate();
+        }
+        console.log(`[App] Succesfully fetched score`, myscore);
+      } else {
+        console.log(`[App] Could not retrieve score`);
+      }
+    };
+    request.send();
+  }
+
+  editScoreHandler(event){
+    event.preventDefault();
+    let {score, headerScore, scoreForm} = this.refs;
+    if(inRange(score.value, 1, 10)){
+      let updateData = new FormData(scoreForm);
+      let request = new XMLHttpRequest();
+      request.open('POST', `${basename}/api/classes/${this.props.params.id}/scores`, true);
+      request.onload = ($data) => {
+        if (request.status === 201) {
+          headerScore.innerText = `Jouw Score: ${score.value}`;
+          score.value = '';
+          console.log(`[Entry] Succesfully updated vote`, $data.response);
+        } else {
+          headerScore.innerText = `Failed to update`;
+          console.log(`[Entry] Failed to update vote`, $data.response);
+        }
+      };
+      request.send(updateData);
+    }
+  }
+
+  postScoreHandler(event){
+    event.preventDefault();
+    let {score, headerScore, scoreForm} = this.refs;
+    if(inRange(score.value, 1, 10)){
+      let updateData = new FormData(scoreForm);
+      let request = new XMLHttpRequest();
+      request.open('POST', `${basename}/api/classes/${this.props.params.id}/scores`, true);
+      request.onload = ($data) => {
+        if (request.status === 201) {
+          headerScore.innerText = `Jour Score: ${$data.response}`;
+          score.value = '';
+          console.log(`[Entry] Succesfully updated vote`, $data.respone);
+        } else {
+          headerScore.innerText = `Failed to update`;
+          console.log(`[Entry] Failed to update vote`, $data.response);
+        }
+      };
+      request.send(updateData);
+    }
   }
 
   renderEntryOptions(){
 
+    let {admin} = this.props;
+    let {admin_score} = this.state;
+    if(admin.can_vote_winner){
 
+      let buttonText = 'Score Aanpassen';
+      let inputValue = admin_score;
+      let onSubmitHandler = e => this.editScoreHandler(e);
+      if(admin_score === 0){
+        console.log('admin_score', admin_score);
+        buttonText = 'Score Toevoegen';
+        inputValue = '';
+        onSubmitHandler = e => this.postScoreHandler(e);
+      }
+
+      return (
+        <div className="score-info">
+          <h2 ref="headerScore">Jouw Score: {inputValue}</h2>
+          <form className="score-form" onSubmit={onSubmitHandler} ref="scoreForm">
+            <input type="number" name="score" ref="score" maxLength="1" placeholder="X"/><span className="onTen">&frasl; 10</span>
+            <input type="submit" value={buttonText} name="submit" ref="submit" className="btn-submit"/>
+          </form>
+        </div>
+      );
+
+    }
+    return;
 
   }
 
   render() {
 
     let {nickname, entry, photo, num_students, avg_score, num_votes, school_name, firstname, lastname} = this.state;
-    let photoPath = `/assets/img/klasfotos/${photo}`;
+    let photoBgStyle = { backgroundImage: `url(${basename}/assets/img/klasfotos/${photo})` };
 
     return (
       <section className="admin-page">
@@ -69,14 +163,15 @@ export default class EntryDetail extends Component {
             <p>{entry}</p>
           </section>
           <section className="page-section entry-data">
-            <img src={photoPath} alt={photo}/>
+            <figure className="img" style={photoBgStyle}>&nbsp;</figure>
             <div className="class-data">
-              <span className="class-nickname">Klasnaam: {nickname}</span>
-              <span className="class-students">{num_students} studenten</span>
-              <span className="class-school">School: {school_name}</span>
-              <span className="class-teacher">Leerkracht: {firstname} {lastname}</span>
-              <span className="class-average">Gemiddelde score van {avg_score} ({num_votes} stemmen)</span>
+              <p className="class-nickname"><strong>Klasnaam:</strong> {nickname}</p>
+              <p className="class-students"><strong>Aantal Studenten:</strong> {num_students}</p>
+              <p className="class-school"><strong>School:</strong> {school_name}</p>
+              <p className="class-teacher"><strong>Leerkracht:</strong> {firstname} {lastname}</p>
+              <p className="class-average"><strong>Gemiddelde score:</strong> {avg_score} ({num_votes} stemmen)</p>
             </div>
+            {this.renderEntryOptions()}
           </section>
         </div>
       </section>

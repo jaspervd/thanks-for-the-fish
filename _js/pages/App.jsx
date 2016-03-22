@@ -32,12 +32,7 @@ export default class App extends React.Component {
       if (request.status === 200) {
         let adminData = JSON.parse($data.target.response);
         let navOptions = this.resolveAdminOptions(adminData);
-        this.setState({
-          admin: adminData, navOptions: navOptions, adminFetched: true,
-          entries: [], entriesFetched: false,
-          teachers: [], teachersFetched: false,
-          admins: [], adminsFetched: false
-        });
+        this.setState({admin: adminData, navOptions: navOptions, adminFetched: true});
         console.log(`[App] Logged in as \"${this.state.admin.username}\"`);
       } else {
         window.location = `${window.app.basename}/admin-login`;
@@ -70,17 +65,12 @@ export default class App extends React.Component {
       if (request.status === 200) {
         let admins = JSON.parse($data.target.response);
         admins.forEach(a => a.key = a.id);
-        let {admin, navOptions, adminFetched, entries, entriesFetched, teachers, teachersFetched} = this.state;
         this.setState({
-          admin: admin, navOptions: navOptions, adminFetched: adminFetched,
-          entries: entries, entriesFetched: entriesFetched,
-          teachers: teachers, teachersFetched: teachersFetched,
           admins: admins, adminsFetched: true
         });
         console.log(`[App] Succesfully fetched admins`);
       } else {
         console.log(`[App] Could not retrieve admins`);
-        //window.location = `${window.app.basename}/admin-login`;
       }
     };
     request.send();
@@ -93,17 +83,12 @@ export default class App extends React.Component {
       if (request.status === 200) {
         let teachers = JSON.parse($data.target.response);
         teachers.forEach(t => t.key = t.id);
-        let {admin, navOptions, adminFetched, entries, entriesFetched, admins, adminsFetched} = this.state;
         this.setState({
-          admin: admin, navOptions: navOptions, adminFetched: adminFetched,
-          entries: entries, entriesFetched: entriesFetched,
-          teachers: teachers, teachersFetched: true,
-          admins: admins, adminsFetched: adminsFetched
+          teachers: teachers, teachersFetched: true
         });
         console.log(`[App] Succesfully fetched teachers`);
       } else {
         console.log(`[App] Could not retrieve teachers`);
-        //window.location = `${window.app.basename}/admin-login`;
       }
     };
     request.send();
@@ -116,17 +101,12 @@ export default class App extends React.Component {
       if (request.status === 200) {
         let entries = JSON.parse($data.target.response);
         entries.forEach(e => e.key = e.id);
-        let {admin, navOptions, adminFetched, teachers, teachersFetched, admins, adminsFetched} = this.state;
         this.setState({
-          admin: admin, navOptions: navOptions, adminFetched: adminFetched,
-          entries: entries, entriesFetched: true,
-          teachers: teachers, teachersFetched: teachersFetched,
-          admins: admins, adminsFetched: adminsFetched
+          entries: entries, entriesFetched: true
         });
         console.log(`[App] Succesfully fetched entries`);
       } else {
         console.log(`[App] Could not retrieve entries`);
-        //window.location = `${window.app.basename}/admin-login`;
       }
     };
     request.send();
@@ -139,7 +119,7 @@ export default class App extends React.Component {
     return (
       <div className='admin-workspace'>
         <header className='admin-header'>
-          <h1><Link to='admin' >Welkom, {this.state.admin.username}</Link></h1>
+          <h1><Link to='admin' >Welkom, {admin.username}</Link></h1>
           <NavOptions navOptions={navOptions} />
           <a className='logout-btn' href={this.logoutLink}>Uitloggen</a>
         </header>
@@ -151,7 +131,8 @@ export default class App extends React.Component {
           teachers: teachers,
           teachersFetched: teachersFetched,
           admins: admins,
-          adminsFetched: adminsFetched
+          adminsFetched: adminsFetched,
+          addAdminScoreForEntry: e => this.addAdminScoreForEntry(e)
         })}
       </div>
     );
