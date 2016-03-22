@@ -9,8 +9,8 @@
 </head>
 <body>
 	<div class="navigation">
-		<a href="#" class="nav-left">&laquo;</a>
-		<a href="#" class="nav-right">&raquo;</a>
+		<a href="#" class="nav-left button">&laquo;</a>
+		<a href="#" class="nav-right button">&raquo;</a>
 	</div>
 	<div class="nav-indicators">
 		<ul>
@@ -21,13 +21,13 @@
 		</ul>
 	</div>
 	<nav class="menu closed">
-		<a href="#" class="menu-toggle">&#9776;</a>
+		<a href="#" class="menu-toggle button">&#9776;</a>
 		<ul>
-			<li><a href="#page-0" class="nav-menu">Campagne</a></li>
-			<li><a href="#page-1" class="nav-menu">Boek</a></li>
-			<li><a href="#page-2" class="nav-menu">Voorproefje</a></li>
-			<li><a href="#page-3" class="nav-menu">Klasfoto's</a></li>
-			<li><a href="login">Login</a></li>
+			<li><a href="#page-0" class="nav-menu button">Campagne</a></li>
+			<li><a href="#page-1" class="nav-menu button">Boek</a></li>
+			<li><a href="#page-2" class="nav-menu button">Voorproefje</a></li>
+			<li><a href="#page-3" class="nav-menu button">Klasfoto's</a></li>
+			<li><a href="login" class="button">Login</a></li>
 		</ul>
 	</nav>
 	<div class="container">

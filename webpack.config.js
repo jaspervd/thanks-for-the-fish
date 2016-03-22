@@ -21,17 +21,17 @@ module.exports = {
     config.build('css', 'src') //CSS entry point
     ],*/
 
-  entry: {
-    script: './_js/script.js',
-    class: './_js/class.js',
-    login: './_js/login.js',
-    admin: './_js/admin.js',
-    adminLogin: './_js/adminLogin.js',
-    css: config.css.src.path + config.css.src.file
-  },
+    entry: {
+      script: './_js/script.js',
+      class: './_js/class.js',
+      login: './_js/login.js',
+      admin: './_js/admin.js',
+      adminLogin: './_js/adminLogin.js',
+      css: config.css.src.path + config.css.src.file
+    },
 
-  output: {
-    path: config.js.dest.path,
+    output: {
+      path: config.js.dest.path,
     filename: '[name].js' // Template based on keys in entry above
   },
 
@@ -46,8 +46,13 @@ module.exports = {
     loaders: [
 
     {
+      test: /\.(eot|woff|woff2|ttf|svg|png|jpg)$/,
+      loader: 'url-loader?limit=30000&name=[name]-[hash].[ext]'
+    },
+
+    {
       test: /\.(js|jsx)$/,
-      exclude: /node_modules/,
+      exclude: [/node_modules/, /assets/],
       loader: 'babel',
       query: {
         babelrc: path.join(__dirname, '.babelrc')
@@ -56,7 +61,7 @@ module.exports = {
 
     {
       test: /\.(js|jsx)$/,
-      exclude: /node_modules/,
+      exclude: [/node_modules/, /assets/],
       loader: 'eslint'
     },
 
@@ -70,6 +75,7 @@ module.exports = {
 
     {
       test: /\.scss$/,
+      exclude: /assets/,
       loader: ExtractTextPlugin.extract('css!postcss!sass?outputStyle=expanded')
     }
 
@@ -97,7 +103,6 @@ module.exports = {
 
   //webpack plugins
   plugins: [
-
   //new webpack.optimize.CommonsChunkPlugin('class', 'class.js'),
   new webpack.optimize.DedupePlugin(),
 

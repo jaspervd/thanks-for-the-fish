@@ -1,13 +1,27 @@
 @import 'reset';
+@import 'fonts';
 
 html {
-  font-size: 62.5%;
-  font-family: 'Helvetica neue', Helvetica, Arial, sans-serif;
+	font-size: 62.5%;
+	font-family: 'Book Antiqua Bold', serif;
 }
 
 body {
-  font-size: 1.8rem;
-  overflow-x: hidden;
+	font-size: 1.8rem;
+	overflow-x: hidden;
+}
+
+header {
+	display: none;
+}
+
+.button {
+	font-family: 'Bernier Regular', sans-serif;
+	color: #ffb300;
+	text-shadow: -5px 2px 0 #211c0c;
+	font-size: 3rem;
+	text-transform: uppercase;
+	text-decoration: none;
 }
 
 .navigation {
@@ -81,9 +95,9 @@ body {
 }
 
 @for $i from 0 through 3 {
-    .container.page-#{$i} {
-        margin-left: -($i * 100vw);
-    }
+	.container.page-#{$i} {
+		margin-left: -($i * 100vw);
+	}
 }
 
 .page {
