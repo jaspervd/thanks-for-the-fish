@@ -14,11 +14,13 @@ export default class EntryDetail extends Component {
   constructor(props, context){
     super(props, context);
     this.state = {};
+    console.log('Test');
   }
 
   componentDidMount(){
     //use entry from props, or do we need to fetch first?
     if(!this.props.entriesFetched) {
+      console.log('No Entry');
       return;
     }
     this.setEntryState(this.props);
@@ -27,9 +29,11 @@ export default class EntryDetail extends Component {
   setEntryState(props) {
     let id = props.params.id;
     let entry = find(props.entries, e => {
+      console.log('Entry?', e);
       return e.id === id;
     });
     if(!entry) {
+      console.log('No Entry 2');
       this.context.router.push('/');
       return;
     }

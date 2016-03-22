@@ -51,9 +51,9 @@ export default class Entries extends Component {
         <div className="page-content">
           <section className="page-section entries">
             <header className="hidden"><h1>Inzendingen</h1></header>
-            <ol>
+            <ul>
               {this.renderEntries()}
-            </ol>
+            </ul>
           </section>
         </div>
       </section>
