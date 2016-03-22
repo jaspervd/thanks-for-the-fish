@@ -1,11 +1,9 @@
 'use strict';
 
 import React, {Component} from 'react';
-//import fetch from 'isomorphic-fetch';
-import {basename} from '../globals';
 import {EntryItem} from '../components';
 
-export default class Entries extends Component {
+export default class EntriesOverview extends Component {
 
   static contextTypes = {
     router: React.PropTypes.object.isRequired
@@ -13,31 +11,12 @@ export default class Entries extends Component {
 
   constructor(props, context){
     super(props, context);
-    this.state = {
-      entries: [],
-      entriesFetched: false
-    };
-  }
-
-  componentDidMount(){
-    let request = new XMLHttpRequest();
-    request.open('GET', `${basename}/api/classes`, true);
-    request.onload = ($data) => {
-      if (request.status === 200) {
-        let entries = JSON.parse($data.target.response);
-        entries.forEach(e => e.key = e.id);
-        this.setState({entries: entries, entriesFetched: true});
-        console.log('[Entries] Succesfully retrieved entries');
-      } else {
-        console.log('[Entries] Failed to retrieve entries');
-      }
-    };
-    request.send();
+    this.state = {};
   }
 
   renderEntries(){
-    if(this.state.entriesFetched){
-      return this.state.entries.map(entry => {
+    if(this.props.entriesFetched){
+      return this.props.entries.map(entry => {
         return <EntryItem {...entry} deleteEntry={id => this.props.deleteEntry(id)} voteEntry={id => this.props.voteEntry(id)} />;
       });
     }

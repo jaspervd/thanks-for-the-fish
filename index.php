@@ -70,7 +70,7 @@ $app->get('/api/teachers', function ($request, $response, $args) {
   if($authorized){
     $teachersDAO = new TeachersDAO();
     $teachers = $teachersDAO->getTeachers();
-    for($i=0; $i<count($admins); $i++){
+    for($i=0; $i<count($teachers); $i++){
       unset($teachers[$i]['password']);
     }
     return $response->write(json_encode($teachers))
@@ -431,6 +431,18 @@ $app->get('/api/classes/{class_id}/scores', function ($request, $response, $args
   $scores = $scoresDAO->getScoresByClassId($args['class_id']);
   return $response->write(json_encode($scores))
   ->withHeader('Content-Type','application/json');
+});
+
+$app->get('/api/classes/{class_id}/myscore', function ($request, $response, $args) {
+  $authorized = checkLoggedIn('admin');
+  if($authorized){
+    $scoresDAO = new ScoresDAO();
+    $score = $scoresDAO->getScoreByClassIdAndAdminId($args['class_id'], $_SESSION['admin']['id']);
+    return $response->write(json_encode($score))
+    ->withHeader('Content-Type','application/json');
+  }
+  $response = $response->withStatus(401);
+  return $response;
 });
 
 //overview of scores done by a specific admin, only visible for logged in admins

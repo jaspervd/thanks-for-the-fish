@@ -4,7 +4,7 @@ import React from 'react';
 import {Router, Route, IndexRoute, useRouterHistory} from 'react-router';
 import {createHistory} from 'history';
 
-import {App, Entries, EntryDetail} from '../pages';
+import {App, EntriesOverview, EntryDetail} from '../pages';
 import {basename} from '../globals';
 
 export default () => (
@@ -12,8 +12,8 @@ export default () => (
   <Router history={useRouterHistory(createHistory)({basename})}>
 
     <Route path="/admin" component={App}>
-      <IndexRoute component={Entries} />
-      <Route path="/admin/entries" component={Entries} />
+      <IndexRoute component={EntriesOverview} />
+      <Route path="/admin/entries" component={EntriesOverview} />
       <Route path="/admin/entries/:id" component={EntryDetail} />
     </Route>
 

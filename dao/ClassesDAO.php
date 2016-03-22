@@ -44,7 +44,7 @@ class ClassesDAO extends DAO {
     $stmt->bindValue(':id', $id);
     if($stmt->execute()) {
       $result = $stmt->fetch(PDO::FETCH_ASSOC);
-      $result = $this->getClassWithAverageScores($result);
+      $result = $this->getClassWithAverageScore($result);
       return $result;
     }
     return array();
@@ -101,18 +101,20 @@ class ClassesDAO extends DAO {
 
   public function getClassWithAverageScore($class){
     if(!empty($class)){
-      $sql = "SELECT AVG(score) AS `avg_score` FROM `bw_scores`
-              WHERE `class_id` = :class_id";
+      $sql = "SELECT AVG(score) AS `avg_score`, COUNT(*) AS `num_votes`
+              FROM `bw_scores` WHERE `class_id` = :class_id";
       $qry = $this->pdo->prepare($sql);
       $qry->bindValue(':class_id', $class['id']);
       if($qry->execute()){
         $result = $qry->fetch(PDO::FETCH_ASSOC);
         if(!empty($result)){
           $class['avg_score'] = round($result['avg_score'], 1);
+          $class['num_votes'] = $result['num_votes'];
           return $class;
         }
       }
       $class['avg_score'] = 0.0;
+      $class['num_votes'] = 0;
       return $class;
     }
   }

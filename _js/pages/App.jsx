@@ -2,10 +2,8 @@
 
 import React from 'react';
 import {Link} from 'react-router';
-//import fetch from 'isomorphic-fetch';
 import {basename} from '../globals';
 //import {find, filter} from 'lodash';
-//import {checkStatus} from '../helpers/util';
 
 import {NavOptions} from '../components/';
 
@@ -16,7 +14,13 @@ export default class App extends React.Component {
     this.state = {
       admin: [],
       navOptions: [],
-      adminFetched: false
+      adminFetched: false,
+      entries: [],
+      entriesFetched: false,
+      teachers: [],
+      teachersFetched: false,
+      admins: [],
+      adminsFetched: false
     };
     this.logoutLink = `${window.app.basename}/api/admin/auth/logout`;
   }
@@ -27,8 +31,13 @@ export default class App extends React.Component {
     request.onload = ($data) => {
       if (request.status === 200) {
         let adminData = JSON.parse($data.target.response);
-        let navOptions = this.getNavOptions(adminData);
-        this.setState({admin: adminData, navOptions: navOptions, adminFetched: true});
+        let navOptions = this.resolveAdminOptions(adminData);
+        this.setState({
+          admin: adminData, navOptions: navOptions, adminFetched: true,
+          entries: [], entriesFetched: false,
+          teachers: [], teachersFetched: false,
+          admins: [], adminsFetched: false
+        });
         console.log(`[App] Logged in as \"${this.state.admin.username}\"`);
       } else {
         window.location = `${window.app.basename}/admin-login`;
@@ -37,24 +46,95 @@ export default class App extends React.Component {
     request.send();
   }
 
-  getNavOptions(admin){
+  resolveAdminOptions(admin){
     let navOptions = [];
     if(admin.can_create_admins === 1){
-      navOptions.push({'id': 10001, 'to': '/admin/admins', 'optionName': 'Admins'});
+      navOptions.push({'id': 1, 'to': '/admin/admins', 'optionName': 'Admins'});
+      this.fetchAdmins();
     }
     if(admin.can_authorize_teachers === 1){
-      navOptions.push({'id': 10002, 'to': '/admin/teachers', 'optionName': 'Gebruikers'});
+      navOptions.push({'id': 2, 'to': '/admin/teachers', 'optionName': 'Gebruikers'});
+      this.fetchTeachers();
     }
     if(admin.can_vote_winner === 1 || admin.can_approve_entry === 1){
-      navOptions.push({'id': 10003, 'to': '/admin/entries', 'optionName': 'Inzendingen'});
+      navOptions.push({'id': 3, 'to': '/admin/entries', 'optionName': 'Inzendingen'});
+      this.fetchEntries();
     }
     return navOptions;
   }
 
+  fetchAdmins(){
+    let request = new XMLHttpRequest();
+    request.open('GET', `${basename}/api/admins`, true);
+    request.onload = ($data) => {
+      if (request.status === 200) {
+        let admins = JSON.parse($data.target.response);
+        admins.forEach(a => a.key = a.id);
+        let {admin, navOptions, adminFetched, entries, entriesFetched, teachers, teachersFetched} = this.state;
+        this.setState({
+          admin: admin, navOptions: navOptions, adminFetched: adminFetched,
+          entries: entries, entriesFetched: entriesFetched,
+          teachers: teachers, teachersFetched: teachersFetched,
+          admins: admins, adminsFetched: true
+        });
+        console.log(`[App] Succesfully fetched admins`);
+      } else {
+        console.log(`[App] Could not retrieve admins`);
+        //window.location = `${window.app.basename}/admin-login`;
+      }
+    };
+    request.send();
+  }
+
+  fetchTeachers(){
+    let request = new XMLHttpRequest();
+    request.open('GET', `${basename}/api/teachers`, true);
+    request.onload = ($data) => {
+      if (request.status === 200) {
+        let teachers = JSON.parse($data.target.response);
+        teachers.forEach(t => t.key = t.id);
+        let {admin, navOptions, adminFetched, entries, entriesFetched, admins, adminsFetched} = this.state;
+        this.setState({
+          admin: admin, navOptions: navOptions, adminFetched: adminFetched,
+          entries: entries, entriesFetched: entriesFetched,
+          teachers: teachers, teachersFetched: true,
+          admins: admins, adminsFetched: adminsFetched
+        });
+        console.log(`[App] Succesfully fetched teachers`);
+      } else {
+        console.log(`[App] Could not retrieve teachers`);
+        //window.location = `${window.app.basename}/admin-login`;
+      }
+    };
+    request.send();
+  }
+
+  fetchEntries(){
+    let request = new XMLHttpRequest();
+    request.open('GET', `${basename}/api/classes`, true);
+    request.onload = ($data) => {
+      if (request.status === 200) {
+        let entries = JSON.parse($data.target.response);
+        entries.forEach(e => e.key = e.id);
+        let {admin, navOptions, adminFetched, teachers, teachersFetched, admins, adminsFetched} = this.state;
+        this.setState({
+          admin: admin, navOptions: navOptions, adminFetched: adminFetched,
+          entries: entries, entriesFetched: true,
+          teachers: teachers, teachersFetched: teachersFetched,
+          admins: admins, adminsFetched: adminsFetched
+        });
+        console.log(`[App] Succesfully fetched entries`);
+      } else {
+        console.log(`[App] Could not retrieve entries`);
+        //window.location = `${window.app.basename}/admin-login`;
+      }
+    };
+    request.send();
+  }
+
   render() {
 
-    let {admin, adminFetched, navOptions} = this.state;
-    //console.log('navOptions', navOptions);
+    let {admin, adminFetched, navOptions, entries, entriesFetched, teachers, teachersFetched, admins, adminsFetched} = this.state;
 
     return (
       <div className='admin-workspace'>
@@ -65,7 +145,13 @@ export default class App extends React.Component {
         </header>
         {this.props.children && React.cloneElement(this.props.children, {
           admin: admin,
-          adminFetched: adminFetched
+          adminFetched: adminFetched,
+          entries: entries,
+          entriesFetched: entriesFetched,
+          teachers: teachers,
+          teachersFetched: teachersFetched,
+          admins: admins,
+          adminsFetched: adminsFetched
         })}
       </div>
     );

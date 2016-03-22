@@ -1,4 +1,5 @@
 'use strict';
 
 export App from './App';
-export Entries from './Entries';
+export EntriesOverview from './EntriesOverview';
+export EntryDetail from './EntryDetail';

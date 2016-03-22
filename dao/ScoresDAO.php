@@ -25,6 +25,21 @@ class ScoresDAO extends DAO {
     return $result;
   }
 
+  public function getScoreByClassIdAndAdminId($class_id, $admin_id) {
+    $sql = "SELECT `bw_scores`.* FROM `bw_scores`
+            WHERE `bw_scores`.`class_id` = :class_id AND `bw_scores`.`admin_id` = :admin_id";
+    $qry = $this->pdo->prepare($sql);
+    $qry->bindValue(':class_id', $class_id);
+    $qry->bindValue(':admin_id', $admin_id);
+    if($qry->execute()){
+      $result = $qry->fetch(PDO::FETCH_ASSOC);
+      if(!empty($result)){
+        return $result['score'];
+      }
+    }
+    return 0;
+  }
+
   public function getScoresByAdminId($admin_id) {
     $sql = "SELECT `bw_scores`.*, `bw_classes`.*
             FROM `bw_scores` LEFT JOIN `bw_classes` ON `bw_scores`.`class_id` = `bw_classes`.`id`
