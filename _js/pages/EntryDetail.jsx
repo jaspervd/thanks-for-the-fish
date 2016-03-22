@@ -57,15 +57,26 @@ export default class EntryDetail extends Component {
 
   render() {
 
-    let {nickname, entry, photo, num_students, avg_score, num_votes} = this.state;
+    let {nickname, entry, photo, num_students, avg_score, num_votes, school_name, firstname, lastname} = this.state;
+    let photoPath = `/assets/img/klasfotos/${photo}`;
 
     return (
       <section className="admin-page">
-        <header><h1 className="page-header">{nickname} | {num_students} leerlingen | Gem. Score: {avg_score}</h1></header>
+        <header><h1 className="page-header">{nickname} | Gemiddelde Score: {avg_score}</h1></header>
         <div className="page-content entry-detail">
           <section className="page-section entry-text">
             <header className="hidden"><h1>Klassikale Boekbespreking van {nickname}</h1></header>
             <p>{entry}</p>
+          </section>
+          <section className="page-section entry-data">
+            <img src={photoPath} alt={photo}/>
+            <div className="class-data">
+              <span className="class-nickname">Klasnaam: {nickname}</span>
+              <span className="class-students">{num_students} studenten</span>
+              <span className="class-school">School: {school_name}</span>
+              <span className="class-teacher">Leerkracht: {firstname} {lastname}</span>
+              <span className="class-average">Gemiddelde score van {avg_score} ({num_votes} stemmen)</span>
+            </div>
           </section>
         </div>
       </section>

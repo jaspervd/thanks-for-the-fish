@@ -17,7 +17,8 @@ class ClassesDAO extends DAO {
 
   //show all classes
   public function getClasses() {
-    $sql = "SELECT `bw_classes`.* FROM `bw_classes`
+    $sql = "SELECT `bw_classes`.*, `bw_teachers`.`school_name`, `bw_teachers`.`firstname`, `bw_teachers`.`lastname`
+            FROM `bw_classes` LEFT JOIN `bw_teachers` ON `bw_classes`.`creator_id` = `bw_teachers`.`id`
             ORDER BY `id` ASC";
     $qry = $this->pdo->prepare($sql);
     $qry->bindValue(':zero_reviews', 0);
