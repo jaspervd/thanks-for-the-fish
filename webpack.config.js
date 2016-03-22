@@ -32,7 +32,8 @@ module.exports = {
 
     output: {
       path: config.js.dest.path,
-    filename: '[name].js' // Template based on keys in entry above
+    filename: '[name].js', // Template based on keys in entry above
+     publicPath: '../images/'
   },
 
   //quickest, webpack -d -p for production
@@ -47,7 +48,7 @@ module.exports = {
 
     {
       test: /\.(eot|woff|woff2|ttf|svg|png|jpg)$/,
-      loader: 'url-loader?limit=30000&name=[name]-[hash].[ext]'
+      loader: 'url-loader?limit=30000&name=[name].[ext]' // [name]-[hash].[ext]
     },
 
     {
