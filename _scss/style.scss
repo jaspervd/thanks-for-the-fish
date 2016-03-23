@@ -143,6 +143,20 @@ body {
 	}
 }
 
+.screen-img {
+	img {
+		width: 100%;
+	}
+}
+
+.home {
+	.screen-img {
+		width: 730px;
+		margin: 0 auto;
+		padding-top: 20vh;
+	}
+}
+
 .book {
 	margin-left: 100vw;
 }

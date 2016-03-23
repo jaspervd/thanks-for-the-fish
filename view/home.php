@@ -42,6 +42,7 @@
 					<h1>Klassiekers in je klas</h1>
 					<h2>The Hitchhiker's Guide to the Galaxy</h2>
 				</header>
+				<div class="screen-img"><img src="images/title.png" alt="" /></div>
 				<a href="#" class="nav-down">&darr;</a>
 			</section>
 			<section class="page-content">
