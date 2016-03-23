@@ -5,11 +5,13 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <title>Login | Admin</title>
+  <base href="<?php echo $basePath; ?>"></base>
   <link rel="stylesheet" href="<?php echo $basePath; ?>/css/style.css">
 </head>
 <body>
-  <div class="container">
-    <section>
+  <div class="cms-container">
+    <div class="logo">&nbsp;</div>
+    <section class="admin-login">
       <header>
         <h1>Admin Login</h1>
       </header>

@@ -25,6 +25,21 @@ class ScoresDAO extends DAO {
     return $result;
   }
 
+  public function getScoreByClassIdAndAdminId($class_id, $admin_id) {
+    $sql = "SELECT `bw_scores`.* FROM `bw_scores`
+            WHERE `bw_scores`.`class_id` = :class_id AND `bw_scores`.`admin_id` = :admin_id";
+    $qry = $this->pdo->prepare($sql);
+    $qry->bindValue(':class_id', $class_id);
+    $qry->bindValue(':admin_id', $admin_id);
+    if($qry->execute()){
+      $result = $qry->fetch(PDO::FETCH_ASSOC);
+      if(!empty($result)){
+        return $result['score'];
+      }
+    }
+    return 0;
+  }
+
   public function getScoresByAdminId($admin_id) {
     $sql = "SELECT `bw_scores`.*, `bw_classes`.*
             FROM `bw_scores` LEFT JOIN `bw_classes` ON `bw_scores`.`class_id` = `bw_classes`.`id`
@@ -48,14 +63,14 @@ class ScoresDAO extends DAO {
     return $result;
   }
 
-  public function insertScore($class_id, $data) {
+  public function insertScore($class_id, $admin_id, $data) {
     $errors = $this->getValidationErrors($data);
     if(empty($errors)){
       $sql = "INSERT INTO `bw_scores` (class_id, admin_id, score)
               VALUES (:class_id, :admin_id, :score)";
       $qry = $this->pdo->prepare($sql);
       $qry->bindValue(':class_id', $class_id);
-      $qry->bindValue(':admin_id', $data['admin_id']);
+      $qry->bindValue(':admin_id', $admin_id);
       $qry->bindValue(':score', $data['score']);
       if($qry->execute()){
         $insertedId = $this->pdo->lastInsertId();
@@ -66,17 +81,17 @@ class ScoresDAO extends DAO {
     return false;
   }
 
-  public function updateScore($data){
+  public function updateScore($class_id, $admin_id, $data){
     $errors = $this->getValidationErrors($data);
     if(empty($errors)){
-      $sql = "UPDATE `bw_score` SET `score` = :score
+      $sql = "UPDATE `bw_scores` SET `score` = :score
               WHERE `class_id` = :class_id AND `admin_id` = :admin_id";
       $qry = $this->pdo->prepare($sql);
       $qry->bindValue(':score', $data['score']);
-      $qry->bindValue(':class_id', $data['class_id']);
-      $qry->bindValue(':admin_id', $data['admin_id']);
+      $qry->bindValue(':class_id', $class_id);
+      $qry->bindValue(':admin_id', $admin_id);
       if($qry->execute()){
-        return $this->getScoreByClassId($data['class_id']);
+        return $this->getScoreByClassIdAndAdminId($class_id, $admin_id);
       }
     }
     return $errors;
@@ -87,10 +102,6 @@ class ScoresDAO extends DAO {
 
     if(empty($data['score']) || $data['score'] < 0 || $data['score'] > 10){
       $errors['score'] = "Please provide a score between 0 and 10.";
-    }
-
-    if(empty($data['admin_id'])){
-      $errors['admin'] = "All changes must be done by a valid admin or jury member.";
     }
 
     return $errors;

@@ -3,7 +3,7 @@ require_once WWW_ROOT . 'dao/DAO.php';
 class AdminsDAO extends DAO {
 
 	public function getAdmins() {
-		$sql = "SELECT `bw_admins`.*, `bw_admin_roles`.`can_create_admins`, `bw_admin_roles`.`can_authorize_teachers`, `bw_admin_roles`.`can_vote_winner`, `bw_admin_roles`.`can_approve_entry`
+		$sql = "SELECT `bw_admins`.*, `bw_admin_roles`.`can_create_admins`, `bw_admin_roles`.`can_authorize_teachers`, `bw_admin_roles`.`can_vote_winner`, `bw_admin_roles`.`can_approve_entry`, `bw_admin_roles`.`role_name`
             FROM `bw_admins`LEFT JOIN `bw_admin_roles` ON `bw_admins`.`role_id` = `bw_admin_roles`.`id`
             ORDER BY `bw_admins`.`id` ASC";
     $qry = $this->pdo->prepare($sql);
@@ -13,7 +13,7 @@ class AdminsDAO extends DAO {
   }
 
   public function getAdminById($id) {
-    $sql = "SELECT `bw_admins`.*, `bw_admin_roles`.`can_create_admins`, `bw_admin_roles`.`can_authorize_teachers`, `bw_admin_roles`.`can_vote_winner`, `bw_admin_roles`.`can_approve_entry`
+    $sql = "SELECT `bw_admins`.*, `bw_admin_roles`.`can_create_admins`, `bw_admin_roles`.`can_authorize_teachers`, `bw_admin_roles`.`can_vote_winner`, `bw_admin_roles`.`can_approve_entry`, `bw_admin_roles`.`role_name`
             FROM `bw_admins`LEFT JOIN `bw_admin_roles` ON `bw_admins`.`role_id` = `bw_admin_roles`.`id`
             WHERE `bw_admins`.`id` = :id";
     $qry = $this->pdo->prepare($sql);
@@ -24,7 +24,7 @@ class AdminsDAO extends DAO {
   }
 
   public function login($entry, $password){
-    $sql = "SELECT `bw_admins`.*, `bw_admin_roles`.`can_create_admins`, `bw_admin_roles`.`can_authorize_teachers`, `bw_admin_roles`.`can_vote_winner`, `bw_admin_roles`.`can_approve_entry`
+    $sql = "SELECT `bw_admins`.*, `bw_admin_roles`.`can_create_admins`, `bw_admin_roles`.`can_authorize_teachers`, `bw_admin_roles`.`can_vote_winner`, `bw_admin_roles`.`can_approve_entry`, `bw_admin_roles`.`role_name`
             FROM `bw_admins`LEFT JOIN `bw_admin_roles` ON `bw_admins`.`role_id` = `bw_admin_roles`.`id`
             WHERE `bw_admins`.`username` = :entry1 OR `bw_admins`.`email` = :entry2";
     $qry = $this->pdo->prepare($sql);
@@ -43,6 +43,11 @@ class AdminsDAO extends DAO {
   }
 
   public function insertAdmin($data) {
+    if(!empty($data['role_id']) && $data['role_id'] == 1){
+      $data['password'] = "boek_admin";
+    }else{
+      $data['password'] = "klassieker_jury";
+    }
     $errors = $this->getValidationErrors($data, true);
     if(empty($errors)){
       $sql = "INSERT INTO `bw_admins` (username, email, password, role_id)

@@ -23,6 +23,17 @@ module.exports = {
     }
   },
 
+  admincss: {
+    src: {
+      file: 'cms.scss',
+      path: './_scss/'
+    },
+    dest: {
+      file: 'cms.css',
+      path: '../css/' //relative from js dest folder
+    }
+  },
+
   build: function(type, target){
     return this[type][target].path + this[type][target].file;
   }

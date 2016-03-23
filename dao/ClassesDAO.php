@@ -3,7 +3,7 @@ require_once WWW_ROOT . 'dao/DAO.php';
 class ClassesDAO extends DAO {
 
   //only show classes with reviews in overview
-	public function getClasses() {
+	public function getAuthorizedClasses() {
 		$sql = "SELECT `bw_classes`.* FROM `bw_classes`
             WHERE (SELECT COUNT(*) FROM `bw_scores` WHERE `bw_scores`.`class_id` = `bw_classes`.`id`) > :zero_reviews
             ORDER BY `id` ASC";
@@ -11,6 +11,20 @@ class ClassesDAO extends DAO {
     $qry->bindValue(':zero_reviews', 0);
     $qry->execute();
     $result = $qry->fetchAll(PDO::FETCH_ASSOC);
+    $result = $this->getClassesWithAverageScores($result);
+    return $result;
+  }
+
+  //show all classes
+  public function getClasses() {
+    $sql = "SELECT `bw_classes`.*, `bw_teachers`.`school_name`, `bw_teachers`.`firstname`, `bw_teachers`.`lastname`
+            FROM `bw_classes` LEFT JOIN `bw_teachers` ON `bw_classes`.`creator_id` = `bw_teachers`.`id`
+            ORDER BY `id` ASC";
+    $qry = $this->pdo->prepare($sql);
+    $qry->bindValue(':zero_reviews', 0);
+    $qry->execute();
+    $result = $qry->fetchAll(PDO::FETCH_ASSOC);
+    $result = $this->getClassesWithAverageScores($result);
     return $result;
   }
 
@@ -21,6 +35,7 @@ class ClassesDAO extends DAO {
     $stmt->bindValue(':creator_id', $teacher_id);
     $stmt->execute();
     $result = $stmt->fetch(pdo::FETCH_ASSOC);
+    $result = $this->getClassesWithAverageScores($result);
     return $result;
   }
 
@@ -29,7 +44,9 @@ class ClassesDAO extends DAO {
     $stmt = $this->pdo->prepare($sql);
     $stmt->bindValue(':id', $id);
     if($stmt->execute()) {
-      return $stmt->fetch(PDO::FETCH_ASSOC);
+      $result = $stmt->fetch(PDO::FETCH_ASSOC);
+      $result = $this->getClassWithAverageScore($result);
+      return $result;
     }
     return array();
   }
@@ -74,6 +91,33 @@ class ClassesDAO extends DAO {
     move_uploaded_file($photo['tmp_name'], $targetFile);
     $photo_url = str_replace(dirname(__DIR__) . DIRECTORY_SEPARATOR, '', $targetFile);
     return $photo_url;
+  }
+
+  public function getClassesWithAverageScores($classes){
+    for($i=0; $i<count($classes); $i++){
+      $classes[$i] = $this->getClassWithAverageScore($classes[$i]);
+    }
+    return $classes;
+  }
+
+  public function getClassWithAverageScore($class){
+    if(!empty($class)){
+      $sql = "SELECT AVG(score) AS `avg_score`, COUNT(*) AS `num_votes`
+              FROM `bw_scores` WHERE `class_id` = :class_id";
+      $qry = $this->pdo->prepare($sql);
+      $qry->bindValue(':class_id', $class['id']);
+      if($qry->execute()){
+        $result = $qry->fetch(PDO::FETCH_ASSOC);
+        if(!empty($result)){
+          $class['avg_score'] = round($result['avg_score'], 1);
+          $class['num_votes'] = $result['num_votes'];
+          return $class;
+        }
+      }
+      $class['avg_score'] = 0.0;
+      $class['num_votes'] = 0;
+      return $class;
+    }
   }
 
   public function getValidationErrors($data) {

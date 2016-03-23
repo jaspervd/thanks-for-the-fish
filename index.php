@@ -45,7 +45,7 @@ $app->get('/klas', function($request, $response, $args) {
 
 /* -- Back End : Authentication --------------------------------------------- */
 
-$app->get('/admin', function($request, $response, $args) {
+$app->get('/admin[/{anything:.*}]', function($request, $response, $args) {
   $basePath = $request->getUri()->getBasePath();
   if(checkLoggedIn('admin')) {
     $view = new \Slim\Views\PhpRenderer('view/');
@@ -70,7 +70,7 @@ $app->get('/api/teachers', function ($request, $response, $args) {
   if($authorized){
     $teachersDAO = new TeachersDAO();
     $teachers = $teachersDAO->getTeachers();
-    for($i=0; $i<count($admins); $i++){
+    for($i=0; $i<count($teachers); $i++){
       unset($teachers[$i]['password']);
     }
     return $response->write(json_encode($teachers))
@@ -176,11 +176,24 @@ $app->delete('/api/teachers/{id}', function ($request, $response, $args) {
 /* -- API: Classes ------------------------------------------------------ */
 
 //overview of all approved entries/classes
-$app->get('/api/classes', function ($request, $response, $args) {
+$app->get('/api/classes/authorized', function ($request, $response, $args) {
   $classesDAO = new ClassesDAO();
-  $classes = $classesDAO->getClasses();
+  $classes = $classesDAO->getAuthorizedClasses();
   return $response->write(json_encode($classes))
     ->withHeader('Content-Type','application/json');
+});
+
+//overview of all entries/classes, only visible to admins
+$app->get('/api/classes', function ($request, $response, $args) {
+  $authorized = checkLoggedIn('admin');
+  if($authorized){
+    $classesDAO = new ClassesDAO();
+    $classes = $classesDAO->getClasses();
+    return $response->write(json_encode($classes))
+      ->withHeader('Content-Type','application/json');
+  }
+  $response = $response->withStatus(401);
+  return $response;
 });
 
 //data of specific entry/class
@@ -358,9 +371,12 @@ $app->get('/api/admin/{data}', function ($request, $response, $args) {
 
 //logout admin by deleting session data
 $app->get('/api/admin/auth/logout', function ($request, $response, $args) {
+  $basePath = $request->getUri()->getBasePath();
   if(checkLoggedIn('admin')){
     unset($_SESSION['admin']);
   }
+  header('Location: '. $basePath .'/admin-login');
+  exit;
 });
 
 //update admin data, only available for logged in admins
@@ -417,6 +433,18 @@ $app->get('/api/classes/{class_id}/scores', function ($request, $response, $args
   ->withHeader('Content-Type','application/json');
 });
 
+$app->get('/api/classes/{class_id}/myscore', function ($request, $response, $args) {
+  $authorized = checkLoggedIn('admin');
+  if($authorized){
+    $scoresDAO = new ScoresDAO();
+    $score = $scoresDAO->getScoreByClassIdAndAdminId($args['class_id'], $_SESSION['admin']['id']);
+    return $response->write(json_encode($score))
+    ->withHeader('Content-Type','application/json');
+  }
+  $response = $response->withStatus(401);
+  return $response;
+});
+
 //overview of scores done by a specific admin, only visible for logged in admins
 $app->get('/api/scores/by/{admin_id}', function ($request, $response, $args) {
   $authorized = checkLoggedIn('admin');
@@ -435,11 +463,16 @@ $app->post('/api/classes/{class_id}/scores', function ($request, $response, $arg
   $authorized = checkAdminPrivilege('can_vote_winner');
   if($authorized){
     $scoresDAO = new ScoresDAO();
-    $newScore = $request->getParsedBody();
-    $insertedScore = $scoresDAO->insertScore($args['class_id'], $newScore);
-    $response = $response->write(json_encode($insertedScore))
+    $scoreData = $request->getParsedBody();
+    $existingScore = $scoresDAO->getScoreByClassIdAndAdminId($args['class_id'], $_SESSION['admin']['id']);
+    if($existingScore == 0){
+      $newScore = $scoresDAO->insertScore($args['class_id'], $_SESSION['admin']['id'], $scoreData);
+    }else{
+      $newScore = $scoresDAO->updateScore($args['class_id'], $_SESSION['admin']['id'], $scoreData);
+    }
+    $response = $response->write(json_encode($newScore))
     ->withHeader('Content-Type','application/json');
-    if(empty($insertedScore)) {
+    if(empty($newScore)) {
       $response = $response->withStatus(404);
     } else {
       $response = $response->withStatus(201);
@@ -454,13 +487,13 @@ $app->post('/api/classes/{class_id}/scores', function ($request, $response, $arg
 $app->put('/api/classes/{class_id}/scores', function ($request, $response, $args) {
   $authorized = checkAdminPrivilege('can_vote_winner');
   if($authorized){
-    $adminsDAO = new AdminsDAO();
+    $scoresDAO = new ScoresDAO();
     $updateData = $request->getParsedBody();
-    $updatedAdmin = $adminsDAO->updateAdmin($args['id'], $updateData);
-    unset($updatedAdmin['password']);
-    $response = $response->write(json_encode($updatedAdmin))
+    return $updateData;
+    $updatedScore = $scoresDAO->updateScore($args['class_id'], $_SESSION['admin']['id'], $updateData);
+    $response = $response->write(json_encode($updatedScore))
     ->withHeader('Content-Type','application/json');
-    if(empty($updatedAdmin)) {
+    if(empty($updatedScore)) {
       $response = $response->withStatus(404);
     }
     return $response;
