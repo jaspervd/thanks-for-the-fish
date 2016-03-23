@@ -101,6 +101,14 @@
 							</div>
 							<div class="clear"></div>
 						</article>
+						<blockqoute class="review">
+							<p>
+								Panikeer niet
+							</p>
+							<footer>
+								Douglas Adams
+							</footer>
+						</article>
 					</div>
 					<article class="order hide">
 						<header class="header-content">
@@ -167,6 +175,14 @@
 					<header class="header-title">
 						<h1>Boek</h1>
 					</header>
+					<blockqoute class="review">
+						<p>
+							Met een geestig gevoel voor humor, een goed oog voor detail en een grote dosis inzicht... Adams doet ons lachen tot we erbij neervallen.
+						</p>
+						<footer>
+							San Diego Union
+						</footer>
+					</article>
 					<article>
 						<header class="header-content">
 							<h2>Korte inhoud</h2>
@@ -177,6 +193,14 @@
 
 						<p class="text">Verder staat het boek vol van de humor, en tijdens het lezen is het soms zwaar om weer op adem te komen van het lachen. Veel van de grappen zijn te belachelijk, of te flauw voor woorden, maar juist daardoor zijn ze zo goed. Deze humor is voor een groot deel verantwoordelijk voor de grote schare fans die het boek heeft. Het boek is verheven tot een soort cult-status, en naar hun meningen verdiend dit het ook ten volle.</p>
 					</article>
+					<blockquote class="quote">
+						<p>
+							Is er überhaupt wel thee op dit ruimteschip?
+						</p>
+						<footer>
+							Arthur Dent
+						</footer>
+					</blockquote>
 					<article>
 						<header class="header-content">
 							<h2>Douglas Adams</h2>
@@ -195,6 +219,14 @@
 
 						<p class="text">De bedoeling is dat fans van Adams' werken op Towel Day de hele dag een handdoek mee nemen om zo aan te tonen dat ze zijn werken waarderen. Dit idee is afkomstig uit de boekenreeks, waarin een handdoek bekendstaat als het handigste hulpmiddel dat een intergalactische lifter bij zich kan hebben, en waarvan hij dus altijd moet weten waar hij hem heeft opgeborgen.</p>
 					</article>
+					<blockquote class="quote">
+						<p>
+							Alles was klaar, alles was voorbereid, hij wist waar zijn handdoek was.
+						</p>
+						<footer>
+							Douglas Adams
+						</footer>
+					</blockquote>
 				</section>
 			</div>
 			<div class="page excerpt">
@@ -207,6 +239,14 @@
 					<header class="header-title">
 						<h1>Voorproefje</h1>
 					</header>
+					<blockquote class="quote">
+						<p>
+							Weet je wel hoeveel schade deze bulldozer zou oplopen als ik hem gewoon over je liet rijden?
+						</p>
+						<footer>
+							Mr. Prosser
+						</footer>
+					</blockquote>
 					<article>
 						<header class="header-content">
 							<h2>Excerpt</h2>
@@ -218,6 +258,14 @@
 						<p class="text">En dus bleef het probleem bestaan; heel veel mensen waren krenterig en de meesten voelden zich ellendig, zelf degenen met een digitaal horloge. En ze beseften steeds meer dat het een afschuwelijke vergissing was geweest dat ze ooit uit die boom gekomen waren. Sommigen gingen nog verder en zeiden dat die bomen op zich al een domme zet waren geweest en dat ze nooit uit de zee hadden moeten komen.</p>
 
 						<p class="text">En toen, op een goede dag, zo'n tweeduizend jaar nadat er iemand aan een boom gespijkerd was omdat hij had gezegd dat het toch geweldig zou zijn als de mensen voor verandering eens aardig tegen elkaar deden, realiseerde een meisje dat in haar ééntje in een café in Dirkshorn zat zich plotseling wat er nu precies al die tijd was misgegaan. Zo wist zij uiteindelijk hoe de wereld goed en gelukkig moest worden. Deze keer klopte het, het zou lukken, en niemand zou waar dan ook aan vastgespijkerd hoeven worden. Maar voordat zij iemand had kunnen bellen om erover te vertellen, vond er helaas een krankzinnige catastrofe plaats en ging het inzicht voorgoed verloren.</p>
+					</article>
+					<blockqoute class="review">
+						<p>
+							Eén van de grappigste Science Fiction parodiën ooit geschreven.
+						</p>
+						<footer>
+							School Library Journal
+						</footer>
 					</article>
 					<aside>
 						<header>
@@ -247,6 +295,14 @@
 					<input type="search" class="photos-search" />
 					<ul class="photos-container"></ul>
 					<a href="#page-0" class="add-class">Jouw klas ook hier?</a>
+					<blockquote class="quote">
+						<p>
+							Ik ken dit waanzinnig goed restaurant op het uiteinde van het universum.
+						</p>
+						<footer>
+							Ford Prefect
+						</footer>
+					</blockquote>
 				</section>
 			</div>
 		</main>
