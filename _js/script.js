@@ -25,6 +25,7 @@ import {api} from './helpers/globals';
   let photosArray;
   let currentPage = 0;
   let menuState = false; // false = closed, true = open
+  let snapState = false; // false = not snapped, true = snapped
 
   const init = () => {
     let countdown = new Countdown(new Date(2016, 4, 18, 20, 42)); // 18 mei 2016 om 20u42
@@ -200,15 +201,25 @@ import {api} from './helpers/globals';
     }
   };
 
-  const scrollHandler = (e) => { //TODO: work with state (avoid 1000x changes of className)
+  const scrollHandler = (e) => {
+    let prevState = snapState;
     if(window.scrollY > window.innerHeight) {
-      logo.className = 'logo snap';
-      menu.className = 'menu snap';
+      if(!snapState) {
+        logo.className = 'logo snap';
+        menu.className = 'menu snap';
+      }
+      snapState = true;
     } else {
-      logo.className = 'logo';
-      menu.className = 'menu';
+      if(snapState) {
+        logo.className = 'logo';
+        menu.className = 'menu';
+      }
+      snapState = false;
     }
-    menu.className += (menuState? ' open' : ' closed');
+
+    if(prevState !== snapState) {
+      menu.className += (menuState? ' open' : ' closed');
+    }
   };
 
   const loadPhotos = () => {
