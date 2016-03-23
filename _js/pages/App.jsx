@@ -28,6 +28,7 @@ export default class App extends React.Component {
   componentDidMount(){
     let request = new XMLHttpRequest();
     request.open('GET', `${basename}/api/admin`, true);
+    request.withCredentials = true;
     request.onload = ($data) => {
       if (request.status === 200) {
         let adminData = JSON.parse($data.target.response);
@@ -61,6 +62,7 @@ export default class App extends React.Component {
   fetchAdmins(){
     let request = new XMLHttpRequest();
     request.open('GET', `${basename}/api/admins`, true);
+    request.withCredentials = true;
     request.onload = ($data) => {
       if (request.status === 200) {
         let admins = JSON.parse($data.target.response);
@@ -79,6 +81,7 @@ export default class App extends React.Component {
   fetchTeachers(){
     let request = new XMLHttpRequest();
     request.open('GET', `${basename}/api/teachers`, true);
+    request.withCredentials = true;
     request.onload = ($data) => {
       if (request.status === 200) {
         let teachers = JSON.parse($data.target.response);
@@ -97,6 +100,7 @@ export default class App extends React.Component {
   fetchEntries(){
     let request = new XMLHttpRequest();
     request.open('GET', `${basename}/api/classes`, true);
+    request.withCredentials = true;
     request.onload = ($data) => {
       if (request.status === 200) {
         let entries = JSON.parse($data.target.response);
@@ -122,6 +126,7 @@ export default class App extends React.Component {
     this.setState({teachers});
     let request = new XMLHttpRequest();
     request.open('PUT', `${basename}/api/teachers/${teacher_id}/approve`, true);
+    request.withCredentials = true;
     request.onload = ($data) => {
       if (request.status === 200) {
         console.log(`[App] Succesfully approved teacher`, $data.respone);
@@ -137,6 +142,7 @@ export default class App extends React.Component {
     this.setState({teachers});
     let request = new XMLHttpRequest();
     request.open('DELETE', `${basename}/api/teachers/${teacher_id}`, true);
+    request.withCredentials = true;
     request.onload = ($data) => {
       if (request.status === 200) {
         console.log(`[App] Succesfully deleted teacher`, $data.respone);
@@ -152,6 +158,7 @@ export default class App extends React.Component {
     this.setState({admins});
     let request = new XMLHttpRequest();
     request.open('DELETE', `${basename}/api/admins/${admin_id}`, true);
+    request.withCredentials = true;
     request.onload = ($data) => {
       if (request.status === 200) {
         console.log(`[App] Succesfully deleted jury member`, $data.respone);
