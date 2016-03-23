@@ -89,7 +89,7 @@ body {
 .menu {
 	position: fixed;
 	z-index: 100;
-	width: 20vw;
+	min-width: 200px;
 	right: 0;
 	text-align: right;
 	padding: 30px;
