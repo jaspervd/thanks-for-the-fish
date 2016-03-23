@@ -58,6 +58,7 @@ export default class EntryDetail extends Component {
   fetchEntry(){
     let request = new XMLHttpRequest();
     request.open('GET', `${basename}/api/classes/${this.props.params.id}`, true);
+    request.withCredentials = true;
     request.onload = ($data) => {
       if (request.status === 200) {
         let existingEntry = this.state;
@@ -86,6 +87,7 @@ export default class EntryDetail extends Component {
   fetchAdminScoreForEntry(class_id){
     let request = new XMLHttpRequest();
     request.open('GET', `${basename}/api/classes/${class_id}/myscore`, true);
+    request.withCredentials = true;
     request.onload = ($data) => {
       if (request.status === 200) {
         let myscore = $data.target.response;
@@ -115,6 +117,7 @@ export default class EntryDetail extends Component {
       let updateData = new FormData(scoreForm);
       let request = new XMLHttpRequest();
       request.open('POST', `${basename}/api/classes/${this.props.params.id}/scores`, true);
+      request.withCredentials = true;
       request.onload = ($data) => {
         if (request.status === 201) {
           let existingEntry = this.state;

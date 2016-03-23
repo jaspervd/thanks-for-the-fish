@@ -32,6 +32,7 @@ import {validate} from './helpers/util';
 			let formData = new FormData(loginForm);
 			let request = new XMLHttpRequest();
 			request.open('POST', `${window.app.basename}/api/admin/auth`, true);
+      request.withCredentials = true;
 			request.onload = function() {
 				if (request.status === 200) {
 					window.location = `${window.app.basename}/admin`;
