@@ -48,25 +48,25 @@
 					<div class="observers">
 						<img src="images/campaign/observers.png" srcset="images/campaign/observers.png 1x, images/campaign/observers@2x.png 2x" alt="" />
 					</div>
-					<div class="cloud-1">
+					<div class="cloud-1 move-layer-1">
 						<img src="images/clouds/cloud_1.png" srcset="images/clouds/cloud_1.png 1x, images/clouds/cloud_1@2x.png 2x" alt="" />
 					</div>
-					<div class="cloud-2">
+					<div class="cloud-2 move-layer-2">
 						<img src="images/clouds/cloud_2.png" srcset="images/clouds/cloud_2.png 1x, images/clouds/cloud_2@2x.png 2x" alt="" />
 					</div>
-					<div class="cloud-3">
+					<div class="cloud-3 move-layer-3">
 						<img src="images/clouds/cloud_3.png" srcset="images/clouds/cloud_3.png 1x, images/clouds/cloud_3@2x.png 2x" alt="" />
 					</div>
-					<div class="cloud-4">
+					<div class="cloud-4 move-layer-4">
 						<img src="images/clouds/cloud_4.png" srcset="images/clouds/cloud_4.png 1x, images/clouds/cloud_4@2x.png 2x" alt="" />
 					</div>
-					<div class="narwhale">
+					<div class="narwhale move-layer-4">
 						<img src="images/campaign/narwhale.png" srcset="images/campaign/narwhale.png 1x, images/campaign/narwhale@2x.png 2x" alt="" />
 					</div>
-					<div class="spacecraft">
-						<img src="images/clouds/spacecraft.png" srcset="images/campaign/spacecraft.png 1x, images/campaign/spacecraft@2x.png 2x" alt="" />
+					<div class="spacecraft move-layer-2">
+						<img src="images/campaign/spacecraft.png" srcset="images/campaign/spacecraft.png 1x, images/campaign/spacecraft@2x.png 2x" alt="" />
 					</div>
-					<a href="#" class="nav-down participate">
+					<a href="#" class="nav-down participate move-layer-3">
 						<img src="images/campaign/participate.png" srcset="images/campaign/participate.png 1x, images/campaign/participate@2x.png 2x" alt="Neem deel &amp; win 100 exemplaren!" />
 					</a>
 				</section>

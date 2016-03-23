@@ -272,12 +272,14 @@ html, body, .wrapper {
 		position: absolute;
 		top: 37vh;
 		left: 37vw;
+		z-index: 50;
 	}
 
 	.cloud-2 {
 		position: absolute;
 		left: 25vw;
 		bottom: 25vh;
+		z-index: 50;
 	}
 
 	.cloud-3 {
@@ -296,8 +298,16 @@ html, body, .wrapper {
 
 	.narwhale {
 		position: absolute;
-		left: 25vw;
-		bottom: 25vh;
+		left: calc(25vw + 200px);
+		bottom: calc(25vh + 50px);
+		z-index: 49;
+	}
+
+	.spacecraft {
+		position: absolute;
+		left: 23vw;
+		top: 20vh;
+		z-index: 49;
 	}
 
 	.show {

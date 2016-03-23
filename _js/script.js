@@ -51,6 +51,7 @@ import {api} from './helpers/globals';
     photosSearch.addEventListener('keydown', photosSearchHandler);
     wrapper.addEventListener('scroll', scrollHandler);
     addClass.addEventListener('click', addClassHandler);
+    window.addEventListener('mousemove', mouseMoveHandler);
 
     for(let i = 0; i < toggleOrder.length; i++) {
       toggleOrder[i].addEventListener('click', toggleOrderHandler);
@@ -275,9 +276,23 @@ import {api} from './helpers/globals';
       for(let photoData of photosArray) {
         let photo = new Photo(photoData);
         photosContainer.appendChild(photo);
-       }
+      }
     });
   };
 
-  init();
+  let moveLayers = document.querySelectorAll('.move-layer-1, .move-layer-2, .move-layer-3, .move-layer-4');
+
+  const mouseMoveHandler = (e) => {
+    var pageX = e.pageX - (window.innerWidth / 2);
+    var pageY = e.pageY - (window.innerHeight / 2);
+    var strength = 20;
+
+    for(let i = 0; i < moveLayers.length; i++) {
+      moveLayers[i].style.marginLeft = `${(strength / window.innerWidth * pageX * -1)}px`;
+      moveLayers[i].style.marginTop = `${(strength / window.innerHeight * pageY * -1)}px`;
+      strength *= 1.25;
+    }
+};
+
+init();
 })();
