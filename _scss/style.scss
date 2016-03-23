@@ -16,12 +16,18 @@ body {
 .logo {
 	width: 140px;
 	position: fixed;
-	margin: 30px;
+	padding: 30px;
 	z-index: 100;
+	box-sizing: content-box;
 
 	img {
 		width: 100%;
 	}
+}
+
+.snap {
+	position: absolute !important;
+	top: 100vh;
 }
 
 .header-content {

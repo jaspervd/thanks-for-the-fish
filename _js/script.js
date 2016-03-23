@@ -10,12 +10,14 @@ import {api} from './helpers/globals';
 
 (() => {
   let container = document.getElementsByClassName('container')[0];
+  let logo = document.getElementsByClassName('logo')[0];
   let orderForm = document.getElementsByClassName('order-form')[0];
   let navLeft = document.getElementsByClassName('nav-left')[0];
   let navRight = document.getElementsByClassName('nav-right')[0];
   let navDown = document.getElementsByClassName('nav-down');
   let navMenu = document.getElementsByClassName('nav-menu');
   let navIndicators = document.getElementsByClassName('nav-indicator');
+  let menu = document.getElementsByClassName('menu')[0];
   let menuToggle = document.getElementsByClassName('menu-toggle')[0];
   let pages = document.getElementsByClassName('page');
   let photosContainer = document.getElementsByClassName('photos-container')[0];
@@ -41,6 +43,7 @@ import {api} from './helpers/globals';
     orderForm.addEventListener('submit', orderHandler);
     menuToggle.addEventListener('click', menuToggleHandler);
     photosSearch.addEventListener('keydown', photosSearchHandler);
+    window.addEventListener('scroll', scrollHandler);
 
     for(let i = 0; i < navDown.length; i++) {
       navDown[i].addEventListener('click', navDownHandler);
@@ -116,7 +119,6 @@ import {api} from './helpers/globals';
   const menuToggleHandler = (e) => {
     e.preventDefault();
     menuState = !menuState;
-    let menu = document.getElementsByClassName('menu')[0];
     menu.className = (menuState? 'menu open' : 'menu closed');
   };
 
@@ -196,6 +198,17 @@ import {api} from './helpers/globals';
         photosContainer.appendChild(photo);
       }
     }
+  };
+
+  const scrollHandler = (e) => { //TODO: work with state (avoid 1000x changes of className)
+    if(window.scrollY > window.innerHeight) {
+      logo.className = 'logo snap';
+      menu.className = 'menu snap';
+    } else {
+      logo.className = 'logo';
+      menu.className = 'menu';
+    }
+    menu.className += (menuState? ' open' : ' closed');
   };
 
   const loadPhotos = () => {
