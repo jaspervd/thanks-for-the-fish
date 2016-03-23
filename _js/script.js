@@ -9,6 +9,7 @@ import {validate, scrollTo, inString} from './helpers/util';
 import {api} from './helpers/globals';
 
 (() => {
+  let wrapper = document.getElementsByClassName('wrapper')[0];
   let container = document.getElementsByClassName('container')[0];
   let logo = document.getElementsByClassName('logo')[0];
   let orderForm = document.getElementsByClassName('order-form')[0];
@@ -44,7 +45,7 @@ import {api} from './helpers/globals';
     orderForm.addEventListener('submit', orderHandler);
     menuToggle.addEventListener('click', menuToggleHandler);
     photosSearch.addEventListener('keydown', photosSearchHandler);
-    window.addEventListener('scroll', scrollHandler);
+    wrapper.addEventListener('scroll', scrollHandler);
 
     for(let i = 0; i < navDown.length; i++) {
       navDown[i].addEventListener('click', navDownHandler);
@@ -72,7 +73,7 @@ import {api} from './helpers/globals';
 
   const navDownHandler = (e) => {
     e.preventDefault();
-    scrollTo(window.innerHeight);
+    scrollTo(wrapper, 0, window.innerHeight, 1000);
   };
 
   const navMenuHandler = (e) => {
@@ -98,7 +99,7 @@ import {api} from './helpers/globals';
   };
 
   const changeToCurrentPage = () => {
-    window.scroll(0, 0); // reset user's scroll position
+    wrapper.scrollTop = 0; // reset user's scroll position
     if(currentPage < 0) {
       currentPage = 0;
     } else if(currentPage > (pages.length - 1)) {
@@ -106,7 +107,7 @@ import {api} from './helpers/globals';
     }
 
     for(let i = 0; i < navMenu.length; i++) {
-      navMenu[i].className = 'nav-menu';
+      navMenu[i].className = 'nav-menu button';
       navIndicators[i].className = 'nav-indicator';
       if(currentPage === i) {
         navMenu[i].className += ' active';
@@ -204,7 +205,7 @@ import {api} from './helpers/globals';
 
   const scrollHandler = (e) => {
     let prevState = snapState;
-    if(window.scrollY > window.innerHeight) {
+    if(wrapper.scrollTop > window.innerHeight) {
       if(!snapState) {
         logo.className = 'logo snap';
         menu.className = 'menu snap';

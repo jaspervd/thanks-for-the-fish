@@ -37,14 +37,19 @@ export const inString = (string, search) => {
   return (string.indexOf(search) !== -1);
 };
 
-export const scrollTo = (yPos) => {
-  var i = 0;
+export const scrollTo = (el, startPos, endPos, duration) => {
+  var endTime = new Date(Date.now() + duration);
+  var remaining = duration;
   function scroll() {
-    window.scroll(0, i);
-    if(i < yPos) {
+    let currentTime = new Date();
+    let rate = remaining / duration;
+    rate = 1 - Math.pow(rate, 3);
+    el.scrollTop = (rate * (endPos - startPos) + startPos);
+    if(currentTime < endTime) {
       window.requestAnimationFrame(scroll);
     }
-    i += 20;
+    remaining = endTime - currentTime;
+    console.log(el.scrollTop);
   }
 
   window.requestAnimationFrame(scroll);
