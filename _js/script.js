@@ -121,6 +121,7 @@ import {api} from './helpers/globals';
     e.preventDefault();
     menuState = !menuState;
     menu.className = (menuState? 'menu open' : 'menu closed');
+    menu.className += (snapState? ' snap' : '');
   };
 
   const orderHandler = (e) => {
