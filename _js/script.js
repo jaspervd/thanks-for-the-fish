@@ -5,7 +5,7 @@ import 'lodash';
 import Countdown from './classes/Countdown';
 import Photo from './classes/Photo';
 import Request from './classes/Request';
-import {validate, scrollTo, inString} from './helpers/util';
+import {validate, scrollTo, inString, getNumber} from './helpers/util';
 import {api} from './helpers/globals';
 
 (() => {
@@ -24,6 +24,7 @@ import {api} from './helpers/globals';
   let pages = document.getElementsByClassName('page');
   let photosContainer = document.getElementsByClassName('photos-container')[0];
   let photosSearch = document.getElementsByClassName('photos-search')[0];
+  let addClass = document.getElementsByClassName('add-class')[0];
   let photosArray;
   let currentPage = 0;
   let menuState = false; // false = closed, true = open
@@ -48,6 +49,7 @@ import {api} from './helpers/globals';
     menuToggle.addEventListener('click', menuToggleHandler);
     photosSearch.addEventListener('keydown', photosSearchHandler);
     wrapper.addEventListener('scroll', scrollHandler);
+    addClass.addEventListener('click', addClassHandler);
 
     for(let i = 0; i < toggleOrder.length; i++) {
       toggleOrder[i].addEventListener('click', toggleOrderHandler);
@@ -83,8 +85,17 @@ import {api} from './helpers/globals';
 
   const navMenuHandler = (e) => {
     e.preventDefault();
-    currentPage = parseInt(e.target.hash.match(/\d+$/)[0]); // gets the number from a hash like #page-0
+    currentPage = getNumber(e.target.hash); // gets the number from a hash like #page-0
     changeToCurrentPage();
+  };
+
+  const addClassHandler = (e) => {
+    e.preventDefault();
+    currentPage = getNumber(e.target.hash);
+    changeToCurrentPage();
+    setTimeout(() => {
+      scrollTo(wrapper, 0, window.innerHeight, 1000);
+    }, 1500);
   };
 
   const keyPressHandler = (e) => {

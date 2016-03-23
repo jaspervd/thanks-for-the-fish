@@ -55,6 +55,10 @@ export const scrollTo = (el, startPos, endPos, duration) => {
   window.requestAnimationFrame(scroll);
 };
 
+export const getNumber = (string) => {
+  return parseInt(string.match(/\d+$/)[0]);
+};
+
 export const checkStatus = (response) => {
   if (response.status >= 200 && response.status < 300) {
     return response;

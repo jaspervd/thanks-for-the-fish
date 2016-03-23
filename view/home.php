@@ -48,12 +48,12 @@
 				</section>
 				<section class="page-content">
 					<header class="header-title">
-						<h1>Campagne</h1>
+						<h2>Campagne</h2>
 					</header>
 					<div class="campaign-wrapper show">
 						<article class="campaign-info">
 							<header class="header-content">
-								<h1>Verover het heelal met boeken!</h1>
+								<h2>Verover het heelal met boeken!</h2>
 							</header>
 							<p class="text">Ter promotie van het lezen en bespreken van boeken in middelbare scholen, organiseert boek.be een actie waar alle docenten Nederlands aan mee kunnen doen.
 								De prijs van deze actie? 100 exemplaren van de wereldbekende klassieker 'Het Galactisch Liftershandboek', geschreven door Douglas Adams.
@@ -67,7 +67,7 @@
 						</article>
 						<article class="countdown">
 							<header class="header-content">
-								<h1>Tijd tot de <time datetime="2016-05-20 20:42">deadline</time></h1>
+								<h2>Tijd tot de <time datetime="2016-05-20 20:42">deadline</time></h2>
 							</header>
 							<div class="clock">
 								<div class="countdown-days"><span>0</span>dagen</div>
@@ -80,7 +80,7 @@
 					</div>
 					<article class="order hide">
 						<header class="header-content">
-							<h1>Bestelformulier</h1>
+							<h2>Bestelformulier</h2>
 						</header>
 						<form method="post" action="/" class="order-form">
 							<p class="input-wrapper">
@@ -135,7 +135,7 @@
 			</div>
 			<div class="page book">
 				<section class="page-screen">
-					<header class="header-title hide">
+					<header class="hide">
 						<h1>Informatie over het boek en de auteur</h1>
 					</header>
 				</section>
@@ -145,7 +145,7 @@
 					</header>
 					<article>
 						<header class="header-content">
-							<h1>Korte inhoud</h1>
+							<h2>Korte inhoud</h2>
 						</header>
 						<p class="text">Het Transgalactisch Liftershandboek (Engels: The Hitchhikers Guide to the Galaxy) is een komisch sciencefictionfranchise bedacht door Douglas Adams. De boekenserie was echter het succesvolst: tussen 1979 en 1992 verschenen vijf delen van de reeks. Dit jaar nog zal het zesde en laatste deel in het Nederlands verschijnen: "En dan nog iets..."</p>
 
@@ -155,7 +155,7 @@
 					</article>
 					<article>
 						<header class="header-content">
-							<h1>Douglas Adams</h1>
+							<h2>Douglas Adams</h2>
 						</header>
 						<p class="text">Douglas Adams heeft een groot aantal banen gehad, waaronder ziekenhuisbode, schoonmaker, lijfwacht, radioproducent en scriptredacteur van Doctor Who. Ook heeft hij met Graham Chapman van Monty Python samengewerkt en wordt hij in de credits van een van de afleveringen daarvan vermeld. Hij is echter het bekendst geworden door zijn hoorspel en boek "The Hitchhiker's Guide to the Galaxy" (HHGTTG), in het Nederlands uitgebracht als Het Transgalactisch Liftershandboek.</p>
 
@@ -165,7 +165,7 @@
 					</article>
 					<article>
 						<header class="header-content">
-							<h1>Towel Day</h1>
+							<h2>Towel Day</h2>
 						</header>
 						<p class="text">"Handdoekdag" oftwel "Towel Day" is een evenement bedoeld als eerbetoon aan Douglas Adams. Het evenement werd door fans van Adams' werken bedacht na zijn overlijden op 11 mei 2001, en wordt sindsdien jaarlijks gehouden op 25 mei.</p>
 
@@ -175,7 +175,7 @@
 			</div>
 			<div class="page excerpt">
 				<section class="page-screen">
-					<header class="header-title hide">
+					<header class="hide">
 						<h1>Een stuk uit het boek</h1>
 					</header>
 				</section>
@@ -185,7 +185,7 @@
 					</header>
 					<article>
 						<header class="header-content">
-							<h1>Excerpt</h1>
+							<h2>Excerpt</h2>
 						</header>
 						<p class="text">Ver weg in de nimmer in kaart gebrachte achtergebleven gebieden aan de weinig gewilde kant van de Westelijke Spiraalarm van de Melkweg, ligt een kleine, onaanzienlijke, gele zon. In een baan hieromheen cirkelt op een afstand van ruwweg honderdvijftig miljoen kilometer een volslagen onbeduidend blauwgroen planeetje, bewoond door aapachtige levensvormen die zo verbijsterend primitief zijn dat ze nog altijd denken dat het digitale horloge een geweldige uitvinding is.</p>
 
@@ -197,7 +197,7 @@
 					</article>
 					<aside>
 						<header>
-							<h1>Tips &amp; Tricks</h1>
+							<h2>Tips &amp; Tricks</h2>
 						</header>
 						<ul>
 							<li>Neem altijd een handdoek mee</li>
@@ -212,16 +212,17 @@
 			</div>
 			<div class="page photos">
 				<section class="page-screen">
-					<header class="header-title hide">
+					<header class="hide">
 						<h1>Een overzicht van de inzendingen</h1>
 					</header>
 				</section>
 				<section class="page-content">
 					<header class="header-title">
-						<h1>Klasfoto's</h1>
+						<h2>Klasfoto's</h2>
 					</header>
 					<input type="search" class="photos-search" />
 					<ul class="photos-container"></ul>
+					<a href="#page-0" class="add-class">Jouw klas ook hier?</a>
 				</section>
 			</div>
 		</main>
