@@ -15,7 +15,7 @@
       <header>
         <h1>Admin Login</h1>
       </header>
-      <form method="post" action="" class="login-form">
+      <form class="login-form">
         <p>
           <label for="admin-login">Gebruikersnaam of E-mail</label>
           <input type="text" name="entry" id="admin-login" required />
