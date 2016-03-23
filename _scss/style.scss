@@ -32,6 +32,24 @@ html, body, .wrapper {
 	height: 100%;
 }
 
+/* BASIC CLASSES */
+
+.hide {
+	display: none;
+}
+
+.clear {
+	clear: both;
+}
+
+.right {
+	float: right;
+}
+
+.center {
+	text-align: center;
+}
+
 /* TOP */
 
 .logo {
@@ -107,23 +125,11 @@ html, body, .wrapper {
 	.nav-right {
 		float: right;
 	}
-}
 
-.nav-indicators {
-	position: absolute;
-	bottom: 0;
-	z-index: 99;
-	left: 50%;
-	margin-left: -40px;
-	display: none; // indicators might be removed
-
-	ul li {
-		float: left;
-		margin-left: 20px;
-
-		&:first-child {
-			margin-left: 0;
-		}
+	.nav-down {
+		position: absolute;
+		left: 50%;
+		bottom: 0;
 	}
 }
 
@@ -147,7 +153,6 @@ html, body, .wrapper {
 .header-title {
 	font-size: 7rem;
 	padding: 60px;
-	margin-bottom: 40px;
 }
 
 .header-title, .header-content {
@@ -191,10 +196,6 @@ html, body, .wrapper {
 	padding-bottom: 200px;
 	box-sizing: content-box;
 	mask: url('../images/mask.svg') left bottom/200px repeat-x;
-
-	header {
-		display: none;
-	}
 }
 
 .page-content {
@@ -203,6 +204,10 @@ html, body, .wrapper {
 	margin-top: -200px;
 	position: absolute;
 	z-index: 2;
+
+	article {
+		margin-top: 40px;
+	}
 
 	.text {
 		text-align: center;
@@ -217,6 +222,8 @@ html, body, .wrapper {
 	}
 }
 
+/* HOME */
+
 .home {
 	.screen-img {
 		min-width: 70vh;
@@ -226,19 +233,56 @@ html, body, .wrapper {
 		text-align: center;
 	}
 
-	.order {
+	.participate {
+		position: absolute;
+		display: block;
+	}
+
+	.campaign-wrapper, .order {
 		width: 50vw;
-		margin: 0 auto;
+		position: absolute;
+		left: 50%;
+		transition: margin 1s ease;
+	}
+
+	.show {
+		margin-left: -25vw;
+	}
+
+	.hide {
+		display: block;
+		margin-left: -100vw;
 	}
 }
+
+.clock {
+	width: 50vw;
+	margin: 40px auto;
+
+	div {
+		float: left;
+		width: 25%;
+		text-align: center;
+
+		span {
+			display: block;
+		}
+	}
+}
+
+/* BOOK */
 
 .book {
 	margin-left: 100vw;
 }
 
+/* EXCERPT */
+
 .excerpt {
 	margin-left: 200vw;
 }
+
+/* PHOTOS */
 
 .photos {
 	margin-left: 300vw;
@@ -249,35 +293,31 @@ html, body, .wrapper {
 form {
 	width: 100%;
 	display: block;
-
-	.input-wrapper {
-		width: calc(50% - 20px);
-		margin: 10px;
-		float: left;
-
-		&.right {
-			float: right;
-		}
-	}
-
-	label {
-		display: block;
-		font-weight: bold;
-		margin-bottom: 4px;
-	}
-
-	input:not(.submit), textarea {
-		width: 100%;
-		padding: 10px 6px;
-		border: 1px solid #ddbe8a;
-		border-radius: 2px;
-		box-shadow: -3px 2px 0 rgba(122, 122, 122, .4);
-		font-family: $font-content;
-		font-size: 1.4rem;
-	}
 }
 
-.button.submit {
+.input-wrapper {
+	width: calc(50% - 20px);
+	margin: 10px;
+	float: left;
+}
+
+label {
+	display: block;
+	font-weight: bold;
+	margin-bottom: 4px;
+}
+
+input:not(.submit), textarea {
+	width: 100%;
+	padding: 10px 6px;
+	border: 1px solid #ddbe8a;
+	border-radius: 2px;
+	box-shadow: -3px 2px 0 rgba(122, 122, 122, .4);
+	font-family: $font-content;
+	font-size: 1.4rem;
+}
+
+.submit {
 	background-color: transparent;
 	background-image: url('../images/btn_submit.png');
 	width: 300px;

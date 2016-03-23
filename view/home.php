@@ -11,22 +11,18 @@
 	<div class="wrapper">
 		<div class="logo">
 			<a href="http://boek.be">
-				<img src="<?php echo $basePath; ?>/images/logo.png" alt="Logo boek.be" />
+				<img src="<?php echo $basePath; ?>/images/logo.png" srcset="images/logo.png 1x, images/logo@2x.png 2x" alt="Logo boek.be" />
 			</a>
 		</div>
 		<div class="navigation">
 			<a href="#" class="nav-left button">&lt;</a>
 			<a href="#" class="nav-right button">&gt;</a>
-		</div>
-		<div class="nav-indicators">
-			<ul>
-				<li><a href="#page-0" class="nav-indicator active">&bullet;</a></li>
-				<li><a href="#page-1" class="nav-indicator">&bullet;</a></li>
-				<li><a href="#page-2" class="nav-indicator">&bullet;</a></li>
-				<li><a href="#page-3" class="nav-indicator">&bullet;</a></li>
-			</ul>
+			<a href="#" class="nav-down button">&darr;</a>
 		</div>
 		<nav class="menu closed">
+			<header class="hide">
+				<h1>Menu</h1>
+			</header>
 			<a href="#" class="menu-toggle button">&#9776;</a>
 			<ul>
 				<li><a href="#page-0" class="nav-menu button active">Campagne</a></li>
@@ -36,45 +32,57 @@
 				<li><a href="login" class="button">Login</a></li>
 			</ul>
 		</nav>
-		<div class="container">
+		<main class="container">
 			<div class="page home">
 				<section class="page-screen">
-					<header>
+					<header class="hide">
 						<h1>Klassiekers in je klas</h1>
 						<h2>The Hitchhiker's Guide to the Galaxy</h2>
 					</header>
-					<div class="screen-img"><img src="images/title.png" alt="" /></div>
-					<a href="#" class="nav-down">&darr;</a>
+					<div class="screen-img">
+						<img src="images/campaign/title.png" srcset="images/campaign/title.png 1x, images/campaign/title@2x.png 2x" alt="" />
+					</div>
+					<a href="#" class="nav-down participate">
+						<img src="images/campaign/participate.png" srcset="images/campaign/participate.png 1x, images/campaign/participate@2x.png 2x" alt="Neem deel &amp; win 100 exemplaren!" />
+					</a>
 				</section>
 				<section class="page-content">
 					<header class="header-title">
 						<h1>Campagne</h1>
 					</header>
-					<article class="campaign-info">
-						<header class="header-content">
-							<h1>Verover het heelal met boeken!</h1>
-						</header>
-						<p class="text">Ter promotie van het lezen en bespreken van boeken in middelbare scholen, organiseert boek.be een actie waar alle docenten nederlands aan mee kunnen doen.
-							De prijs van deze actie? 100 exemplaren van de wereldbekende klassieker 'Het Galactisch Liftershandboek', geschreven door Douglas Adams.
-						</p>
-						<p class="text">
-							Deelnemen is simpel. Laat jouw leerlingen 'Hitchhikers Guide to the Galaxy' lezen en dien per deelnemende klas een klassikale boekbespreking in. De jury zal na de deadline van 20 Mei (20:42) stemmen op welke boekbespreking de prijs zal binnenhalen.
-						</p>
-					</article>
-					<article class="countdown">
-						<header class="header-content">
-							<h1>Tijd tot deadline</h1>
-						</header>
-						<div class="countdown-days">0</div>
-						<div class="countdown-hours">0</div>
-						<div class="countdown-minutes">0</div>
-						<div class="countdown-seconds">0</div>
-					</article>
-					<article class="order">
+					<div class="campaign-wrapper show">
+						<article class="campaign-info">
+							<header class="header-content">
+								<h1>Verover het heelal met boeken!</h1>
+							</header>
+							<p class="text">Ter promotie van het lezen en bespreken van boeken in middelbare scholen, organiseert boek.be een actie waar alle docenten Nederlands aan mee kunnen doen.
+								De prijs van deze actie? 100 exemplaren van de wereldbekende klassieker 'Het Galactisch Liftershandboek', geschreven door Douglas Adams.
+							</p>
+							<p class="text">
+								Deelnemen is simpel. Laat jouw leerlingen 'Hitchhikers Guide to the Galaxy' lezen en dien per deelnemende klas een klassikale boekbespreking in. De jury zal na de deadline van 20 Mei (20:42) stemmen op welke boekbespreking de prijs zal binnenhalen.
+							</p>
+							<p class="text center">
+								<input type="button" class="toggle-order button submit" value="Deelnemen!" />
+							</p>
+						</article>
+						<article class="countdown">
+							<header class="header-content">
+								<h1>Tijd tot de <time datetime="2016-05-20 20:42">deadline</time></h1>
+							</header>
+							<div class="clock">
+								<div class="countdown-days"><span>0</span>dagen</div>
+								<div class="countdown-hours"><span>0</span>uur</div>
+								<div class="countdown-minutes"><span>0</span>minuten</div>
+								<div class="countdown-seconds"><span>0</span>seconden</div>
+							</div>
+							<div class="clear"></div>
+						</article>
+					</div>
+					<article class="order hide">
 						<header class="header-content">
 							<h1>Bestelformulier</h1>
 						</header>
-						<form method="post" action="" class="order-form">
+						<form method="post" action="/" class="order-form">
 							<p class="input-wrapper">
 								<label for="firstname">Voornaam</label>
 								<input type="text" name="firstname" id="firstname" required />
@@ -116,9 +124,9 @@
 								<input type="url" name="school_website" id="school_website" required />
 							</p>
 							<p class="input-wrapper">
-								<a href="#" class="return-campaign">&lt; terug</a>
+								<a href="#" class="toggle-order" tabindex="-1">&lt; terug</a>
 							</p>
-							<p class="input-wrapper right">
+							<p class="input-wrapper right center">
 								<input type="submit" name="submit" value="Bestellen" class="button submit" />
 							</p>
 						</form>
@@ -127,12 +135,14 @@
 			</div>
 			<div class="page book">
 				<section class="page-screen">
-					<header>
-						<h1>Boek</h1>
+					<header class="header-title hide">
+						<h1>Informatie over het boek en de auteur</h1>
 					</header>
-					<a href="#" class="nav-down">&darr;</a>
 				</section>
 				<section class="page-content">
+					<header class="header-title">
+						<h1>Boek</h1>
+					</header>
 					<article>
 						<header class="header-content">
 							<h1>Korte inhoud</h1>
@@ -165,12 +175,14 @@
 			</div>
 			<div class="page excerpt">
 				<section class="page-screen">
+					<header class="header-title hide">
+						<h1>Een stuk uit het boek</h1>
+					</header>
+				</section>
+				<section class="page-content">
 					<header class="header-title">
 						<h1>Voorproefje</h1>
 					</header>
-					<a href="#" class="nav-down">&darr;</a>
-				</section>
-				<section class="page-content">
 					<article>
 						<header class="header-content">
 							<h1>Excerpt</h1>
@@ -183,21 +195,36 @@
 
 						<p class="text">En toen, op een goede dag, zo'n tweeduizend jaar nadat er iemand aan een boom gespijkerd was omdat hij had gezegd dat het toch geweldig zou zijn als de mensen voor verandering eens aardig tegen elkaar deden, realiseerde een meisje dat in haar ééntje in een café in Dirkshorn zat zich plotseling wat er nu precies al die tijd was misgegaan. Zo wist zij uiteindelijk hoe de wereld goed en gelukkig moest worden. Deze keer klopte het, het zou lukken, en niemand zou waar dan ook aan vastgespijkerd hoeven worden. Maar voordat zij iemand had kunnen bellen om erover te vertellen, vond er helaas een krankzinnige catastrofe plaats en ging het inzicht voorgoed verloren.</p>
 					</article>
+					<aside>
+						<header>
+							<h1>Tips &amp; Tricks</h1>
+						</header>
+						<ul>
+							<li>Neem altijd een handdoek mee</li>
+							<li>Laat Vogons geen poëzie voorlezen</li>
+							<li>Je kunt 30 seconden lang overleven in de ruimte</li>
+							<li>Vermijd liefde</li>
+							<li>De beste cocktail is en blijft de Pan Galactic Gargle Blaster (of Breinbeuker)</li>
+							<li>Het belangrijkste voor het laatste: Geen paniek.</li>
+						</ul>
+					</aside>
 				</section>
 			</div>
 			<div class="page photos">
 				<section class="page-screen">
+					<header class="header-title hide">
+						<h1>Een overzicht van de inzendingen</h1>
+					</header>
+				</section>
+				<section class="page-content">
 					<header class="header-title">
 						<h1>Klasfoto's</h1>
 					</header>
-					<a href="#" class="nav-down">&darr;</a>
-				</section>
-				<section class="page-content">
 					<input type="search" class="photos-search" />
 					<ul class="photos-container"></ul>
 				</section>
 			</div>
-		</div>
+		</main>
 	</div>
 	<script>
 	window.app = window.app || {};
