@@ -129,7 +129,7 @@ body {
 
 .header-title {
 	font-size: 7rem;
-	padding: 40px;
+	padding: 60px;
 }
 
 .header-title, .header-content {
@@ -171,6 +171,7 @@ body {
 }
 
 .page-content {
+	width: 100vw;
 	min-height: 100vh;
 	margin-top: -200px;
 	position: absolute;
