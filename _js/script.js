@@ -99,7 +99,6 @@ import {api} from './helpers/globals';
   };
 
   const changeToCurrentPage = () => {
-    wrapper.scrollTop = 0; // reset user's scroll position
     if(currentPage < 0) {
       currentPage = 0;
     } else if(currentPage > (pages.length - 1)) {
@@ -115,7 +114,12 @@ import {api} from './helpers/globals';
       }
     }
 
-    container.className = `container page-${currentPage}`;
+    if(wrapper.scrollTop > 0) {
+      scrollTo(wrapper, wrapper.scrollTop, 0, 500);
+      container.className = `container delay page-${currentPage}`;
+    } else {
+      container.className = `container animate page-${currentPage}`;
+    }
   };
 
   const menuToggleHandler = (e) => {

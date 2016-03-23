@@ -15,12 +15,12 @@
 			</a>
 		</div>
 		<div class="navigation">
-			<a href="#" class="nav-left button">&laquo;</a>
-			<a href="#" class="nav-right button">&raquo;</a>
+			<a href="#" class="nav-left button">&lt;</a>
+			<a href="#" class="nav-right button">&gt;</a>
 		</div>
 		<div class="nav-indicators">
 			<ul>
-				<li><a href="#page-0" class="nav-indicator">&bullet;</a></li>
+				<li><a href="#page-0" class="nav-indicator active">&bullet;</a></li>
 				<li><a href="#page-1" class="nav-indicator">&bullet;</a></li>
 				<li><a href="#page-2" class="nav-indicator">&bullet;</a></li>
 				<li><a href="#page-3" class="nav-indicator">&bullet;</a></li>
@@ -29,7 +29,7 @@
 		<nav class="menu closed">
 			<a href="#" class="menu-toggle button">&#9776;</a>
 			<ul>
-				<li><a href="#page-0" class="nav-menu button">Campagne</a></li>
+				<li><a href="#page-0" class="nav-menu button active">Campagne</a></li>
 				<li><a href="#page-1" class="nav-menu button">Boek</a></li>
 				<li><a href="#page-2" class="nav-menu button">Voorproefje</a></li>
 				<li><a href="#page-3" class="nav-menu button">Klasfoto's</a></li>
