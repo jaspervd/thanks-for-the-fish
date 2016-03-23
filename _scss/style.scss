@@ -131,7 +131,7 @@ html, body, .wrapper {
 
 .header-content {
 	font-family: $font-header;
-	text-shadow: -5px 2px 0 $color-header;
+	text-shadow: -3px 2px 0 $color-header;
 	color: $color-content;
 	font-size: 4rem;
 }
@@ -139,7 +139,7 @@ html, body, .wrapper {
 .button, .header-title {
 	font-family: $font-header;
 	color: $color-header;
-	text-shadow: -5px 2px 0 $color-shadow;
+	text-shadow: -3px 2px 0 $color-shadow;
 	font-size: 3rem;
 	text-decoration: none;
 }
@@ -204,7 +204,7 @@ html, body, .wrapper {
 	position: absolute;
 	z-index: 2;
 
-	p {
+	.text {
 		text-align: center;
 		width: 50vw;
 		margin: 40px auto 0;
@@ -225,6 +225,11 @@ html, body, .wrapper {
 		padding-top: 15vh;
 		text-align: center;
 	}
+
+	.order {
+		width: 50vw;
+		margin: 0 auto;
+	}
 }
 
 .book {
@@ -242,13 +247,42 @@ html, body, .wrapper {
 /* FORMS */
 
 form {
-	.button {
-		background-color: transparent;
-		background-image: url('../images/btn_submit.png');
-		width: 300px;
-		height: 74px;
-		border: none;
-		padding-bottom: 13px;
-		cursor: pointer;
+	width: 100%;
+	display: block;
+
+	.input-wrapper {
+		width: calc(50% - 20px);
+		margin: 10px;
+		float: left;
+
+		&.right {
+			float: right;
+		}
 	}
+
+	label {
+		display: block;
+		font-weight: bold;
+		margin-bottom: 4px;
+	}
+
+	input:not(.submit), textarea {
+		width: 100%;
+		padding: 10px 6px;
+		border: 1px solid #ddbe8a;
+		border-radius: 2px;
+		box-shadow: -3px 2px 0 rgba(122, 122, 122, .4);
+		font-family: $font-content;
+		font-size: 1.4rem;
+	}
+}
+
+.button.submit {
+	background-color: transparent;
+	background-image: url('../images/btn_submit.png');
+	width: 300px;
+	height: 74px;
+	border: none;
+	padding-bottom: 13px;
+	cursor: pointer;
 }
