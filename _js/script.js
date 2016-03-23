@@ -22,6 +22,7 @@ import {api} from './helpers/globals';
   let menu = document.getElementsByClassName('menu')[0];
   let menuToggle = document.getElementsByClassName('menu-toggle')[0];
   let pages = document.getElementsByClassName('page');
+  let pageContents = document.getElementsByClassName('page-content');
   let photosContainer = document.getElementsByClassName('photos-container')[0];
   let photosSearch = document.getElementsByClassName('photos-search')[0];
   let addClass = document.getElementsByClassName('add-class')[0];
@@ -80,7 +81,16 @@ import {api} from './helpers/globals';
 
   const navDownHandler = (e) => {
     e.preventDefault();
-    scrollTo(wrapper, 0, window.innerHeight, 1000);
+    if(e.target.parentNode.className !== 'nav-down participate') {
+      e.target.parentNode.className = 'nav-down clicked';
+      setTimeout(() => {
+        e.target.parentNode.className = 'nav-down hide';
+      }, 1000);
+      setTimeout(() => {
+        e.target.parentNode.className = 'nav-down';
+      }, 2000);
+    }
+    scrollTo(wrapper, wrapper.scrollTop, window.innerHeight, 1000, 500);
   };
 
   const navMenuHandler = (e) => {
@@ -121,12 +131,15 @@ import {api} from './helpers/globals';
       currentPage = pages.length - 1;
     }
 
+    for(let i = 0; i < pageContents.length; i++) {
+      pageContents[i].className = 'page-content';
+    }
+    pageContents[currentPage].className = 'page-content active';
+
     for(let i = 0; i < navMenu.length; i++) {
       navMenu[i].className = 'nav-menu button';
-      if(currentPage === i) {
-        navMenu[i].className += ' active';
-      }
     }
+    navMenu[currentPage].className += ' active';
 
     if(wrapper.scrollTop > 0) {
       scrollTo(wrapper, wrapper.scrollTop, 0, 500);

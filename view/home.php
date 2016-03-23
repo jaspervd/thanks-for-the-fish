@@ -1,23 +1,26 @@
 <!DOCTYPE html>
 <html>
 <head>
+	<base href="<?php echo $basePath; ?>/">
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1"/>
 	<title>Klassiekers in je klas</title>
-	<link rel="stylesheet" href="<?php echo $basePath; ?>/css/style.css">
+	<link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 	<div class="wrapper">
 		<div class="logo">
 			<a href="http://boek.be">
-				<img src="<?php echo $basePath; ?>/images/logo.png" srcset="images/logo.png 1x, images/logo@2x.png 2x" alt="Logo boek.be" />
+				<img src="images/logo.png" srcset="images/logo.png 1x, images/logo@2x.png 2x" alt="Logo boek.be" />
 			</a>
 		</div>
 		<div class="navigation">
 			<a href="#" class="nav-left button">&lt;</a>
 			<a href="#" class="nav-right button">&gt;</a>
-			<a href="#" class="nav-down button">&darr;</a>
+			<a href="#" class="nav-down">
+				<img src="images/petunia.png" srcset="images/petunia.png 1x, images/petunia@2x.png 2x" alt="Logo boek.be" />
+			</a>
 		</div>
 		<nav class="menu closed">
 			<header class="hide">
@@ -42,11 +45,32 @@
 					<div class="screen-img">
 						<img src="images/campaign/title.png" srcset="images/campaign/title.png 1x, images/campaign/title@2x.png 2x" alt="" />
 					</div>
+					<div class="observers">
+						<img src="images/campaign/observers.png" srcset="images/campaign/observers.png 1x, images/campaign/observers@2x.png 2x" alt="" />
+					</div>
+					<div class="cloud-1">
+						<img src="images/clouds/cloud_1.png" srcset="images/clouds/cloud_1.png 1x, images/clouds/cloud_1@2x.png 2x" alt="" />
+					</div>
+					<div class="cloud-2">
+						<img src="images/clouds/cloud_2.png" srcset="images/clouds/cloud_2.png 1x, images/clouds/cloud_2@2x.png 2x" alt="" />
+					</div>
+					<div class="cloud-3">
+						<img src="images/clouds/cloud_3.png" srcset="images/clouds/cloud_3.png 1x, images/clouds/cloud_3@2x.png 2x" alt="" />
+					</div>
+					<div class="cloud-4">
+						<img src="images/clouds/cloud_4.png" srcset="images/clouds/cloud_4.png 1x, images/clouds/cloud_4@2x.png 2x" alt="" />
+					</div>
+					<div class="narwhale">
+						<img src="images/campaign/narwhale.png" srcset="images/campaign/narwhale.png 1x, images/campaign/narwhale@2x.png 2x" alt="" />
+					</div>
+					<div class="spacecraft">
+						<img src="images/clouds/spacecraft.png" srcset="images/campaign/spacecraft.png 1x, images/campaign/spacecraft@2x.png 2x" alt="" />
+					</div>
 					<a href="#" class="nav-down participate">
 						<img src="images/campaign/participate.png" srcset="images/campaign/participate.png 1x, images/campaign/participate@2x.png 2x" alt="Neem deel &amp; win 100 exemplaren!" />
 					</a>
 				</section>
-				<section class="page-content">
+				<section class="page-content active">
 					<header class="header-title">
 						<h2>Campagne</h2>
 					</header>
@@ -231,6 +255,6 @@
 	window.app = window.app || {};
 	window.app.basename = '<?php echo $basePath;?>';
 	</script>
-	<script src="<?php echo $basePath; ?>/js/script.js"></script>
+	<script src="js/script.js"></script>
 </body>
 </html>

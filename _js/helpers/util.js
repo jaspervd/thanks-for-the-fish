@@ -37,8 +37,8 @@ export const inString = (string, search) => {
   return (string.indexOf(search) !== -1);
 };
 
-export const scrollTo = (el, startPos, endPos, duration) => {
-  var endTime = new Date(Date.now() + duration);
+export const scrollTo = (el, startPos, endPos, duration, delay = 0) => {
+  var endTime = new Date(Date.now() + duration + delay);
   var remaining = duration;
   function scroll() {
     let currentTime = new Date();
@@ -49,10 +49,11 @@ export const scrollTo = (el, startPos, endPos, duration) => {
       window.requestAnimationFrame(scroll);
     }
     remaining = endTime - currentTime;
-    console.log(el.scrollTop);
   }
 
-  window.requestAnimationFrame(scroll);
+  setTimeout(() => {
+    window.requestAnimationFrame(scroll);
+  }, delay);
 };
 
 export const getNumber = (string) => {
