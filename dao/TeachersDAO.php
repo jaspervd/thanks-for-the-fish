@@ -4,7 +4,6 @@ class TeachersDAO extends DAO {
 
 	public function getTeachers() {
 		$sql = "SELECT * FROM `bw_teachers`
-            WHERE `authorized` = :authorized
             ORDER BY `id` ASC";
     $stmt = $this->pdo->prepare($sql);
     $stmt->bindValue(':authorized', 1);

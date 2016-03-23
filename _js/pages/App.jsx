@@ -3,7 +3,7 @@
 import React from 'react';
 import {Link} from 'react-router';
 import {basename} from '../globals';
-//import {find, filter} from 'lodash';
+import {find, filter} from 'lodash';
 
 import {NavOptions} from '../components/';
 
@@ -48,7 +48,7 @@ export default class App extends React.Component {
       this.fetchAdmins();
     }
     if(admin.can_authorize_teachers === 1){
-      navOptions.push({'id': 2, 'to': '/admin/teachers', 'optionName': 'Gebruikers'});
+      navOptions.push({'id': 2, 'to': '/admin/teachers', 'optionName': 'Docenten'});
       this.fetchTeachers();
     }
     if(admin.can_vote_winner === 1 || admin.can_approve_entry === 1){
@@ -112,6 +112,80 @@ export default class App extends React.Component {
     request.send();
   }
 
+  approveTeacher(teacher_id) {
+    let teachers = this.state.teachers.concat();
+    let existingTeacher = find(teachers, o => o.id === teacher_id);
+    if(!existingTeacher) {
+      return;
+    }
+    existingTeacher.authorized = 1;
+    this.setState({teachers});
+    let request = new XMLHttpRequest();
+    request.open('PUT', `${basename}/api/teachers/${teacher_id}/approve`, true);
+    request.onload = ($data) => {
+      if (request.status === 200) {
+        console.log(`[App] Succesfully approved teacher`, $data.respone);
+      } else {
+        console.log(`[App] Could not approve teacher`);
+      }
+    };
+    request.send();
+  }
+
+  deleteTeacher(teacher_id) {
+    let teachers = filter(this.state.teachers, o => o.id !== teacher_id);
+    this.setState({teachers});
+    let request = new XMLHttpRequest();
+    request.open('DELETE', `${basename}/api/teachers/${teacher_id}`, true);
+    request.onload = ($data) => {
+      if (request.status === 200) {
+        console.log(`[App] Succesfully deleted teacher`, $data.respone);
+      } else {
+        console.log(`[App] Could not delete teacher`);
+      }
+    };
+    request.send();
+  }
+
+  deleteAdmin(admin_id) {
+    let admins = filter(this.state.admins, a => a.id !== admin_id);
+    this.setState({admins});
+    let request = new XMLHttpRequest();
+    request.open('DELETE', `${basename}/api/admins/${admin_id}`, true);
+    request.onload = ($data) => {
+      if (request.status === 200) {
+        console.log(`[App] Succesfully deleted jury member`, $data.respone);
+      } else {
+        console.log(`[App] Could not delete jury member`);
+      }
+    };
+    request.send();
+  }
+
+  addAdmin(admin, postData){
+    let admins = this.state.admins.concat();
+    admins.push(admin);
+    this.setState({admins});
+    let request = new XMLHttpRequest();
+    request.open('POST', `${basename}/api/admins`, true);
+    request.onload = ($data) => {
+      if (request.status === 200) {
+        let newAdmin = JSON.parse($data.respone);
+        let existingAdmin = find(this.state.admins, a => {
+          return a.id === newAdmin.id;
+        });
+        if(existingAdmin) {
+          existingAdmin.id = newAdmin.id;
+          this.setState({admins: this.state.admins.concat()});
+        }
+        console.log(`[App] Succesfully added admin`);
+      } else {
+        console.log(`[App] Could not add admin`);
+      }
+    };
+    request.send(postData);
+  }
+
   render() {
 
     let {admin, adminFetched, navOptions, entries, entriesFetched, teachers, teachersFetched, admins, adminsFetched} = this.state;
@@ -132,7 +206,11 @@ export default class App extends React.Component {
           teachersFetched: teachersFetched,
           admins: admins,
           adminsFetched: adminsFetched,
-          addAdminScoreForEntry: e => this.addAdminScoreForEntry(e)
+          addAdminScoreForEntry: e => this.addAdminScoreForEntry(e),
+          deleteTeacher: t => this.deleteTeacher(t),
+          approveTeacher: t => this.approveTeacher(t),
+          deleteAdmin: a => this.deleteAdmin(a),
+          addAdmin: (a, pd) => this.addAdmin(a, pd)
         })}
       </div>
     );

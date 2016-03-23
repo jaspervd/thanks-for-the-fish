@@ -29,7 +29,6 @@
         </p>
       </form>
     </section>
-    <div class="bg">&nbsp;</div>
   </div>
   <script>
   window.app = window.app || {};

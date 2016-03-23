@@ -130,17 +130,7 @@ body {
   height: 100%;
   top: 0px;
   left: 0px;
-
-  .bg{
-    position: absolute;
-    width: 4000px;
-    height: 2000px;
-    top: -750px;
-    left: -950px;
-    @include bgImgUrl('vintage_space_pattern.png');
-    //transform: rotate(-36deg);
-    z-index: 0;
-  }
+  @include bgImgUrl('vintage_space_pattern.png');
 
 }
 
@@ -304,16 +294,20 @@ body {
   width: 100%;
   height: auto;
 
+  .hidden{
+    display: none;
+  }
+
   .page-section{
-    background-color: #FFF;
     padding: 20px;
     border-radius: 3px;
     margin-bottom: 40px;
+    background-color: rgba(250, 250, 250, .98);
   }
 
 }
 
-/* -- CMS: Entries Page ------------------------------------------------------ */
+/* -- CMS: Entries ------------------------------------------------------ */
 
 .entries{
 
@@ -328,7 +322,7 @@ body {
   ul>li a{
     position: relative;
     display: inline-block;
-    width: 400px;
+    width: 600px;
     padding: 12px 15px;
     margin-bottom: 10px;
     background-color: #3B8BCD;
@@ -345,14 +339,19 @@ body {
     margin-bottom: 0px;
   }
 
-  .class-avg-score{
+  .class-nickname{
     position: relative;
     margin-left: 0px;
   }
 
-  .class-nickname{
+  .class-students{
     position: absolute;
-    left: 110px;
+    left: 160px;
+  }
+
+  .class-avg-score{
+    position: absolute;
+    left: 340px;
   }
 
 }
@@ -454,6 +453,148 @@ body {
 
   .onTen{
     padding-top: 18px;
+  }
+
+}
+
+/* -- CMS: Teachers ------------------------------------------------------ */
+
+.teachers{
+
+  ul>li:last-child{
+    margin-bottom: 0px;
+  }
+
+}
+
+.table-header, .teacher-item, .admin-item{
+  position: relative;
+  display: block;
+  padding: 12px 15px;
+  margin-bottom: 10px;
+  font-family: Helvetica, Arial;
+  font-size: .8em;
+  font-weight: bold;
+}
+
+.teacher-item{
+  width: 460px;
+  padding: 12px 15px;
+  background-color: #FF9933;
+  border-radius: 2px;
+  color: #FFF;
+}
+
+.teacher-name{
+  position: relative;
+  margin-left: 0px;
+}
+
+.teacher-school{
+  position: absolute;
+  left: 160px;
+}
+
+.school-website{
+  position: absolute;
+  left: 300px;
+}
+
+a.school-website{
+  color: #FFF;
+}
+
+a.delete-btn, a.approve-btn{
+  display: block;
+  padding: 15px 10px 12px 10px;
+  top: 0px;
+  font-family: Arial;
+  font-size: .8em;
+  font-weight: bold;
+  text-decoration: none;
+  text-align: center;
+  border-radius: 2px;
+}
+
+.delete-btn{
+  position: absolute;
+  left: 465px;
+}
+
+a.delete-btn{
+  background-color: #F2275D;
+  width: 38px;
+  color: #FFF;
+}
+
+a.approve-btn{
+  position: absolute;
+  background-color: #84CC2B;
+  color: #FFF;
+  left: 508px;
+}
+
+/* -- CMS: Admins ------------------------------------------------------ */
+
+.admins{
+
+  ul>li:last-child{
+    margin-bottom: 0px;
+  }
+
+}
+
+.admin-item{
+  width: 460px;
+  padding: 12px 15px;
+  background-color: #84CC2B;
+  border-radius: 2px;
+  color: #FFF;
+}
+
+.admin-name{
+  position: relative;
+  margin-left: 0px;
+}
+
+.admin-email{
+  position: absolute;
+  left: 140px;
+}
+
+.admin-role{
+  position: absolute;
+  left: 360px;
+}
+
+.admin-form{
+
+  padding: 0px;
+
+  input, select{
+    padding: 12px 15px;
+    border: none;
+    outline: none;
+    margin-right: 20px;
+    font-family: Helvetica, Arial;
+    font-size: .8em;
+    font-weight: bold;
+    border-radius: 2px;
+  }
+
+  #admin-username{
+    width: 160px;
+    background-color: #FFF;
+  }
+
+  #admin-email{
+    width: 240px;
+    background-color: #FFF;
+  }
+
+  input[type="submit"]{
+    background-color: #84CC2B;
+    color: #FFF;
   }
 
 }

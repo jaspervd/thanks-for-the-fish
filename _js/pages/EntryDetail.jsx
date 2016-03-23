@@ -45,14 +45,42 @@ export default class EntryDetail extends Component {
       return e.id === id;
     });
     if(!entry) {
-      this.context.router.push('/admin');
+      //this.context.router.push('/admin');
+      this.fetchEntry();
       return;
     }
     this.setState(entry);
     if(!entry.adminScoreFetched) {
-      //this.props.fetchAdminScoreForEntry(entry.id);
       this.fetchAdminScoreForEntry(entry.id);
     }
+  }
+
+  fetchEntry(){
+    let request = new XMLHttpRequest();
+    request.open('GET', `${basename}/api/classes/${this.props.params.id}`, true);
+    request.onload = ($data) => {
+      if (request.status === 200) {
+        let existingEntry = this.state;
+        let entry = JSON.parse($data.target.response);
+        existingEntry.key = entry.id;
+        existingEntry.id = entry.id;
+        existingEntry.creator_id = entry.creator_id;
+        existingEntry.nickname = entry.nickname;
+        existingEntry.num_students = entry.num_students;
+        existingEntry.photo = entry.photo;
+        existingEntry.entry = entry.entry;
+        existingEntry.avg_score = entry.avg_score;
+        existingEntry.num_votes = entry.num_votes;
+        existingEntry.admin_score = 0;
+        existingEntry.adminScoreFetched = false;
+        this.setState({existingEntry});
+        this.fetchAdminScoreForEntry(entry.id);
+        console.log(`[App] Succesfully fetched entry`);
+      } else {
+        console.log(`[App] Could not retrieve entry`);
+      }
+    };
+    request.send();
   }
 
   fetchAdminScoreForEntry(class_id){
@@ -66,7 +94,6 @@ export default class EntryDetail extends Component {
           existingEntry.admin_score = myscore;
           existingEntry.adminScoreFetched = true;
           this.setState({existingEntry});
-          this.forceUpdate();
         }
         console.log(`[App] Succesfully fetched score`, myscore);
       } else {
@@ -78,23 +105,7 @@ export default class EntryDetail extends Component {
 
   editScoreHandler(event){
     event.preventDefault();
-    let {score, headerScore, scoreForm} = this.refs;
-    if(inRange(score.value, 1, 10)){
-      let updateData = new FormData(scoreForm);
-      let request = new XMLHttpRequest();
-      request.open('POST', `${basename}/api/classes/${this.props.params.id}/scores`, true);
-      request.onload = ($data) => {
-        if (request.status === 201) {
-          headerScore.innerText = `Jouw Score: ${score.value}`;
-          score.value = '';
-          console.log(`[Entry] Succesfully updated vote`, $data.response);
-        } else {
-          headerScore.innerText = `Failed to update`;
-          console.log(`[Entry] Failed to update vote`, $data.response);
-        }
-      };
-      request.send(updateData);
-    }
+    this.postScoreHandler(event);
   }
 
   postScoreHandler(event){
@@ -106,9 +117,14 @@ export default class EntryDetail extends Component {
       request.open('POST', `${basename}/api/classes/${this.props.params.id}/scores`, true);
       request.onload = ($data) => {
         if (request.status === 201) {
-          headerScore.innerText = `Jour Score: ${$data.response}`;
+          let existingEntry = this.state;
+          existingEntry.admin_score = score.value;
+          this.setState({existingEntry});
+          headerScore.innerText = `Jouw Score: ${this.state.admin_score}`;
           score.value = '';
-          console.log(`[Entry] Succesfully updated vote`, $data.respone);
+          console.log(`[Entry] Succesfully updated vote`, this.state.admin_score);
+          this.forceUpdate();
+          location.reload();
         } else {
           headerScore.innerText = `Failed to update`;
           console.log(`[Entry] Failed to update vote`, $data.response);

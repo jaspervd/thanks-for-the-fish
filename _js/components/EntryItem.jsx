@@ -14,13 +14,14 @@ export default class EntryItem extends Component {
 
   render(){
 
-    let {id, nickname, avg_score} = this.props;
+    let {id, nickname, num_students, avg_score, num_votes} = this.props;
 
     return (
       <li className="entry-item">
         <Link to={`/admin/entries/${id}`}>
-          <span className="class-avg-score">(Score: {avg_score})</span>
           <span className="class-nickname">{nickname}</span>
+          <span className="class-students">{num_students} studenten</span>
+          <span className="class-avg-score">{avg_score} ({num_votes} stemmen)</span>
         </Link>
       </li>
     );

@@ -30,6 +30,11 @@ export default class EntriesOverview extends Component {
         <div className="page-content">
           <section className="page-section entries">
             <header className="hidden"><h1>Inzendingen</h1></header>
+            <div className="table-header">
+              <span className="class-avg-score">Gemiddelde Score</span>
+              <span className="class-students">Aantal Studenten</span>
+              <span className="class-nickname">Klasnaam</span>
+            </div>
             <ul>
               {this.renderEntries()}
             </ul>
