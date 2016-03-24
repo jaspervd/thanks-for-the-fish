@@ -243,20 +243,19 @@ html, body, .wrapper {
 
 /* HOME */
 
+.move-layer {
+	position: absolute;
+}
+
 .home {
 	.screen-img {
-		min-width: 70vh;
-		height: 70vh;
-		margin: 0 auto;
-		padding-top: 15vh;
-		text-align: center;
+		top: calc(50vh - 274px);
+		left: calc(50vw - 400px);
 	}
 
 	.participate {
-		position: absolute;
-		display: block;
-		left: 65vw;
 		top: 50vh;
+		left: 65vw;
 		z-index: 50;
 	}
 
@@ -274,42 +273,36 @@ html, body, .wrapper {
 	}
 
 	.cloud-1 {
-		position: absolute;
 		top: 37vh;
 		left: 37vw;
 		z-index: 50;
 	}
 
 	.cloud-2 {
-		position: absolute;
 		left: 25vw;
 		bottom: 25vh;
 		z-index: 50;
 	}
 
 	.cloud-3 {
-		position: absolute;
 		top: 34vh;
 		left: 31vw;
 		z-index: -1;
 	}
 
 	.cloud-4 {
-		position: absolute;
 		top: 18vh;
-		right: 20vw;
+		left: 56vw;
 		z-index: -1;
 	}
 
 	.narwhale {
-		position: absolute;
 		left: calc(25vw + 200px);
 		bottom: calc(25vh + 50px);
 		z-index: 49;
 	}
 
 	.spacecraft {
-		position: absolute;
 		left: 23vw;
 		top: 20vh;
 		z-index: 49;
@@ -344,6 +337,36 @@ html, body, .wrapper {
 
 .book {
 	margin-left: 100vw;
+
+	.cloud-1 {
+		top: 37vh;
+		left: 37vw;
+		z-index: 49;
+	}
+
+	.cloud-2 {
+		top: 37vh;
+		left: 53vw;
+		z-index: 49;
+	}
+
+	.cloud-3 {
+		bottom: 12vh;
+		left: 8vw;
+		z-index: 52;
+	}
+
+	.ford-prefect {
+		top: calc(50vh - 218px);
+		left: calc(50vw - 201px);
+		z-index: 50;
+	}
+
+	.book-cloud {
+		top: calc(50vh);
+		left: calc(50vw - 291px);
+		z-index: 51;
+	}
 }
 
 /* EXCERPT */

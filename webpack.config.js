@@ -62,7 +62,7 @@ module.exports = {
 
     {
       test: /\.(js|jsx)$/,
-      exclude: [/node_modules/, /assets/],
+      exclude: [/node_modules/, /assets/, /images/],
       loader: 'eslint'
     },
 

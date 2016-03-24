@@ -42,31 +42,31 @@
 						<h1>Klassiekers in je klas</h1>
 						<h2>The Hitchhiker's Guide to the Galaxy</h2>
 					</header>
-					<div class="screen-img">
+					<div class="screen-img move-layer">
 						<img src="images/campaign/title.png" srcset="images/campaign/title.png 1x, images/campaign/title@2x.png 2x" alt="" />
 					</div>
 					<div class="observers">
 						<img src="images/campaign/observers.png" srcset="images/campaign/observers.png 1x, images/campaign/observers@2x.png 2x" alt="" />
 					</div>
-					<div class="cloud-1 move-layer-1">
+					<div class="cloud-1 move-layer">
 						<img src="images/clouds/cloud_1.png" srcset="images/clouds/cloud_1.png 1x, images/clouds/cloud_1@2x.png 2x" alt="" />
 					</div>
-					<div class="cloud-2 move-layer-2">
+					<div class="cloud-2 move-layer">
 						<img src="images/clouds/cloud_2.png" srcset="images/clouds/cloud_2.png 1x, images/clouds/cloud_2@2x.png 2x" alt="" />
 					</div>
-					<div class="cloud-3 move-layer-3">
+					<div class="cloud-3 move-layer">
 						<img src="images/clouds/cloud_3.png" srcset="images/clouds/cloud_3.png 1x, images/clouds/cloud_3@2x.png 2x" alt="" />
 					</div>
-					<div class="cloud-4 move-layer-4">
+					<div class="cloud-4 move-layer">
 						<img src="images/clouds/cloud_4.png" srcset="images/clouds/cloud_4.png 1x, images/clouds/cloud_4@2x.png 2x" alt="" />
 					</div>
-					<div class="narwhale move-layer-4">
+					<div class="narwhale move-layer">
 						<img src="images/campaign/narwhale.png" srcset="images/campaign/narwhale.png 1x, images/campaign/narwhale@2x.png 2x" alt="" />
 					</div>
-					<div class="spacecraft move-layer-2">
+					<div class="spacecraft move-layer">
 						<img src="images/campaign/spacecraft.png" srcset="images/campaign/spacecraft.png 1x, images/campaign/spacecraft@2x.png 2x" alt="" />
 					</div>
-					<a href="#" class="nav-down participate move-layer-3">
+					<a href="#" class="nav-down participate move-layer">
 						<img src="images/campaign/participate.png" srcset="images/campaign/participate.png 1x, images/campaign/participate@2x.png 2x" alt="Neem deel &amp; win 100 exemplaren!" />
 					</a>
 				</section>
@@ -170,6 +170,21 @@
 					<header class="hide">
 						<h1>Informatie over het boek en de auteur</h1>
 					</header>
+					<div class="cloud-1 move-layer">
+						<img src="images/clouds/cloud_1.png" srcset="images/clouds/cloud_1.png 1x, images/clouds/cloud_1@2x.png 2x" alt="" />
+					</div>
+					<div class="cloud-2 move-layer">
+						<img src="images/clouds/cloud_2.png" srcset="images/clouds/cloud_2.png 1x, images/clouds/cloud_2@2x.png 2x" alt="" />
+					</div>
+					<div class="ford-prefect move-layer">
+						<img src="images/book/ford_prefect.png" srcset="images/book/ford_prefect.png 1x, images/book/ford_prefect@2x.png 2x" alt="" />
+					</div>
+					<div class="book-cloud move-layer">
+						<img src="images/book/book_cloud.png" srcset="images/book/book_cloud.png 1x, images/book/book-cloud@2x.png 2x" alt="" />
+					</div>
+					<div class="cloud-3 move-layer">
+						<img src="images/clouds/cloud_3.png" srcset="images/clouds/cloud_3.png 1x, images/clouds/cloud_3@2x.png 2x" alt="" />
+					</div>
 				</section>
 				<section class="page-content">
 					<header class="header-title">

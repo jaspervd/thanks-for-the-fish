@@ -26,6 +26,7 @@ import {api} from './helpers/globals';
   let photosContainer = document.getElementsByClassName('photos-container')[0];
   let photosSearch = document.getElementsByClassName('photos-search')[0];
   let addClass = document.getElementsByClassName('add-class')[0];
+  let moveLayers = document.getElementsByClassName('move-layer');
   let photosArray;
   let currentPage = 0;
   let menuState = false; // false = closed, true = open
@@ -280,19 +281,25 @@ import {api} from './helpers/globals';
     });
   };
 
-  let moveLayers = document.querySelectorAll('.move-layer-1, .move-layer-2, .move-layer-3, .move-layer-4');
-
   const mouseMoveHandler = (e) => {
-    var pageX = e.pageX - (window.innerWidth / 2);
-    var pageY = e.pageY - (window.innerHeight / 2);
-    var strength = 20;
+    if(wrapper.scrollTop < window.innerHeight) {
+      var pageX = e.pageX - (window.innerWidth / 2);
+      var pageY = e.pageY - (window.innerHeight / 2);
+      var strength = 20;
+      var previous = moveLayers[0];
 
-    for(let i = 0; i < moveLayers.length; i++) {
-      moveLayers[i].style.marginLeft = `${(strength / window.innerWidth * pageX * -1)}px`;
-      moveLayers[i].style.marginTop = `${(strength / window.innerHeight * pageY * -1)}px`;
-      strength *= 1.25;
+      for(let i = 0; i < moveLayers.length; i++) {
+        if(previous.parentNode === moveLayers[i].parentNode) { // reset strength on each screen
+          strength *= 1.25;
+        } else {
+          strength = 20;
+        }
+        moveLayers[i].style.marginLeft = `${(strength / window.innerWidth * pageX * -1)}px`;
+        moveLayers[i].style.marginTop = `${(strength / window.innerHeight * pageY * -1)}px`;
+        previous = moveLayers[i];
+      }
     }
-};
+  };
 
-init();
+  init();
 })();
