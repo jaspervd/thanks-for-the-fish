@@ -100,7 +100,7 @@ html, body, .wrapper {
 		transition: padding .3s ease;
 	}
 
-	.active {
+	.active, li a:hover {
 		padding-right: 10px;
 	}
 }
@@ -226,7 +226,7 @@ html, body, .wrapper {
 }
 
 blockquote {
-	margin: 40px;
+	margin: 40px auto;
 	padding: 40px;
 	color: $color-content;
 	border-top: 2px solid $color-header;
@@ -268,6 +268,7 @@ blockquote {
 
 .login .page-screen {
 	padding: 0;
+	position: static;
 	mask: none;
 }
 
@@ -293,6 +294,10 @@ blockquote {
 		text-align: center;
 		width: 50vw;
 		margin: 40px auto 0;
+	}
+
+	> blockquote {
+		width: 50vw;
 	}
 }
 
@@ -497,7 +502,7 @@ blockquote {
 
 	.thelooker {
 		position: absolute;
-		bottom: 0;
+		bottom: -10px;
 		right: 0;
 	}
 
@@ -581,10 +586,116 @@ input:not(.submit), textarea {
 	padding-top: calc(50vh - 150px);
 
 	.input-wrapper {
-		width: 100%!important;
+		width: calc(100% - 40px)!important;
 	}
 
 	.submit {
 		box-sizing: border-box;
+	}
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 1280px) {
+	.home .show {
+		margin-left: -35vw;
+	}
+
+	.home .campaign-wrapper, .home .order, article, .text {
+		width: 70vw!important;
+	}
+
+	.login-form {
+		width: 50vw;
+	}
+}
+
+@media (max-width: 980px) {
+	.home .show {
+		margin-left: -45vw;
+	}
+
+	.home .campaign-wrapper, .home .order, article, .text {
+		width: 90vw!important;
+	}
+
+	.photos {
+		li {
+			width: 50vw;
+		}
+
+		.input-wrapper {
+			width: 50vw!important;
+		}
+	}
+}
+
+@media (max-width: 700px) {
+	.logo {
+		width: 20vw!important;
+	}
+
+	.home .show {
+		margin-left: -45vw;
+	}
+
+	.home .campaign-wrapper, .home .order, .text, blockquote {
+		width: 90vw!important;
+	}
+
+	.text {
+		line-height: 2.2rem;
+	}
+
+	article:not(.campaign-info) .text {
+		margin-left: 5vw!important;
+		text-align: left!important;
+	}
+
+	.photos {
+		li {
+			width: 50vw;
+		}
+
+		.input-wrapper {
+			width: 50vw!important;
+		}
+	}
+
+	.login-form {
+		width: 90vw;
+	}
+}
+
+@media (max-width: 480px) {
+	html {
+		font-size: 57%;
+	}
+
+	blockquote {
+		padding: 40px 0;
+		margin: 40px auto;
+	}
+
+	.header-title {
+		font-size: 6rem;
+	}
+
+	.input-wrapper {
+		width: calc(100% - 40px)!important;
+	}
+
+	.photos {
+		li {
+			width: 100vw;
+		}
+
+		.input-wrapper {
+			width: 100vw!important;
+		}
+	}
+
+	.submit {
+		zoom: .7;
 	}
 }
