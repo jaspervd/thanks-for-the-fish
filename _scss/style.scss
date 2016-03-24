@@ -205,6 +205,11 @@ html, body, .wrapper {
 	mask: url('../images/mask.svg') left bottom/200px repeat-x;
 }
 
+.login .page-screen {
+	padding: 0;
+	mask: none;
+}
+
 .page-content {
 	width: 100vw;
 	margin-top: -200px;
@@ -390,4 +395,21 @@ input:not(.submit), textarea {
 	border: none;
 	padding-bottom: 13px;
 	cursor: pointer;
+}
+
+/* LOGIN */
+
+.login-form {
+	width: 30vw;
+	color: #fff;
+	margin: 0 auto;
+	padding-top: calc(50vh - 150px);
+
+	.input-wrapper {
+		width: 100%!important;
+	}
+
+	.submit {
+		box-sizing: border-box;
+	}
 }
