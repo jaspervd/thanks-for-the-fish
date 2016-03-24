@@ -310,6 +310,21 @@
 					<header class="hide">
 						<h1>Een overzicht van de inzendingen</h1>
 					</header>
+					<div class="planetearth move-layer">
+						<img src="images/photos/planetearth.png" srcset="images/photos/planetearth.png 1x, images/photos/planetearth@2x.png 2x" alt="" />
+					</div>
+					<div class="spacehiker move-layer">
+						<img src="images/photos/spacehiker.png" srcset="images/photos/spacehiker.png 1x, images/photos/spacehiker@2x.png 2x" alt="" />
+					</div>
+					<div class="mouse move-layer">
+						<img src="images/photos/mouse.png" srcset="images/photos/mouse.png 1x, images/photos/mouse@2x.png 2x" alt="" />
+					</div>
+					<div class="hitchhikers move-layer">
+						<img src="images/photos/hitchhikers.png" srcset="images/photos/hitchhikers.png 1x, images/photos/hitchhikers@2x.png 2x" alt="" />
+					</div>
+					<div class="thelooker">
+						<img src="images/photos/thelooker.png" srcset="images/photos/thelooker.png 1x, images/photos/thelooker@2x.png 2x" alt="" />
+					</div>
 				</section>
 				<section class="page-content">
 					<header class="header-title">

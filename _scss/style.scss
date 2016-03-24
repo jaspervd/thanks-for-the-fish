@@ -471,6 +471,36 @@ blockquote {
 .photos {
 	margin-left: 300vw;
 
+	.planetearth {
+		top: calc(50vh - 220px);
+		left: calc(50vw - 124px);
+		z-index: 49;
+	}
+
+	.mouse {
+		top: calc(50vh - 110px);
+		left: calc(50vw - 250px);
+		z-index: 49;
+	}
+
+	.hitchhikers {
+		top: calc(50vh - 120px);
+		left: calc(50vw - 250px);
+		z-index: 49;
+	}
+
+	.spacehiker {
+		top: calc(50vh - 130px);
+		left: 26vw;
+		z-index: 49;
+	}
+
+	.thelooker {
+		position: absolute;
+		bottom: 0;
+		right: 0;
+	}
+
 	.input-wrapper {
 		width: 25vw;
 		padding: 40px;
