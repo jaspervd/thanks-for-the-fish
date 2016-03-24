@@ -194,6 +194,47 @@ html, body, .wrapper {
 	width: 100vw;
 	min-height: 100vh;
 	position: absolute;
+
+	p a {
+		color: $color-content;
+		text-shadow: -3px 2px 0 $color-header;
+		text-decoration: underline;
+		display: inline-block;
+
+		&:hover {
+			font-weight: bold;
+		}
+	}
+}
+
+blockquote {
+	margin: 40px;
+	padding: 40px;
+	color: $color-content;
+	border-top: 2px solid $color-header;
+	border-bottom: 2px solid $color-header;
+
+	p {
+		font-weight: bold;
+		text-align: center;
+		font-size: 2.5rem;
+
+		&:before {
+			content: "\201C";
+		}
+
+		&:after {
+			content: "\201D";
+		}
+	}
+
+	footer {
+		display: block;
+		text-align: right;
+		&:before {
+			content: "\2014";
+		}
+	}
 }
 
 .page-screen {
