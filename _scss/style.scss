@@ -205,7 +205,7 @@ html, body, .wrapper {
 
 .page {
 	width: 100vw;
-	min-height: 100vh;
+	min-height: 200vh;
 	position: absolute;
 
 	p a {
@@ -257,6 +257,8 @@ blockquote {
 	padding-bottom: 200px;
 	box-sizing: content-box;
 	mask: url('../images/mask.svg') left bottom/200px repeat-x;
+	position: relative;
+	z-index: -2;
 }
 
 .login .page-screen {
@@ -270,7 +272,7 @@ blockquote {
 	height: 0;
 	min-height: 100vh;
 	overflow: hidden;
-	position: absolute;
+	padding-bottom: 200px;
 	z-index: 2;
 
 	&.active {
@@ -368,7 +370,7 @@ blockquote {
 
 	.hide {
 		display: block;
-		margin-left: -100vw;
+		margin-left: -200vw;
 	}
 }
 
