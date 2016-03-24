@@ -6,11 +6,6 @@ class DAO {
 	private static $dbName = 'bw_bookworm';
 	private static $dbUser = 'bw_user';
 	private static $dbPass = '$bw_pass';/**/
-  /*
-  private static $dbHost = 'mysqlstudent';
-  private static $dbName = 'thorrsteveoshae7';
-  private static $dbUser = 'thorrsteveoshae7';
-  private static $dbPass = 'Ophee5tiyaeJ';/**/
 
 	private static $sharedPDO;
 
