@@ -9,8 +9,8 @@ class DAO {
   /*
   private static $dbHost = 'mysqlstudent';
   private static $dbName = 'thorrsteveoshae7';
-  private static $dbUser = 'Ophee5tiyaeJ';
-  private static $dbPass = 'thorrsteveoshae7';/**/
+  private static $dbUser = 'thorrsteveoshae7';
+  private static $dbPass = 'Ophee5tiyaeJ';/**/
 
 	private static $sharedPDO;
 

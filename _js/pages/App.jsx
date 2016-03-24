@@ -52,6 +52,10 @@ export default class App extends React.Component {
     request.onload = ($data) => {
       if (request.status === 200) {
         let adminData = JSON.parse($data.target.response);
+        adminData.can_create_admins = parseInt(adminData.can_create_admins);
+        adminData.can_authorize_teachers = parseInt(adminData.can_authorize_teachers);
+        adminData.can_vote_winner = parseInt(adminData.can_vote_winner);
+        adminData.can_approve_entry = parseInt(adminData.can_approve_entry);
         let navOptions = this.resolveAdminOptions(adminData);
         this.setState({admin: adminData, navOptions: navOptions, adminFetched: true});
         console.log(`[App] Logged in as \"${this.state.admin.username}\"`);
@@ -76,6 +80,7 @@ export default class App extends React.Component {
       navOptions.push({'id': 3, 'to': '/admin/entries', 'optionName': 'Inzendingen'});
       this.fetchEntries();
     }
+    console.log('navOptions', navOptions, admin);
     return navOptions;
   }
 
