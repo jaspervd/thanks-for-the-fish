@@ -4,7 +4,7 @@ import React from 'react';
 import {Link} from 'react-router';
 import {basename} from '../globals';
 import {find, filter} from 'lodash';
-
+//import {checkStatus} from '../helpers/util';
 import {NavOptions} from '../components/';
 
 export default class App extends React.Component {
@@ -25,6 +25,26 @@ export default class App extends React.Component {
     this.logoutLink = `${window.app.basename}/api/admin/auth/logout`;
   }
 
+  //fecth does not work, even with credentials, using XMLHttpRequest() instead
+  /*componentDidMount(){
+    fetch(`${basename}/api/admin`, {
+      method: 'GET',
+      credentials: 'include'
+    })
+      .then(checkStatus)
+      .then(r => r.json())
+      .then(data => {
+        let adminData = data;
+        let navOptions = this.resolveAdminOptions(adminData);
+        this.setState({admin: adminData, navOptions: navOptions, adminFetched: true});
+        console.log(`[App] Logged in as \"${this.state.admin.username}\"`);
+      })
+      .catch(() => {
+        console.error('failed to get admin session');
+        //window.location = `${window.app.basename}/admin-login`;
+      });
+  }/**/
+
   componentDidMount(){
     let request = new XMLHttpRequest();
     request.open('GET', `${basename}/api/admin`, true);
@@ -40,7 +60,7 @@ export default class App extends React.Component {
       }
     };
     request.send();
-  }
+  }/**/
 
   resolveAdminOptions(admin){
     let navOptions = [];

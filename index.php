@@ -53,7 +53,7 @@ $app->get('/admin[/{anything:.*}]', function($request, $response, $args) {
   } else {
     header('Location: '. $basePath .'/admin-login');
     exit;
-  }
+  }/**/
 });
 
 $app->get('/admin-login', function($request, $response, $args) {
