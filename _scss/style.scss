@@ -117,6 +117,7 @@ html, body, .wrapper {
 		padding: 40px;
 		font-size: 3rem;
 		top: calc(50vh - 80px);
+		transition: opacity 1s ease;
 	}
 
 	.nav-left {
@@ -137,6 +138,18 @@ html, body, .wrapper {
 			bottom: -300px;
 			opacity: 0;
 		}
+	}
+}
+
+.page-0 + .navigation {
+	.nav-left {
+		opacity: 0;
+	}
+}
+
+.page-3 + .navigation {
+	.nav-right {
+		opacity: 0;
 	}
 }
 
@@ -450,6 +463,37 @@ blockquote {
 
 .photos {
 	margin-left: 300vw;
+
+	.input-wrapper {
+		width: 25vw;
+		padding: 40px;
+		float: right!important;
+	}
+
+	li {
+		width: 20vw;
+		float: left;
+		padding: 20px;
+
+		figure {
+			width: 100%;
+			overflow: hidden;
+
+			img {
+				width: 100%;
+			}
+
+			caption {
+				display: block;
+				padding: 10px;
+				font-weight: bold;
+			}
+		}
+	}
+
+	.add-class {
+		font-size: 3rem;
+	}
 }
 
 /* FORMS */

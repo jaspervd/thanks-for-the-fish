@@ -15,13 +15,6 @@
 				<img src="images/logo.png" srcset="images/logo.png 1x, images/logo@2x.png 2x" alt="Logo boek.be" />
 			</a>
 		</div>
-		<div class="navigation">
-			<a href="#" class="nav-left button">&lt;</a>
-			<a href="#" class="nav-right button">&gt;</a>
-			<a href="#" class="nav-down">
-				<img src="images/petunia.png" srcset="images/petunia.png 1x, images/petunia@2x.png 2x" alt="Logo boek.be" />
-			</a>
-		</div>
 		<nav class="menu closed">
 			<header class="hide">
 				<h1>Menu</h1>
@@ -35,7 +28,7 @@
 				<li><a href="login" class="button">Login</a></li>
 			</ul>
 		</nav>
-		<main class="container">
+		<main class="container page-0">
 			<div class="page home">
 				<section class="page-screen">
 					<header class="hide">
@@ -180,7 +173,7 @@
 						<img src="images/book/ford_prefect.png" srcset="images/book/ford_prefect.png 1x, images/book/ford_prefect@2x.png 2x" alt="" />
 					</div>
 					<div class="book-cloud move-layer">
-						<img src="images/book/book_cloud.png" srcset="images/book/book_cloud.png 1x, images/book/book-cloud@2x.png 2x" alt="" />
+						<img src="images/book/book_cloud.png" srcset="images/book/book_cloud.png 1x, images/book/book_cloud@2x.png 2x" alt="" />
 					</div>
 					<div class="cloud-3 move-layer">
 						<img src="images/clouds/cloud_3.png" srcset="images/clouds/cloud_3.png 1x, images/clouds/cloud_3@2x.png 2x" alt="" />
@@ -322,9 +315,16 @@
 					<header class="header-title">
 						<h2>Klasfoto's</h2>
 					</header>
-					<input type="search" class="photos-search" />
+					<p class="input-wrapper">
+						<input type="search" class="photos-search" placeholder="Zoek op klasnaam" />
+					</p>
+					<div class="clear"></div>
 					<ul class="photos-container"></ul>
-					<a href="#page-0" class="add-class">Jouw klas ook hier?</a>
+					<p class="text no-photos-found hide">Er zijn geen foto's gevonden met de opgegeven zoekterm.</p>
+					<div class="clear"></div>
+					<p class="text center">
+						<a href="#page-0" class="add-class">Voeg je klas toe!</a>
+					</p>
 					<blockquote>
 						<p>
 							Ik ken dit waanzinnig goed restaurant op het uiteinde van het universum.
@@ -336,6 +336,13 @@
 				</section>
 			</div>
 		</main>
+		<div class="navigation">
+			<a href="#" class="nav-left button">&lt;</a>
+			<a href="#" class="nav-right button">&gt;</a>
+			<a href="#" class="nav-down">
+				<img src="images/petunia.png" srcset="images/petunia.png 1x, images/petunia@2x.png 2x" alt="Logo boek.be" />
+			</a>
+		</div>
 	</div>
 	<script>
 	window.app = window.app || {};

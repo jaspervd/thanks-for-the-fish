@@ -25,6 +25,7 @@ import {api} from './helpers/globals';
   let pageContents = document.getElementsByClassName('page-content');
   let photosContainer = document.getElementsByClassName('photos-container')[0];
   let photosSearch = document.getElementsByClassName('photos-search')[0];
+  let noPhotosFound = document.getElementsByClassName('no-photos-found')[0];
   let addClass = document.getElementsByClassName('add-class')[0];
   let moveLayers = document.getElementsByClassName('move-layer');
   let photosArray;
@@ -50,6 +51,7 @@ import {api} from './helpers/globals';
     orderForm.addEventListener('submit', orderHandler);
     menuToggle.addEventListener('click', menuToggleHandler);
     photosSearch.addEventListener('keydown', photosSearchHandler);
+    photosSearch.addEventListener('blur', photosSearchHandler);
     wrapper.addEventListener('scroll', scrollHandler);
     addClass.addEventListener('click', addClassHandler);
     window.addEventListener('mousemove', mouseMoveHandler);
@@ -241,9 +243,14 @@ import {api} from './helpers/globals';
     if(photosSearch.value.length > 3) {
       photosContainer.innerHTML = '';
       let filteredArray = photosArray.filter(photo => inString(photo.nickname, photosSearch.value));
-      for(let photoData of filteredArray) {
-        let photo = new Photo(photoData);
-        photosContainer.appendChild(photo);
+      if(filteredArray.length === 0) {
+        noPhotosFound.className = 'text';
+      } else {
+        noPhotosFound.className = 'text hide';
+        for(let photoData of filteredArray) {
+          let photo = new Photo(photoData);
+          photosContainer.appendChild(photo);
+        }
       }
     }
   };
