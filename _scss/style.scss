@@ -132,7 +132,12 @@ html, body, .wrapper {
 		bottom: 40px;
 		left: calc(50% - 20px);
 		opacity: 1;
+		text-align: center;
 		transition: bottom 1s cubic-bezier(0.95, 0.05, 0.795, 0.035), opacity 2s ease;
+
+		img {
+			display: block;
+		}
 
 		&.clicked {
 			bottom: -300px;

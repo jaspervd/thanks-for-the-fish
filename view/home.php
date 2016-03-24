@@ -339,8 +339,9 @@
 		<div class="navigation">
 			<a href="#" class="nav-left button">&lt;</a>
 			<a href="#" class="nav-right button">&gt;</a>
-			<a href="#" class="nav-down">
+			<a href="#" class="nav-down button">
 				<img src="images/petunia.png" srcset="images/petunia.png 1x, images/petunia@2x.png 2x" alt="Logo boek.be" />
+				&darr;
 			</a>
 		</div>
 	</div>

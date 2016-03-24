@@ -86,15 +86,15 @@ import {api} from './helpers/globals';
   const navDownHandler = (e) => {
     e.preventDefault();
     if(e.target.parentNode.className !== 'nav-down participate') {
-      e.target.parentNode.className = 'nav-down clicked';
+      e.target.parentNode.className = 'nav-down button clicked';
       setTimeout(() => {
-        e.target.parentNode.className = 'nav-down hide';
+        e.target.parentNode.className = 'nav-down button hide';
       }, 1000);
       setTimeout(() => {
-        e.target.parentNode.className = 'nav-down';
+        e.target.parentNode.className = 'nav-down button';
       }, 2000);
     }
-    scrollTo(wrapper, wrapper.scrollTop, window.innerHeight, 1000, 500);
+    scrollTo(wrapper, wrapper.scrollTop, window.innerHeight, 1000, 600);
   };
 
   const navMenuHandler = (e) => {
