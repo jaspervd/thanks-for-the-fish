@@ -290,8 +290,8 @@
 							School Library Journal
 						</footer>
 					</blockquote>
-					<aside>
-						<header>
+					<article class="tipsntricks">
+						<header class="header-content">
 							<h2>Tips &amp; Tricks</h2>
 						</header>
 						<ul>
@@ -302,7 +302,7 @@
 							<li>De beste cocktail is en blijft de Pan Galactic Gargle Blaster (of Breinbeuker)</li>
 							<li>Het belangrijkste voor het laatste: Geen paniek.</li>
 						</ul>
-					</aside>
+					</article>
 				</section>
 			</div>
 			<div class="page photos">

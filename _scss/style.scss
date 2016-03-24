@@ -288,6 +288,16 @@ blockquote {
 
 	article {
 		margin-top: 40px;
+
+		ul {
+			width: 50vw;
+			list-style-type: circle;
+			margin: 40px auto 0;
+
+			li {
+				margin-bottom: 12px;
+			}
+		}
 	}
 
 	.text {
@@ -395,6 +405,8 @@ blockquote {
 
 		span {
 			display: block;
+			font-size: 4rem;
+			font-family: $font-header;
 		}
 	}
 }
@@ -612,10 +624,18 @@ input:not(.submit), textarea {
 
 @media (max-width: 980px) {
 	.home .show {
-		margin-left: -45vw;
+		margin-left: -50vw;
 	}
 
-	.home .campaign-wrapper, .home .order, article, .text {
+	article {
+		width: 100vw!important;
+	}
+
+	.campaign-wrapper blockquote {
+		width: 100vw;
+	}
+
+	.home .campaign-wrapper, .home .order, .text {
 		width: 90vw!important;
 	}
 
