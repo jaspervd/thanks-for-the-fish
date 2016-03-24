@@ -496,7 +496,7 @@ blockquote {
 
 	.spacehiker {
 		top: calc(50vh - 130px);
-		left: 26vw;
+		left: calc(50vw - 400px);
 		z-index: 49;
 	}
 
@@ -635,8 +635,23 @@ input:not(.submit), textarea {
 		width: 20vw!important;
 	}
 
-	.home .show {
-		margin-left: -45vw;
+	.screen-img {
+		top: 30vh!important;
+		left: 2.5vw!important;
+
+		img {
+			width: 95vw;
+		}
+	}
+
+	.home {
+		.cloud-1 {
+			display: none;
+		}
+
+		.show {
+			margin-left: -45vw;
+		}
 	}
 
 	.home .campaign-wrapper, .home .order, .text, blockquote {
@@ -667,6 +682,17 @@ input:not(.submit), textarea {
 	}
 }
 
+@media (max-width: 580px) {
+	.participate {
+		left: auto!important;
+		right: 0;
+
+		img {
+			width: 40vw;
+		}
+	}
+}
+
 @media (max-width: 480px) {
 	html {
 		font-size: 57%;
@@ -675,6 +701,12 @@ input:not(.submit), textarea {
 	blockquote {
 		padding: 40px 0;
 		margin: 40px auto;
+	}
+
+	.home {
+		.observers img {
+			width: 40vw;
+		}
 	}
 
 	.header-title {
