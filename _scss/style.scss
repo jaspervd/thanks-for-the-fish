@@ -373,6 +373,36 @@ html, body, .wrapper {
 
 .excerpt {
 	margin-left: 200vw;
+
+	.cloud-1 {
+		top: 42vh;
+		left: 35vw;
+		z-index: 49;
+	}
+
+	.cloud-4 {
+		top: 20vh;
+		left: 54vw;
+		z-index: 52;
+	}
+
+	.space-whale {
+		top: calc(50vh - 218px);
+		left: calc(50vw - 252px);
+		z-index: 50;
+	}
+
+	.flower-spout {
+		top: calc(50vh - 120px);
+		left: calc(50vw - 132px);
+		z-index: 49;
+	}
+
+	.whale-cloud {
+		top: calc(50vh - 100px);
+		left: calc(50vw);
+		z-index: 49;
+	}
 }
 
 /* PHOTOS */

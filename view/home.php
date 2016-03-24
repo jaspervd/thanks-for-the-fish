@@ -249,6 +249,21 @@
 					<header class="hide">
 						<h1>Een stuk uit het boek</h1>
 					</header>
+					<div class="cloud-1 move-layer">
+						<img src="images/clouds/cloud_1.png" srcset="images/clouds/cloud_1.png 1x, images/clouds/cloud_1@2x.png 2x" alt="" />
+					</div>
+					<div class="whale-cloud move-layer">
+						<img src="images/whale/whale_cloud.png" srcset="images/whale/whale_cloud.png 1x, images/whale/whale_cloud@2x.png 2x" alt="" />
+					</div>
+					<div class="space-whale move-layer">
+						<img src="images/whale/space_whale.png" srcset="images/whale/space_whale.png 1x, images/whale/space_whale@2x.png 2x" alt="" />
+					</div>
+					<div class="flower-spout move-layer">
+						<img src="images/whale/flower_spout.png" srcset="images/whale/flower_spout.png 1x, images/whale/flower_spout@2x.png 2x" alt="" />
+					</div>
+					<div class="cloud-4 move-layer">
+						<img src="images/clouds/cloud_4.png" srcset="images/clouds/cloud_4.png 1x, images/clouds/cloud_4@2x.png 2x" alt="" />
+					</div>
 				</section>
 				<section class="page-content">
 					<header class="header-title">
