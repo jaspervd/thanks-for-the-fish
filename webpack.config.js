@@ -28,7 +28,7 @@ module.exports = {
       admin: './_js/admin.js',
       adminLogin: './_js/adminLogin.js',
       style: config.css.src.path + config.css.src.file,
-      admin: config.admincss.src.path + config.admincss.src.file
+      style_admin: config.admincss.src.path + config.admincss.src.file
     },
 
     output: {

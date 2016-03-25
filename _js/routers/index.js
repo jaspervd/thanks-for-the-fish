@@ -5,7 +5,8 @@ import {Router, Route, IndexRoute, useRouterHistory} from 'react-router';
 import {createHistory} from 'history';
 
 import {App, EntriesOverview, EntryDetail, TeachersOverview, AdminsPage} from '../pages';
-import {basename} from '../globals';
+
+var basename = window.app.basename;
 
 export default () => (
 

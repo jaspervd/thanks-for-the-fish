@@ -1,8 +1,8 @@
 'use strict';
 
 import React, {Component} from 'react';
-import {basename} from '../globals';
 import {find, inRange} from 'lodash';
+import {api} from '../helpers/globals';
 
 export default class EntryDetail extends Component {
 
@@ -57,7 +57,7 @@ export default class EntryDetail extends Component {
 
   fetchEntry(){
     let request = new XMLHttpRequest();
-    request.open('GET', `${basename}/api/classes/${this.props.params.id}`, true);
+    request.open('GET', `${api}/classes/${this.props.params.id}`, true);
     request.withCredentials = true;
     request.onload = ($data) => {
       if (request.status === 200) {
@@ -86,7 +86,7 @@ export default class EntryDetail extends Component {
 
   fetchAdminScoreForEntry(class_id){
     let request = new XMLHttpRequest();
-    request.open('GET', `${basename}/api/classes/${class_id}/myscore`, true);
+    request.open('GET', `${api}/classes/${class_id}/myscore`, true);
     request.withCredentials = true;
     request.onload = ($data) => {
       if (request.status === 200) {
@@ -116,7 +116,7 @@ export default class EntryDetail extends Component {
     if(inRange(score.value, 1, 10)){
       let updateData = new FormData(scoreForm);
       let request = new XMLHttpRequest();
-      request.open('POST', `${basename}/api/classes/${this.props.params.id}/scores`, true);
+      request.open('POST', `${api}/classes/${this.props.params.id}/scores`, true);
       request.withCredentials = true;
       request.onload = ($data) => {
         if (request.status === 201) {
@@ -171,7 +171,7 @@ export default class EntryDetail extends Component {
   render() {
 
     let {nickname, entry, photo, num_students, avg_score, num_votes, school_name, firstname, lastname} = this.state;
-    let photoBgStyle = { backgroundImage: `url(${basename}/assets/img/klasfotos/${photo})` };
+    let photoBgStyle = { backgroundImage: `url(${window.app.basename}/upload/${photo})` };
 
     return (
       <section className="admin-page">

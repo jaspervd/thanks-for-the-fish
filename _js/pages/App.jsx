@@ -2,10 +2,9 @@
 
 import React from 'react';
 import {Link} from 'react-router';
-import {basename} from '../globals';
 import {find, filter} from 'lodash';
-//import {checkStatus} from '../helpers/util';
 import {NavOptions} from '../components/';
+import {api} from '../helpers/globals';
 
 export default class App extends React.Component {
 
@@ -25,29 +24,9 @@ export default class App extends React.Component {
     this.logoutLink = `${window.app.basename}/api/admin/auth/logout`;
   }
 
-  //fecth does not work, even with credentials, using XMLHttpRequest() instead
-  /*componentDidMount(){
-    fetch(`${basename}/api/admin`, {
-      method: 'GET',
-      credentials: 'include'
-    })
-      .then(checkStatus)
-      .then(r => r.json())
-      .then(data => {
-        let adminData = data;
-        let navOptions = this.resolveAdminOptions(adminData);
-        this.setState({admin: adminData, navOptions: navOptions, adminFetched: true});
-        console.log(`[App] Logged in as \"${this.state.admin.username}\"`);
-      })
-      .catch(() => {
-        console.error('failed to get admin session');
-        //window.location = `${window.app.basename}/admin-login`;
-      });
-  }/**/
-
   componentDidMount(){
     let request = new XMLHttpRequest();
-    request.open('GET', `${basename}/api/admin`, true);
+    request.open('GET', `${window.app.basename}/api/admin`, true);
     request.withCredentials = true;
     request.onload = ($data) => {
       if (request.status === 200) {
@@ -64,7 +43,7 @@ export default class App extends React.Component {
       }
     };
     request.send();
-  }/**/
+  }
 
   resolveAdminOptions(admin){
     let navOptions = [];
@@ -86,7 +65,7 @@ export default class App extends React.Component {
 
   fetchAdmins(){
     let request = new XMLHttpRequest();
-    request.open('GET', `${basename}/api/admins`, true);
+    request.open('GET', `${api}/admins`, true);
     request.withCredentials = true;
     request.onload = ($data) => {
       if (request.status === 200) {
@@ -105,7 +84,7 @@ export default class App extends React.Component {
 
   fetchTeachers(){
     let request = new XMLHttpRequest();
-    request.open('GET', `${basename}/api/teachers`, true);
+    request.open('GET', `${api}/teachers`, true);
     request.withCredentials = true;
     request.onload = ($data) => {
       if (request.status === 200) {
@@ -124,7 +103,7 @@ export default class App extends React.Component {
 
   fetchEntries(){
     let request = new XMLHttpRequest();
-    request.open('GET', `${basename}/api/classes`, true);
+    request.open('GET', `${api}/classes`, true);
     request.withCredentials = true;
     request.onload = ($data) => {
       if (request.status === 200) {
@@ -150,7 +129,7 @@ export default class App extends React.Component {
     existingTeacher.authorized = 1;
     this.setState({teachers});
     let request = new XMLHttpRequest();
-    request.open('PUT', `${basename}/api/teachers/${teacher_id}/approve`, true);
+    request.open('PUT', `${api}/teachers/${teacher_id}/approve`, true);
     request.withCredentials = true;
     request.onload = ($data) => {
       if (request.status === 200) {
@@ -166,7 +145,7 @@ export default class App extends React.Component {
     let teachers = filter(this.state.teachers, o => o.id !== teacher_id);
     this.setState({teachers});
     let request = new XMLHttpRequest();
-    request.open('DELETE', `${basename}/api/teachers/${teacher_id}`, true);
+    request.open('DELETE', `${api}/teachers/${teacher_id}`, true);
     request.withCredentials = true;
     request.onload = ($data) => {
       if (request.status === 200) {
@@ -182,7 +161,7 @@ export default class App extends React.Component {
     let admins = filter(this.state.admins, a => a.id !== admin_id);
     this.setState({admins});
     let request = new XMLHttpRequest();
-    request.open('DELETE', `${basename}/api/admins/${admin_id}`, true);
+    request.open('DELETE', `${api}/admins/${admin_id}`, true);
     request.withCredentials = true;
     request.onload = ($data) => {
       if (request.status === 200) {
@@ -199,7 +178,7 @@ export default class App extends React.Component {
     admins.push(admin);
     this.setState({admins});
     let request = new XMLHttpRequest();
-    request.open('POST', `${basename}/api/admins`, true);
+    request.open('POST', `${api}/admins`, true);
     request.onload = ($data) => {
       if (request.status === 200) {
         let newAdmin = JSON.parse($data.respone);
