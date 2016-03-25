@@ -86,7 +86,6 @@ import {api} from './helpers/globals';
 
   const navDownHandler = (e) => {
     e.preventDefault();
-    console.log(e);
     if(e.target.parentNode.className !== 'nav-down participate') {
       let target = (e.target.tagName === 'A'? e.target : e.target.parentNode);
       target.className = 'nav-down button clicked';
@@ -168,7 +167,6 @@ import {api} from './helpers/globals';
       e.preventDefault();
     }
     orderState = !orderState;
-    console.log(orderState);
 
     campaignWrapper.className = 'campaign-wrapper ';
     campaignWrapper.className += (orderState? 'hide' : 'show');
@@ -294,7 +292,7 @@ import {api} from './helpers/globals';
 
   const loadPhotos = () => {
     let request = new Request();
-    request.get(`${api}/classes`);
+    request.get(`${api}/classes/authorized`);
     request.on('loaded', (json) => {
       photosArray = json;
       for(let photoData of photosArray) {

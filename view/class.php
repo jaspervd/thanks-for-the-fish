@@ -40,6 +40,9 @@
 						<h2>Voeg een boekbespreking toe</h2>
 					</header>
 					<form method="post" action="/" class="class-form" enctype="multipart/form-data">
+						<p class="text valid hide">
+							Je klas is toegevoegd! Vooraleer deze op de website komt, moet 't nog goedgekeurd worden. Blijf zeker de website checken!
+						</p>
 						<p class="input-wrapper">
 							<label for="nickname">Nickname voor je klas</label>
 							<input type="text" name="nickname" id="nickname" required />

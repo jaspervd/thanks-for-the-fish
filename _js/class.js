@@ -44,7 +44,9 @@ import {api} from './helpers/globals';
     let nickname = document.getElementById('nickname');
     let photo = document.getElementById('photo');
     let entry = document.getElementById('entry');
+    let numStudents = document.getElementById('num_students');
     let errorMessages = document.getElementsByClassName('error');
+    let valid = document.getElementsByClassName('valid')[0];
     for(let i = 0; i < errorMessages.length; i++) {
       errorMessages[i].remove();
     }
@@ -60,6 +62,9 @@ import {api} from './helpers/globals';
     } if(!validate(entry)) {
       entry.parentNode.appendChild(new ErrorMessage('Gelieve je boekbespreking in te vullen'));
       errors++;
+    } if(!validate(numStudents)) {
+      numStudents.parentNode.appendChild(new ErrorMessage('Gelieve een geldig getal in te vullen'));
+      errors++;
     }
 
     if(errors === 0) {
@@ -68,8 +73,13 @@ import {api} from './helpers/globals';
       request.post(`${api}/classes`, formData);
       request.on('loaded', (response) => {
         if(response) {
-          getUserId();
+          nickname.value = '';
+          photo.value = '';
+          entry.value = '';
+          numStudents.value = '';
+          valid.className = 'text valid';
         } else {
+          valid.className = 'text valid hide';
           classForm.appendChild(new ErrorMessage('Er is iets mis gegaan tijdens je aanvraag, probeer later opnieuw.'));
         }
       });

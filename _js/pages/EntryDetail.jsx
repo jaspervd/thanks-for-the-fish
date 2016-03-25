@@ -171,7 +171,7 @@ export default class EntryDetail extends Component {
   render() {
 
     let {nickname, entry, photo, num_students, avg_score, num_votes, school_name, firstname, lastname} = this.state;
-    let photoBgStyle = { backgroundImage: `url(${window.app.basename}/upload/${photo})` };
+    let photoBgStyle = { backgroundImage: `url(${window.app.basename}/${photo})` };
 
     return (
       <section className="admin-page">

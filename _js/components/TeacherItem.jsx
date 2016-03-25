@@ -25,6 +25,7 @@ export default class TeacherItem extends Component {
 
   renderApproveOption(){
     let {authorized} = this.props;
+    authorized = parseInt(authorized);
     if(authorized === 0){
       return (
         <a href="#" className="approve-btn" ref="btnApprove" onClick={ e => this.approveClicked(e) }>Goedkeuren</a>
