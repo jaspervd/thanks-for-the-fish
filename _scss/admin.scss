@@ -1,6 +1,5 @@
+@import 'reset';
 @import 'base';
-@import 'mixins';
-@import 'admin';
 
 /* -- CMS: Login Page & General ------------------------------------------------------ */
 
@@ -10,8 +9,7 @@
 	height: 100%;
 	top: 0px;
 	left: 0px;
-	@include bgImgUrl('bg_space.png');
-
+	background-image: url('../images/bg_space.jpg');
 }
 
 .cms-container{
@@ -23,11 +21,10 @@
 		height: 80px;
 		top: 30px;
 		left: 30px;
-		@include bgImgUrl('logo@2x.png');
+		background-image: url('../images/logo@2x.png');
 		background-size: cover;
 		z-index: 10;
 	}
-
 }
 
 .admin-workspace{
@@ -267,7 +264,6 @@
 }
 
 .class-data{
-
 	position: relative;
 	width: 300px;
 	top: 0px;
@@ -447,10 +443,9 @@ a.approve-btn{
 }
 
 .admin-form{
+	padding: 0;
 
-	padding: 0px;
-
-	input, select{
+	input, select {
 		padding: 12px 15px;
 		border: none;
 		outline: none;
@@ -461,12 +456,12 @@ a.approve-btn{
 		border-radius: 2px;
 	}
 
-	#admin-username{
+	#admin-username {
 		width: 160px;
 		background-color: #FFF;
 	}
 
-	#admin-email{
+	#admin-email {
 		width: 240px;
 		background-color: #FFF;
 	}
@@ -475,5 +470,4 @@ a.approve-btn{
 		background-color: #84CC2B;
 		color: #FFF;
 	}
-
 }

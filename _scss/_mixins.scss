@@ -1,6 +1,0 @@
-@mixin bgImgUrl($file_name, $base: "../images/"){
-
-  $base: $root + '' + $base;
-  background-image: url($base + '' + $file_name);
-
-}

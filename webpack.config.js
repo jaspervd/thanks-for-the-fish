@@ -27,8 +27,8 @@ module.exports = {
       login: './_js/login.js',
       admin: './_js/admin.js',
       adminLogin: './_js/adminLogin.js',
-      css: config.css.src.path + config.css.src.file
-      //admincss: config.admincss.src.path + config.admincss.src.file
+      style: config.css.src.path + config.css.src.file,
+      admin: config.admincss.src.path + config.admincss.src.file
     },
 
     output: {
@@ -78,7 +78,7 @@ module.exports = {
     {
       test: /\.scss$/,
       exclude: /assets/,
-      loader: ExtractTextPlugin.extract('css!postcss!sass?outputStyle=expanded')
+      loader: ExtractTextPlugin.extract('css!postcss!sass?outputStyle=expanded', {allChunks: false})
     }
 
     ]
@@ -109,9 +109,11 @@ module.exports = {
   new webpack.optimize.DedupePlugin(),
 
     //extract CSS into seperate file
-    new ExtractTextPlugin(
+    /*new ExtractTextPlugin(
       config.build('css', 'dest')
-    ),
+    ),*/
+
+    new ExtractTextPlugin(config.css.dest.path + "[name].css"),
 
     //react smaller build
     new webpack.DefinePlugin({

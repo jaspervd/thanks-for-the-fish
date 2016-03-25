@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <title>Login | Admin</title>
   <base href="<?php echo $basePath; ?>"></base>
-  <link rel="stylesheet" href="<?php echo $basePath; ?>/css/style.css">
+  <link rel="stylesheet" href="<?php echo $basePath; ?>/css/admin.css">
 </head>
 <body>
   <div class="cms-container">
