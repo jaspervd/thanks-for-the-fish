@@ -17,11 +17,12 @@ export default class Request extends EventEmitter2 {
   }
 
   post(url, data) {
-    let request = new XMLHttpRequest();
-    request.open('POST', url, true);
-    request.onload = function() {
-      return (request.status >= 200 && request.status < 300);
+    let req = new XMLHttpRequest();
+    req.open('POST', url, true);
+    req.withCredentials = true;
+    req.onload = () => {
+      this.emit('loaded', (req.status >= 200 && req.status < 300));
     };
-    request.send(data);
+    req.send(data);
   }
 }

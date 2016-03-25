@@ -59,6 +59,7 @@
 						<p class="input-wrapper right">
 							<input type="submit" name="submit" class="button submit" value="Toevoegen" />
 						</p>
+						<div class="clear"></div>
 					</form>
 				</article>
 			</section>

@@ -381,9 +381,13 @@ blockquote {
 		margin-left: -25vw;
 	}
 
-	.hide {
+	.page-content > .hide {
 		display: block;
 		margin-left: -200vw;
+	}
+
+	article .hide {
+		display: none;
 	}
 }
 

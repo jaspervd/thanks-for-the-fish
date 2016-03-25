@@ -8,3 +8,17 @@ body {
 	font-family: $font-content;
 	font-size: 1.8rem;
 }
+
+.error {
+	background-color: rgb(192, 67, 87);
+	width: 100%;
+	padding: 10px 6px;
+	border: 1px solid rgba(192, 67, 87, .4);
+	border-radius: 2px;
+	box-shadow: -3px 2px 0 rgba(122, 122, 122, .4);
+	font-family: $font-content;
+	font-size: 1.2rem;
+	color: $color-light;
+	display: block;
+    margin-top: 6px;
+}

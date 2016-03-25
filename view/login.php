@@ -38,6 +38,7 @@
 					<p class="input-wrapper center">
 						<input type="submit" name="submit" value="Inloggen" class="button submit" />
 					</p>
+					<div class="clear"></div>
 				</form>
 			</section>
 		</main>

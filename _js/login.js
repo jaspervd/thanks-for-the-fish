@@ -1,6 +1,7 @@
 'use strict';
 
 import Request from './classes/Request';
+import ErrorMessage from './classes/ErrorMessage';
 import {api} from './helpers/globals';
 import {validate} from './helpers/util';
 
@@ -16,15 +17,19 @@ import {validate} from './helpers/util';
 
     let email = document.getElementById('login-email');
     let password = document.getElementById('login-password');
+    let errorMessages = document.getElementsByClassName('error');
+    for(let i = 0; i < errorMessages.length; i++) {
+      errorMessages[i].remove();
+    }
 
     var errors = 0;
 
     // avoid unnecessary calls to api sending invalid data
     if(!validate(email)) {
-      console.log('Invalid email');
+      email.parentNode.appendChild(new ErrorMessage('Gelieve een geldig e-mailadres in te vullen'));
       errors++;
     } if(!validate(password)) {
-      console.log('Invalid password');
+      password.parentNode.appendChild(new ErrorMessage('Gelieve een wachtwoord in te vullen van minstens 5 tekens'));
       errors++;
     }
 
@@ -35,9 +40,8 @@ import {validate} from './helpers/util';
       request.on('loaded', (response) => {
         if(response) {
           window.location = `${window.app.basename}/klas`;
-          console.log('joppiesaus');
         } else {
-          console.log('Fout (+ melding: het is mogelijk dat je account nog niet geactiveerd is)');
+          loginForm.appendChild(new ErrorMessage('Er is iets mis gegaan tijdens je aanvraag, probeer later opnieuw. Het is mogelijk dat je account nog niet geactiveerd is.'));
         }
       });
     }

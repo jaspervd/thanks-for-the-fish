@@ -5,6 +5,7 @@ import 'lodash';
 import Countdown from './classes/Countdown';
 import Photo from './classes/Photo';
 import Request from './classes/Request';
+import ErrorMessage from './classes/ErrorMessage';
 import {validate, scrollTo, inString, getNumber} from './helpers/util';
 import {api} from './helpers/globals';
 
@@ -162,8 +163,10 @@ import {api} from './helpers/globals';
     menu.className += (snapState? ' snap' : '');
   };
 
-  const toggleOrderHandler = (e) => {
-    e.preventDefault();
+  const toggleOrderHandler = (e = null) => {
+    if(e !== null) {
+      e.preventDefault();
+    }
     orderState = !orderState;
     console.log(orderState);
 
@@ -187,58 +190,69 @@ import {api} from './helpers/globals';
     let schoolEmail = document.getElementById('school_email');
     let schoolAddress = document.getElementById('school_address');
     let schoolWebsite = document.getElementById('school_website');
+    let errorMessages = document.getElementsByClassName('error');
+    for(let i = 0; i < errorMessages.length; i++) {
+      errorMessages[i].remove();
+    }
 
     var errors = 0;
 
     if(!validate(firstName)) {
-      console.log('Invalid name');
+      firstName.parentNode.appendChild(new ErrorMessage('Gelieve een voornaam in te vullen'));
       errors++;
     } if(!validate(lastName)) {
-      console.log('Invalid lastname');
+      lastName.parentNode.appendChild(new ErrorMessage('Gelieve een achternaam in te vullen'));
       errors++;
     } if(!validate(email)) {
-      console.log('Invalid email');
+      email.parentNode.appendChild(new ErrorMessage('Gelieve een geldig e-mailadres in te vullen'));
       errors++;
     } if(!validate(phone)) {
-      console.log('Invalid phone');
+      phone.parentNode.appendChild(new ErrorMessage('Gelieve een geldig telefoonnummer in te vullen'));
       errors++;
     } if(!validate(password)) {
-      console.log('Invalid password');
+      password.parentNode.appendChild(new ErrorMessage('Gelieve een wachtwoord in te vullen van minstens 5 tekens'));
       errors++;
     } else {
       if(password.value !== passwordRepeat.value) {
-        console.log('Passwords don\'t match');
+        passwordRepeat.parentNode.appendChild(new ErrorMessage('De opgegeven wachtwoorden komen niet overeen'));
         errors++;
       }
     } if(!validate(schoolName)) {
-      console.log('Invalid school name');
+      schoolName.appendChild(new ErrorMessage('Gelieve de schoolnaam in te vullen'));
       errors++;
     } if(!validate(schoolEmail)) {
-      console.log('Invalid school e-mail');
+      schoolEmail.parentNode.appendChild(new ErrorMessage('Gelieve het e-mailadres van je school in te vullen'));
       errors++;
     } if(!validate(schoolAddress)) {
-      console.log('Invalid school address');
+      schoolAddress.parentNode.appendChild(new ErrorMessage('Gelieve het schooladres in te vullen'));
       errors++;
     } if(!validate(schoolWebsite)) {
-      console.log('Invalid website');
+      schoolWebsite.parentNode.appendChild(new ErrorMessage('Gelieve de website van je school in te vullen'));
       errors++;
     }
 
     if(errors === 0) {
       let formData = new FormData(orderForm);
-      let request = new XMLHttpRequest();
-      request.open('POST', `${window.app.basename}/api/teachers`, true);
-      request.onload = function() {
-        if (request.status === 201) {
-          console.log('Besteld!');
+      let request = new Request();
+      request.post(`${api}/teachers`, formData);
+      request.on('loaded', (response) => {
+        if (response) {
+          toggleOrderHandler();
+          orderCompleted();
         } else {
-          console.log('Fout');
+          orderForm.appendChild(new ErrorMessage('Er is iets mis gegaan tijdens je aanvraag, probeer later opnieuw.'));
         }
-      };
-
-      request.send(formData);
+      });
     }
     return true;
+  };
+
+  const orderCompleted = () => {
+    let toggleOrderButton = document.querySelector('.toggle-order.button.submit');
+    toggleOrderButton.remove();
+
+    let orderComplete = document.getElementsByClassName('order-complete')[0];
+    orderComplete.className = 'order-complete';
   };
 
   const photosSearchHandler = () => {

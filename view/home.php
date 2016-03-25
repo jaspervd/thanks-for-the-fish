@@ -82,6 +82,14 @@
 								<input type="button" class="toggle-order button submit" value="Deelnemen!" />
 							</p>
 						</article>
+						<article class="order-complete hide">
+							<header class="header-content">
+								<h2>Besteld!</h2>
+							</header>
+							<p class="text">
+								Je account wacht nu nog af op verificatie en goedkeuring door een beheerder van boek.be. Je krijgt een mail wanneer je kunt inloggen en waar. Je kunt al vast met de klas een boekbespreking maken!
+							</p>
+						</article>
 						<article class="countdown">
 							<header class="header-content">
 								<h2>Tijd tot de <time datetime="2016-05-20 20:42">deadline</time></h2>

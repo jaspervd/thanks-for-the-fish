@@ -88,19 +88,19 @@ class TeachersDAO extends DAO {
   public function getValidationErrors($data) {
     $errors = array();
     if(empty($data['firstname'])) {
-      $errors['firstname'] = 'Please enter your firstname';
+      $errors['firstname'] = 'Gelieve je voornaam in te vullen';
     }
     if(empty($data['lastname'])) {
-      $errors['lastname'] = 'Please enter your lastname';
+      $errors['lastname'] = 'Gelieve je achternaam in te vullen';
     }
     if(empty($data['email'])) {
-      $errors['email'] = 'Please enter your email';
+      $errors['email'] = 'Gelieve je e-mailadres in te vullen';
     }
     if(empty($data['password'])) {
-      $errors['password'] = 'Please enter your password';
+      $errors['password'] = 'Gelieve je wachtwoord in te vullen';
     }
     if(empty($data['phone'])) {
-      $errors['phone'] = 'Please enter your phone number';
+      $errors['phone'] = 'Gelieve je telefoonnummer in te vullen';
     }
     return $errors;
   }

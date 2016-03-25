@@ -2,6 +2,7 @@
 
 import Request from './classes/Request';
 import Photo from './classes/Photo';
+import ErrorMessage from './classes/ErrorMessage';
 import {validate} from './helpers/util';
 import {api} from './helpers/globals';
 
@@ -26,9 +27,13 @@ import {api} from './helpers/globals';
     let request = new Request();
     request.get(`${api}/teachers/${id}/classes`);
     request.on('loaded', (json) => {
-      for(let photoData of json) {
-        let photo = new Photo(photoData);
-        photosContainer.appendChild(photo);
+      if(json.length > 0) {
+        photosContainer.innerHTML = '';
+
+        for(let photoData of json) {
+          let photo = new Photo(photoData);
+          photosContainer.appendChild(photo);
+        }
       }
     });
   };
@@ -39,29 +44,33 @@ import {api} from './helpers/globals';
     let nickname = document.getElementById('nickname');
     let photo = document.getElementById('photo');
     let entry = document.getElementById('entry');
+    let errorMessages = document.getElementsByClassName('error');
+    for(let i = 0; i < errorMessages.length; i++) {
+      errorMessages[i].remove();
+    }
 
     var errors = 0;
 
     if(!validate(nickname)) {
-      console.log('Invalid nickname');
+      nickname.parentNode.appendChild(new ErrorMessage('Gelieve een nickname in te vullen'));
       errors++;
     } if(!validate(photo)) {
-      console.log('Invalid photo');
+      photo.parentNode.appendChild(new ErrorMessage('Gelieve een klasfoto up te loaden'));
       errors++;
     } if(!validate(entry)) {
-      console.log('Invalid review');
+      entry.parentNode.appendChild(new ErrorMessage('Gelieve je boekbespreking in te vullen'));
       errors++;
     }
 
     if(errors === 0) {
       let formData = new FormData(classForm);
       let request = new Request();
-      request.post(`${window.app.basename}/teachers/auth`, formData);
+      request.post(`${api}/classes`, formData);
       request.on('loaded', (response) => {
         if(response) {
-          console.log('Klas toegevoegd!');
+          getUserId();
         } else {
-          console.log('Fout');
+          classForm.appendChild(new ErrorMessage('Er is iets mis gegaan tijdens je aanvraag, probeer later opnieuw.'));
         }
       });
     }

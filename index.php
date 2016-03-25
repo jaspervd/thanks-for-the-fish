@@ -220,6 +220,8 @@ $app->post('/api/classes', function ($request, $response, $args) {
   if($authorized){
     $classesDAO = new ClassesDAO();
     $newClass = $request->getParsedBody();
+    $newClass['creator_id'] = $_SESSION['user']['id'];
+    $newClass = array_merge($newClass, $_FILES);
     $insertedClass = $classesDAO->insertClass($newClass);
     $response = $response->write(json_encode($insertedClass))
     ->withHeader('Content-Type','application/json');
@@ -228,6 +230,7 @@ $app->post('/api/classes', function ($request, $response, $args) {
     } else {
       $response = $response->withStatus(201);
     }
+    return $response;
   }
   $response = $response->withStatus(401);
   return $response;
