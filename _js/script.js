@@ -5,34 +5,44 @@ import 'lodash';
 import Countdown from './classes/Countdown';
 import Photo from './classes/Photo';
 import Request from './classes/Request';
-import {validate, scrollTo, inString} from './helpers/util';
+import {validate, scrollTo, inString, getNumber} from './helpers/util';
 import {api} from './helpers/globals';
 
 (() => {
+  let wrapper = document.getElementsByClassName('wrapper')[0]; // getElementsByClassName is faster than querySelectorAll
   let container = document.getElementsByClassName('container')[0];
+  let logo = document.getElementsByClassName('logo')[0];
+  let campaignWrapper = document.getElementsByClassName('campaign-wrapper')[0];
+  let toggleOrder = document.getElementsByClassName('toggle-order');
   let orderForm = document.getElementsByClassName('order-form')[0];
   let navLeft = document.getElementsByClassName('nav-left')[0];
   let navRight = document.getElementsByClassName('nav-right')[0];
   let navDown = document.getElementsByClassName('nav-down');
   let navMenu = document.getElementsByClassName('nav-menu');
-  let navIndicators = document.getElementsByClassName('nav-indicator');
+  let menu = document.getElementsByClassName('menu')[0];
   let menuToggle = document.getElementsByClassName('menu-toggle')[0];
   let pages = document.getElementsByClassName('page');
+  let pageContents = document.getElementsByClassName('page-content');
   let photosContainer = document.getElementsByClassName('photos-container')[0];
   let photosSearch = document.getElementsByClassName('photos-search')[0];
+  let noPhotosFound = document.getElementsByClassName('no-photos-found')[0];
+  let addClass = document.getElementsByClassName('add-class')[0];
+  let moveLayers = document.getElementsByClassName('move-layer');
   let photosArray;
   let currentPage = 0;
   let menuState = false; // false = closed, true = open
+  let snapState = false; // false = not snapped, true = snapped
+  let orderState = false; // false = not in view, true = in view
 
   const init = () => {
     let countdown = new Countdown(new Date(2016, 4, 18, 20, 42)); // 18 mei 2016 om 20u42
     countdown.start();
 
     countdown.on('tick', () => {
-      document.getElementsByClassName('countdown-days')[0].innerHTML = countdown.days;
-      document.getElementsByClassName('countdown-hours')[0].innerHTML = countdown.hours;
-      document.getElementsByClassName('countdown-minutes')[0].innerHTML = countdown.minutes;
-      document.getElementsByClassName('countdown-seconds')[0].innerHTML = countdown.seconds;
+      document.querySelector('.countdown-days span').innerHTML = countdown.days;
+      document.querySelector('.countdown-hours span').innerHTML = countdown.hours;
+      document.querySelector('.countdown-minutes span').innerHTML = countdown.minutes;
+      document.querySelector('.countdown-seconds span').innerHTML = countdown.seconds;
     });
 
     navLeft.addEventListener('click', navLeftHandler);
@@ -41,6 +51,14 @@ import {api} from './helpers/globals';
     orderForm.addEventListener('submit', orderHandler);
     menuToggle.addEventListener('click', menuToggleHandler);
     photosSearch.addEventListener('keydown', photosSearchHandler);
+    photosSearch.addEventListener('blur', photosSearchHandler);
+    wrapper.addEventListener('scroll', scrollHandler);
+    addClass.addEventListener('click', addClassHandler);
+    window.addEventListener('mousemove', mouseMoveHandler);
+
+    for(let i = 0; i < toggleOrder.length; i++) {
+      toggleOrder[i].addEventListener('click', toggleOrderHandler);
+    }
 
     for(let i = 0; i < navDown.length; i++) {
       navDown[i].addEventListener('click', navDownHandler);
@@ -48,7 +66,6 @@ import {api} from './helpers/globals';
 
     for(let i = 0; i < navMenu.length; i++) {
       navMenu[i].addEventListener('click', navMenuHandler);
-      navIndicators[i].addEventListener('click', navMenuHandler);
     }
 
     loadPhotos();
@@ -68,13 +85,33 @@ import {api} from './helpers/globals';
 
   const navDownHandler = (e) => {
     e.preventDefault();
-    scrollTo(window.innerHeight);
+    console.log(e);
+    if(e.target.parentNode.className !== 'nav-down participate') {
+      let target = (e.target.tagName === 'A'? e.target : e.target.parentNode);
+      target.className = 'nav-down button clicked';
+      setTimeout(() => {
+        target.className = 'nav-down button hide';
+      }, 1000);
+      setTimeout(() => {
+        target.className = 'nav-down button';
+      }, 2000);
+    }
+    scrollTo(wrapper, wrapper.scrollTop, window.innerHeight, 1000, 600);
   };
 
   const navMenuHandler = (e) => {
     e.preventDefault();
-    currentPage = parseInt(e.target.hash.match(/\d+$/)[0]); // gets the number from a hash like #page-0
+    currentPage = getNumber(e.target.hash); // gets the number from a hash like #page-0
     changeToCurrentPage();
+  };
+
+  const addClassHandler = (e) => {
+    e.preventDefault();
+    currentPage = getNumber(e.target.hash);
+    changeToCurrentPage();
+    setTimeout(() => {
+      scrollTo(wrapper, 0, window.innerHeight, 1000);
+    }, 1500);
   };
 
   const keyPressHandler = (e) => {
@@ -94,30 +131,47 @@ import {api} from './helpers/globals';
   };
 
   const changeToCurrentPage = () => {
-    window.scroll(0, 0); // reset user's scroll position
     if(currentPage < 0) {
       currentPage = 0;
     } else if(currentPage > (pages.length - 1)) {
       currentPage = pages.length - 1;
     }
 
-    for(let i = 0; i < navMenu.length; i++) {
-      navMenu[i].className = 'nav-menu';
-      navIndicators[i].className = 'nav-indicator';
-      if(currentPage === i) {
-        navMenu[i].className += ' active';
-        navIndicators[i].className += ' active';
-      }
+    for(let i = 0; i < pageContents.length; i++) {
+      pageContents[i].className = 'page-content';
     }
+    pageContents[currentPage].className = 'page-content active';
 
-    container.className = `container page-${currentPage}`;
+    for(let i = 0; i < navMenu.length; i++) {
+      navMenu[i].className = 'nav-menu button';
+    }
+    navMenu[currentPage].className += ' active';
+
+    if(wrapper.scrollTop > 0) {
+      scrollTo(wrapper, wrapper.scrollTop, 0, 500);
+      container.className = `container delay page-${currentPage}`;
+    } else {
+      container.className = `container animate page-${currentPage}`;
+    }
   };
 
   const menuToggleHandler = (e) => {
     e.preventDefault();
     menuState = !menuState;
-    let menu = document.getElementsByClassName('menu')[0];
     menu.className = (menuState? 'menu open' : 'menu closed');
+    menu.className += (snapState? ' snap' : '');
+  };
+
+  const toggleOrderHandler = (e) => {
+    e.preventDefault();
+    orderState = !orderState;
+    console.log(orderState);
+
+    campaignWrapper.className = 'campaign-wrapper ';
+    campaignWrapper.className += (orderState? 'hide' : 'show');
+
+    orderForm.parentNode.className = 'order ';
+    orderForm.parentNode.className += (orderState? 'show' : 'hide');
   };
 
   const orderHandler = (e) => {
@@ -191,10 +245,36 @@ import {api} from './helpers/globals';
     if(photosSearch.value.length > 3) {
       photosContainer.innerHTML = '';
       let filteredArray = photosArray.filter(photo => inString(photo.nickname, photosSearch.value));
-      for(let photoData of filteredArray) {
-        let photo = new Photo(photoData);
-        photosContainer.appendChild(photo);
+      if(filteredArray.length === 0) {
+        noPhotosFound.className = 'text';
+      } else {
+        noPhotosFound.className = 'text hide';
+        for(let photoData of filteredArray) {
+          let photo = new Photo(photoData);
+          photosContainer.appendChild(photo);
+        }
       }
+    }
+  };
+
+  const scrollHandler = () => {
+    let prevState = snapState;
+    if(wrapper.scrollTop > window.innerHeight) {
+      if(!snapState) {
+        logo.className = 'logo snap';
+        menu.className = 'menu snap';
+      }
+      snapState = true;
+    } else {
+      if(snapState) {
+        logo.className = 'logo';
+        menu.className = 'menu';
+      }
+      snapState = false;
+    }
+
+    if(prevState !== snapState) {
+      menu.className += (menuState? ' open' : ' closed');
     }
   };
 
@@ -206,8 +286,28 @@ import {api} from './helpers/globals';
       for(let photoData of photosArray) {
         let photo = new Photo(photoData);
         photosContainer.appendChild(photo);
-       }
+      }
     });
+  };
+
+  const mouseMoveHandler = (e) => {
+    if(wrapper.scrollTop < window.innerHeight) {
+      var pageX = e.pageX - (window.innerWidth / 2);
+      var pageY = e.pageY - (window.innerHeight / 2);
+      var strength = 20;
+      var previous = moveLayers[0];
+
+      for(let i = 0; i < moveLayers.length; i++) {
+        if(previous.parentNode === moveLayers[i].parentNode) { // reset strength on each screen
+          strength *= 1.25;
+        } else {
+          strength = 20;
+        }
+        moveLayers[i].style.marginLeft = `${(strength / window.innerWidth * pageX * -1)}px`;
+        moveLayers[i].style.marginTop = `${(strength / window.innerHeight * pageY * -1)}px`;
+        previous = moveLayers[i];
+      }
+    }
   };
 
   init();

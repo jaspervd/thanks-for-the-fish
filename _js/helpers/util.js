@@ -37,17 +37,27 @@ export const inString = (string, search) => {
   return (string.indexOf(search) !== -1);
 };
 
-export const scrollTo = (yPos) => {
-  var i = 0;
+export const scrollTo = (el, startPos, endPos, duration, delay = 0) => {
+  var endTime = new Date(Date.now() + duration + delay);
+  var remaining = duration;
   function scroll() {
-    window.scroll(0, i);
-    if(i < yPos) {
+    let currentTime = new Date();
+    let rate = remaining / duration;
+    rate = 1 - Math.pow(rate, 3);
+    el.scrollTop = (rate * (endPos - startPos) + startPos);
+    if(currentTime < endTime) {
       window.requestAnimationFrame(scroll);
     }
-    i += 20;
+    remaining = endTime - currentTime;
   }
 
-  window.requestAnimationFrame(scroll);
+  setTimeout(() => {
+    window.requestAnimationFrame(scroll);
+  }, delay);
+};
+
+export const getNumber = (string) => {
+  return parseInt(string.match(/\d+$/)[0]);
 };
 
 export const checkStatus = (response) => {

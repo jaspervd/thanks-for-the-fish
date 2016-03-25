@@ -1,3 +1,9 @@
 // Aanpassen naar absoluut pad voor url('imgpaths')
-$root: 'http://localhost:1124/thorr.stevens/20152016/MAIV/Hitchhiker/';
-//$root: 'http://localhost:1124/thorr.stevens/20152016/MAIV/Hitchhiker/';
+$root: 'http://localhost:1124/thorr.stevens/20152016/MAIV/Hitchhiker';
+
+$font-content: 'Book Antiqua', 'Palatino', serif;
+$font-header: 'Bernier Regular', sans-serif;
+$font-button: 'Bernier Regular', sans-serif;
+$color-content: #414141;
+$color-header: #ffb300;
+$color-shadow: #211c0c;
