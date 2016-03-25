@@ -525,13 +525,16 @@ blockquote {
 	}
 
 	li {
-		width: 20vw;
+		width: 25vw;
 		float: left;
 		padding: 20px;
+		transform: rotate(1.25deg);
 
 		figure {
 			width: 100%;
 			overflow: hidden;
+			background-color: rgba(246, 216, 136, .6);
+			padding: 10px;
 
 			img {
 				width: 100%;
@@ -542,6 +545,18 @@ blockquote {
 				padding: 10px;
 				font-weight: bold;
 			}
+		}
+
+		&:nth-child(2n) {
+			transform: rotate(-1deg);
+		}
+
+		&:nth-child(3n) {
+			transform: rotate(1.5deg);
+		}
+
+		&:nth-child(5n) {
+			transform: rotate(-2deg);
 		}
 	}
 
