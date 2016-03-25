@@ -25,7 +25,7 @@
 				<li><a href="#page-1" class="nav-menu button">Boek</a></li>
 				<li><a href="#page-2" class="nav-menu button">Voorproefje</a></li>
 				<li><a href="#page-3" class="nav-menu button">Klasfoto's</a></li>
-				<li><a href="login" class="button">Login</a></li>
+				<li><?php echo (empty($teacher)? '<a href="login" class="button">Login</a>' : '<a href="klas" class="button">Klas</a>'); ?></li>
 			</ul>
 		</nav>
 		<main class="container page-0">

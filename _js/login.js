@@ -35,6 +35,7 @@ import {validate} from './helpers/util';
       request.on('loaded', (response) => {
         if(response) {
           window.location = `${window.app.basename}/klas`;
+          console.log('joppiesaus');
         } else {
           console.log('Fout (+ melding: het is mogelijk dat je account nog niet geactiveerd is)');
         }

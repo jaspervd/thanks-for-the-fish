@@ -25,11 +25,11 @@ module.exports = {
 
   admincss: {
     src: {
-      file: 'cms.scss',
+      file: 'admin.scss',
       path: './_scss/'
     },
     dest: {
-      file: 'cms.css',
+      file: 'admin.css',
       path: '../css/' //relative from js dest folder
     }
   },

@@ -19,14 +19,7 @@
 			<header class="hide">
 				<h1>Menu</h1>
 			</header>
-			<a href="#" class="menu-toggle button">&#9776;</a>
-			<ul>
-				<li><a href="#page-0" class="nav-menu button active">Campagne</a></li>
-				<li><a href="#page-1" class="nav-menu button">Boek</a></li>
-				<li><a href="#page-2" class="nav-menu button">Voorproefje</a></li>
-				<li><a href="#page-3" class="nav-menu button">Klasfoto's</a></li>
-				<li><a href="login" class="button">Login</a></li>
-			</ul>
+			<a href="<?php echo $basePath; ?>" class="menu-toggle button">&lt; terug</a>
 		</nav>
 		<main class="container">
 			<section class="page-screen">

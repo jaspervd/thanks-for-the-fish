@@ -1,12 +1,36 @@
 'use strict';
 
+import Request from './classes/Request';
+import Photo from './classes/Photo';
 import {validate} from './helpers/util';
+import {api} from './helpers/globals';
 
 (() => {
   let classForm = document.getElementsByClassName('class-form')[0];
+  let photosContainer = document.getElementsByClassName('photos-container')[0];
 
   const init = () => {
     classForm.addEventListener('submit', classHandler);
+    getUserId();
+  };
+
+  const getUserId = () => {
+    let request = new Request();
+    request.get(`${api}/user/id`);
+    request.on('loaded', (json) => {
+      loadPhotos(json);
+    });
+  };
+
+  const loadPhotos = (id) => {
+    let request = new Request();
+    request.get(`${api}/teachers/${id}/classes`);
+    request.on('loaded', (json) => {
+      for(let photoData of json) {
+        let photo = new Photo(photoData);
+        photosContainer.appendChild(photo);
+      }
+    });
   };
 
   const classHandler = (e) => {

@@ -74,7 +74,7 @@ $app->get('/api/teachers', function ($request, $response, $args) {
       unset($teachers[$i]['password']);
     }
     return $response->write(json_encode($teachers))
-      ->withHeader('Content-Type','application/json');
+    ->withHeader('Content-Type','application/json');
   }
   $response = $response->withStatus(401);
   return $response;
@@ -180,18 +180,15 @@ $app->get('/api/classes/authorized', function ($request, $response, $args) {
   $classesDAO = new ClassesDAO();
   $classes = $classesDAO->getAuthorizedClasses();
   return $response->write(json_encode($classes))
-    ->withHeader('Content-Type','application/json');
+  ->withHeader('Content-Type','application/json');
 });
 
-//overview of all entries/classes, only visible to admins
+//overview of all entries/classes
 $app->get('/api/classes', function ($request, $response, $args) {
-  $authorized = checkLoggedIn('admin');
-  if($authorized){
-    $classesDAO = new ClassesDAO();
-    $classes = $classesDAO->getClasses();
-    return $response->write(json_encode($classes))
-      ->withHeader('Content-Type','application/json');
-  }
+  $classesDAO = new ClassesDAO();
+  $classes = $classesDAO->getClasses();
+  return $response->write(json_encode($classes))
+  ->withHeader('Content-Type','application/json');
   $response = $response->withStatus(401);
   return $response;
 });
@@ -201,7 +198,7 @@ $app->get('/api/classes/{id}', function ($request, $response, $args) {
   $classesDAO = new ClassesDAO();
   $class = $classesDAO->getClassById($args['id']);
   return $response->write(json_encode($class))
-    ->withHeader('Content-Type','application/json');
+  ->withHeader('Content-Type','application/json');
 });
 
 //overview of all classes entered by a specific teacher, only visible to logged in teachers (=users)
@@ -211,7 +208,7 @@ $app->get('/api/teachers/{teacher_id}/classes', function ($request, $response, $
     $classesDAO = new ClassesDAO();
     $classes = $classesDAO->getClassesByTeacherId($args['teacher_id']);
     return $response->write(json_encode($classes))
-      ->withHeader('Content-Type','application/json');
+    ->withHeader('Content-Type','application/json');
   }
   $response = $response->withStatus(401);
   return $response;
@@ -225,7 +222,7 @@ $app->post('/api/classes', function ($request, $response, $args) {
     $newClass = $request->getParsedBody();
     $insertedClass = $classesDAO->insertClass($newClass);
     $response = $response->write(json_encode($insertedClass))
-      ->withHeader('Content-Type','application/json');
+    ->withHeader('Content-Type','application/json');
     if(empty($insertedClass)) {
       $response = $response->withStatus(404);
     } else {
@@ -243,7 +240,7 @@ $app->delete('/api/classes/{id}', function ($request, $response, $args) {
     $classesDAO = new ClassesDAO();
     $classesDAO->deleteClass($args['id']);
     return $response->write(true)
-      ->withHeader('Content-Type','application/json');
+    ->withHeader('Content-Type','application/json');
   }
   $response = $response->withStatus(401);
   return $response;
